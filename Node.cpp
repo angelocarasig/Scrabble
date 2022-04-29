@@ -1,13 +1,14 @@
-
+#include <iostream>
 #include "Node.h"
 
-Node::Node(Tile* tile, Node* next)
+Node::Node(Tile* tile)
 {
    this->tile = tile;
-   this->next = next;
+   this->next = nullptr; //Empty on init
 }
 
 Node::~Node() {
+   std::cout << "Deleting current node" << std::endl;
    delete tile;
 
    // Dereference as it will just disconnect from the linkedList

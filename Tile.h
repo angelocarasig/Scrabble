@@ -10,12 +10,13 @@ typedef int Value;
 
 class Tile {
 public:
-   void buildTileMap();
-   Tile(Letter letterToAdd);
+   // void buildTileMap();
+   Tile(Letter letterToAdd, Value valueOfLetter);
+   ~Tile();
    Letter letter;
    Value  value;
 
-   std::map<Letter, Value> tileMap;   
+   // std::map<Letter, Value> tileMap;   
 };
 
 #endif // ASSIGN2_TILE_H

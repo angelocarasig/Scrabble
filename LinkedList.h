@@ -24,6 +24,7 @@ public:
    void deleteAt(int i);
 
    void printList();
+   void scrabbleList();
 
 private:
    Node* head;
