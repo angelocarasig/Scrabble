@@ -6,12 +6,11 @@ LinkedList::LinkedList() {
    this->length = 0;
 }
 
-// LinkedList::~LinkedList() {
-//    for (Node* currentNode = this->head; currentNode != nullptr; currentNode = currentNode->next) {
-//       std::cout << "Deleting node..." << std::endl;
-//       delete currentNode;
-//    }
-// }
+LinkedList::~LinkedList() {
+   for (Node* currentNode = this->head; currentNode != nullptr; currentNode = currentNode->next) {
+      delete currentNode;
+   }
+}
 
 int LinkedList::size() {
    return this->length;
@@ -20,6 +19,7 @@ int LinkedList::size() {
 void LinkedList::addFront(Node* node) {
    Node* currentNode = this->head;
 
+   //Check for empty nodelist
    if (currentNode == nullptr) {
       this->head = node;
       node->next = nullptr;
@@ -35,7 +35,7 @@ void LinkedList::addFront(Node* node) {
 void LinkedList::addBack(Node* node) {
    Node* currentNode = this->head;
    
-   //If first node to add
+   //Check for empty nodelist
    if (currentNode == nullptr) {
       this->head = node;
       node->next = nullptr;
@@ -53,23 +53,41 @@ void LinkedList::addBack(Node* node) {
    this->length++;
 }
 
-LinkedList::~LinkedList() {
-   // Node* currentNode = this->head;
+void LinkedList::addAt(Node* node, int i) {
+   if (i == 0)         {addFront(node);}
+   else if (i == -1)   {addBack(node);}
+   else {
+      Node* currentNode = this->head;
+      Node* prevNode = nullptr;
 
-   // while (currentNode != nullptr) {
-   //    std::cout << "Deleting..." << currentNode->tile->letter << std::endl;
-   //    Node* tempNode = currentNode->next;
-   //    delete currentNode;
-   //    currentNode = tempNode;
-   // }
-   // this->length = 0;
+      for (int index = 0; index < i; index++) {
+         // std::cout << index << std::endl;
+         if (currentNode == nullptr) {
+            std::cout << "Error in position.\n";
+            //TODO Raise Error
+         }
+         prevNode = currentNode;
+         currentNode = currentNode->next;
+      }
+      std::cout << "Inserting node.";
+      // currentNode->printNode();
+      prevNode->next = node;
+      node->next = currentNode;
+   }
+
+   this->length++;
 }
 
 void LinkedList::clear() {
-   
-   for (Node* currentNode = this->head; currentNode != nullptr; currentNode = currentNode->next) {
+   Node* currentNode = this->head;
+
+   while (currentNode != nullptr) {
+      Node* tempNode = currentNode->next;
       delete currentNode;
+      currentNode = tempNode;
    }
+
+   this->head = nullptr;
    this->length = 0;
 }
 
@@ -77,8 +95,7 @@ void LinkedList::printList() {
    Node* currentNode = this->head;
    
    int i = 1;
-
-   std::cout << "Current NodeList:\n";
+   std::cout << "\n\tPrinting NodeList:\nCurrent NodeList:\n";
    while (currentNode != nullptr) {
       std::cout << "Node " << i << ":\t";
       std::cout << "Letter: " << currentNode->tile->letter << "\tValue: " << currentNode->tile->value << std::endl;

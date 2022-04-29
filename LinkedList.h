@@ -20,8 +20,11 @@ public:
    void deleteFront();
    void deleteBack();
 
-   void addAt(int i);
-   void deleteAt(int i);
+   //Adds at the given index where 0 is the start (head) node, and index -1 is the end node.
+   void addAt(Node* node, int i);
+
+   //Deletes at the given index where 0 is the start (head) node, and index -1 is the end node.
+   void deleteAt(Node* node, int i);
 
    void printList();
    void scrabbleList();

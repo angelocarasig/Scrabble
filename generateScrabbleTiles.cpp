@@ -24,12 +24,25 @@ int main() {
         }
         scrabbleTiles.close();
     }
+    //Test printing the list
     scrabbleTilesList->printList();
+
+    //Test adding to front of list
     Tile* newTile = new Tile('Z', 69);
     Node* newNode = new Node(newTile);
     scrabbleTilesList->addFront(newNode);
     scrabbleTilesList->printList();
 
+    //Test adding to a given location i to list
+    int position = 12;
+    Tile* newTile1 = new Tile('Z', 420);
+    Node* newNode1 = new Node(newTile1);
+    scrabbleTilesList->addAt(newNode1, position);
+    scrabbleTilesList->printList();
+
+    //Test clearing list
     scrabbleTilesList->clear();
     scrabbleTilesList->printList();
+
+    delete scrabbleTilesList;
     }

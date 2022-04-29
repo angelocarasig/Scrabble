@@ -9,7 +9,7 @@ public:
 
    Node(Tile* tile);
    Node(Node& other);
-
+   void printNode();
    ~Node();
 
    Tile*    tile;
