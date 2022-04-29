@@ -14,14 +14,16 @@ public:
    void clear();
    int get(int i);
 
-   void addFront(int data);
-   void addBack(int data);
+   void addFront(Node* node);
+   void addBack(Node* node);
 
    void deleteFront();
    void deleteBack();
 
    void addAt(int i);
    void deleteAt(int i);
+
+   void printList();
 
 private:
    Node* head;
