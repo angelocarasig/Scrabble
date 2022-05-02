@@ -24,7 +24,10 @@ int main() {
         }
         scrabbleTiles.close();
     }
+    //Test printing the list
     scrabbleTilesList->printList();
+
+    //Test adding to front of list
     Tile* newTile = new Tile('Z', 69);
     Node* newNode = new Node(newTile);
     scrabbleTilesList->addFront(newNode);
@@ -33,4 +36,6 @@ int main() {
     std::cout << "Clearing list" << std::endl;
     scrabbleTilesList->clear();
     scrabbleTilesList->printList();
+
+    delete scrabbleTilesList;
     }

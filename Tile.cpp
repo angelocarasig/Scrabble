@@ -33,9 +33,13 @@
 Tile::Tile(Letter letterToAdd, Value valueOfLetter) {
     this->letter = letterToAdd;
     this->value = valueOfLetter;
+    bool debug = false;
 
+    if (debug) {
     std::cout << "\nNew tile generated with properties:\n";
     std::cout << "\tLetter: " << this->letter << "\tValue: " << this->value << std::endl;
+    }
 }
 
-Tile::~Tile() {}
+Tile::~Tile() {
+}
