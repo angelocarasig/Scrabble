@@ -66,10 +66,18 @@ LinkedList::~LinkedList() {
 }
 
 void LinkedList::clear() {
+   Node* currentNode = head->next;
    
-   for (Node* currentNode = this->head; currentNode != nullptr; currentNode = currentNode->next) {
-      delete currentNode;
+   while(currentNode != nullptr) {   
+    head->next = currentNode->next;
+    currentNode->next = nullptr;
+    delete currentNode;
+    currentNode = head->next;
    }
+
+   delete this->head;
+   this->head = nullptr;
+
    this->length = 0;
 }
 

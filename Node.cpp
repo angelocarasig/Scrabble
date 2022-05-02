@@ -8,7 +8,7 @@ Node::Node(Tile* tile)
 }
 
 Node::~Node() {
-   std::cout << "Deleting current node" << std::endl;
+   // std::cout << "Deleting current node" << std::endl;
    delete tile;
 
    // Dereference as it will just disconnect from the linkedList

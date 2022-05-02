@@ -30,6 +30,7 @@ int main() {
     scrabbleTilesList->addFront(newNode);
     scrabbleTilesList->printList();
 
+    std::cout << "Clearing list" << std::endl;
     scrabbleTilesList->clear();
     scrabbleTilesList->printList();
     }
