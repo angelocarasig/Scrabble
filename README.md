@@ -1,5 +1,25 @@
 # apt-assign2
 
+Basic Structure
+Player:
+- name
+- Hand is linkedlist of tiles
+- Score
+
+TileBag:
+- nodeList of shuffled tiles
+
+Board:
+- tile display
+- grid coords
+- vector to store board
+
+Game:
+- Board
+- Players 1 & 2
+- Tile bag
+- loadgame function
+
 Changelog:
 - Created Tile, Node, LinkedList files and testNodeList file which tests implementation
 - Tile and Node class functions implemented
