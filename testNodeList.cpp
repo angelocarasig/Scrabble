@@ -1,11 +1,12 @@
 #include "LinkedList.h"
 #include "Node.h"
 #include "Tile.h"
+#include "TileBag.h"
 #include <iostream>
 #include <string>
 #include <fstream>
 
-int main() {
+int generateScrabbleTiles() {
     std::string line;
     LinkedList* scrabbleTilesList = new LinkedList();
 
@@ -74,4 +75,11 @@ int main() {
 
     delete sl;
     delete scrabbleTilesList;
+    return 0;
     }
+
+int main() {
+    TileBag* tb = new TileBag();
+    tb->shuffle();
+    tb->printBag();
+}

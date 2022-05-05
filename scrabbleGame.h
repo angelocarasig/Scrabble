@@ -1,10 +1,12 @@
+#ifndef ASSIGN2_GAME
+#define ASSIGN2_GAME
 #include <string>
 
 class scrabbleGame {
 public:
 
    // Constructor/Destructor
-   scrabbleGame(std::string player1, std::string player2, std::string gameName);
+   scrabbleGame(std::string player1, std::string player2);
    ~scrabbleGame();
 
    std::string getPlayer1();
@@ -20,3 +22,4 @@ private:
 
 };
 
+#endif // ASSIGN2_GAME

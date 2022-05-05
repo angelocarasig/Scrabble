@@ -12,6 +12,14 @@ LinkedList::~LinkedList() {
    }
 }
 
+LinkedList::LinkedList(LinkedList& other) {
+   this->head = nullptr;
+   this->length = other.size();
+   for (int i = 0; i < other.size(); i++) {
+      addBack(other.pop());
+   }
+}
+
 Node* LinkedList::get(int index) {
    if (index > length || index < 0) {
       std::cout << "Error" << std::endl;
@@ -127,6 +135,21 @@ void LinkedList::deleteBack() {
    }
 }
 
+Node* LinkedList::pop() {
+   Node* nodeToReturn = nullptr;
+   if (this->length <= 0) {
+      //TODO: Raise Error
+   }
+   else {
+      Node* newHead = this->head->next;
+      nodeToReturn = new Node(*this->head);
+      this->head = newHead;
+
+      this->length--;
+   }
+   return nodeToReturn;
+}
+
 void LinkedList::deleteAt(int index) {
    if (index > length || index < 0) {
       std::cout << "Error! attempting to delete at an index that is invalid." << std::endl;
@@ -167,11 +190,24 @@ void LinkedList::clear() {
    this->length = 0;
 }
 
+void LinkedList::printHand() {
+   Node* currentNode = this->head;
+
+   std::cout << "Your hand is " << std::endl;
+   while (currentNode != nullptr) {
+      if (currentNode->next != nullptr) {
+         std::cout << currentNode->tile->letter << "-" << currentNode->tile->value << ", ";
+      } else {
+         std::cout << currentNode->tile->letter << "-" << currentNode->tile->value << std::endl;
+      }
+   }
+}
+
 void LinkedList::printList() {
    Node* currentNode = this->head;
    
    int i = 0;
-   std::cout << "\tPrinting NodeList:\nCurrent NodeList:\n";
+   std::cout << "\tPrinting NodeList:\n";
    while (currentNode != nullptr) {
       std::cout << "Node " << i << ": ";
       std::cout << " Letter: " << currentNode->tile->letter << "    Value: " << currentNode->tile->value << std::endl;
@@ -196,11 +232,9 @@ LinkedList* LinkedList::scrabbleList() {
 
    while (this->length > 0) {
       int randomVal = rand() % (this->length);
-      std::cout << "Random Value: " << randomVal << std::endl;
       Node* newNode = new Node(*get(randomVal));
       newLinkedList->addBack(newNode);
       deleteAt(randomVal);
-      std::cout << "Length: " << this->length << std::endl;
    }
    return newLinkedList;
 }

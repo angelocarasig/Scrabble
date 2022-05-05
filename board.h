@@ -1,0 +1,4 @@
+#ifndef ASSIGN2_BOARD
+#define ASSIGN2_BOARD
+
+#endif // ASSIGN2_BOARD

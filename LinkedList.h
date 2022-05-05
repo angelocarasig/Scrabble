@@ -9,6 +9,7 @@ class LinkedList {
 public:
 
    LinkedList();
+   LinkedList(LinkedList& other);
    ~LinkedList();
 
    int size();
@@ -20,6 +21,9 @@ public:
 
    void deleteFront();
    void deleteBack();
+   
+   //Pops head element
+   Node* pop();
 
    //Adds at the given index where 0 is the start (head) node, and index -1 is the end node.
    void addAt(Node* node, int i);
@@ -28,6 +32,7 @@ public:
    void deleteAt(int i);
 
    void printList();
+   void printHand();
 
    //Should return a new, 'scrabbled' list with all tiles in a random order
    LinkedList* scrabbleList();
