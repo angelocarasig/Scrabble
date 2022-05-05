@@ -12,6 +12,22 @@ LinkedList::~LinkedList() {
    }
 }
 
+Node* LinkedList::get(int index) {
+   if (index > length || index < 0) {
+      std::cout << "Error" << std::endl;
+      throw std::invalid_argument("Invalid index");
+   }
+   else {
+      Node* currentNode = this->head;
+
+      for (int i = 0; i < index; i++) {
+         currentNode = currentNode->next;
+      }
+
+      return currentNode;
+   }
+}
+
 int LinkedList::size() {
    return this->length;
 }
@@ -56,12 +72,12 @@ void LinkedList::addBack(Node* node) {
 void LinkedList::addAt(Node* node, int i) {
    if (i == 0)         {addFront(node);}
    else if (i == -1)   {addBack(node);}
+   else if (i < 0)     {std::cout << "Index is less than 0. Fail." << std::endl;}
    else {
       Node* currentNode = this->head;
       Node* prevNode = nullptr;
 
       for (int index = 0; index < i; index++) {
-         // std::cout << index << std::endl;
          if (currentNode == nullptr) {
             std::cout << "Error in position.\n";
             //TODO Raise Error
@@ -69,8 +85,7 @@ void LinkedList::addAt(Node* node, int i) {
          prevNode = currentNode;
          currentNode = currentNode->next;
       }
-      std::cout << "Inserting node.";
-      // currentNode->printNode();
+      //Insert node
       prevNode->next = node;
       node->next = currentNode;
    }
@@ -78,14 +93,72 @@ void LinkedList::addAt(Node* node, int i) {
    this->length++;
 }
 
+void LinkedList::deleteFront() {
+   if (this->length <= 0) {
+      //TODO: Raise error
+   }
+   else {
+      Node* newHead = this->head->next;
+      delete this->head;
+      this->head = newHead;      
+
+      this->length--;
+   }
+}
+
+void LinkedList::deleteBack() {
+   if (this->length <= 0) {
+      //TODO: Raise error
+   }
+   else {
+      Node* currentNode = this->head;
+      Node* prevNode = nullptr;
+      while (currentNode->next != nullptr) {
+         prevNode = currentNode;
+         currentNode = currentNode->next;
+      }
+      std::cout << "Found last node!" << std::endl;
+      currentNode->printNode();
+      delete currentNode;
+      currentNode = nullptr;
+      prevNode->next = currentNode;
+
+      this->length--;
+   }
+}
+
+void LinkedList::deleteAt(int index) {
+   if (index > length || index < 0) {
+      std::cout << "Error! attempting to delete at an index that is invalid." << std::endl;
+   }
+   else {
+      Node* currentNode = this->head;
+      Node* prevNode = nullptr;
+      if (index == 0) {
+         deleteFront();
+      } else {
+         for (int i = 0; i < index; i++) {
+            prevNode = currentNode;
+            currentNode = currentNode->next;
+         }
+
+         prevNode->next = currentNode->next;
+         delete currentNode;
+         currentNode = nullptr;
+
+         this->length--;
+      }
+   }
+}
+
 void LinkedList::clear() {
-   Node* currentNode = head->next;
+   Node* currentNode = this->head->next;
    
    while(currentNode != nullptr) {   
-    head->next = currentNode->next;
+    this->head->next = currentNode->next;
     currentNode->next = nullptr;
     delete currentNode;
-    currentNode = head->next;
+    currentNode = this->head->next;
    }
 
    delete this->head;
@@ -97,11 +170,11 @@ void LinkedList::clear() {
 void LinkedList::printList() {
    Node* currentNode = this->head;
    
-   int i = 1;
-   std::cout << "\n\tPrinting NodeList:\nCurrent NodeList:\n";
+   int i = 0;
+   std::cout << "\tPrinting NodeList:\nCurrent NodeList:\n";
    while (currentNode != nullptr) {
-      std::cout << "Node " << i << ":\t";
-      std::cout << "Letter: " << currentNode->tile->letter << "\tValue: " << currentNode->tile->value << std::endl;
+      std::cout << "Node " << i << ": ";
+      std::cout << " Letter: " << currentNode->tile->letter << "    Value: " << currentNode->tile->value << std::endl;
       
       currentNode = currentNode->next;
       i++;
@@ -110,6 +183,24 @@ void LinkedList::printList() {
    std::cout << "Nodelist Length: " << this->length << std::endl;
 }
 
-void LinkedList::scrabbleList() {
+LinkedList* LinkedList::scrabbleList() {
+   /*
+   - Make new empty LinkedList
+   - While originalList length > 0:
+      - pick a random value from 0 to ogList length-1
+      - make copy of that node and add to newList
+      - delete at the given random value
+   - print list
+   */
+   LinkedList* newLinkedList = new LinkedList();
 
+   while (this->length > 0) {
+      int randomVal = rand() % (this->length);
+      std::cout << "Random Value: " << randomVal << std::endl;
+      Node* newNode = new Node(*get(randomVal));
+      newLinkedList->addBack(newNode);
+      deleteAt(randomVal);
+      std::cout << "Length: " << this->length << std::endl;
+   }
+   return newLinkedList;
 }
