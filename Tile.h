@@ -12,6 +12,7 @@ class Tile {
 public:
    // void buildTileMap();
    Tile(Letter letterToAdd, Value valueOfLetter);
+   Tile(Tile& other);
    ~Tile();
    Letter letter;
    Value  value;

@@ -3,6 +3,7 @@
 #define ASSIGN2_LINKEDLIST_H
 
 #include "Node.h"
+#include <random>
 
 class LinkedList {
 public:
@@ -12,7 +13,7 @@ public:
 
    int size();
    void clear();
-   int get(int i);
+   Node* get(int i);
 
    void addFront(Node* node);
    void addBack(Node* node);
@@ -24,10 +25,12 @@ public:
    void addAt(Node* node, int i);
 
    //Deletes at the given index where 0 is the start (head) node, and index -1 is the end node.
-   void deleteAt(Node* node, int i);
+   void deleteAt(int i);
 
    void printList();
-   void scrabbleList();
+
+   //Should return a new, 'scrabbled' list with all tiles in a random order
+   LinkedList* scrabbleList();
 
 private:
    Node* head;
