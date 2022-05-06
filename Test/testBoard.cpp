@@ -1,5 +1,10 @@
-#include "Board.h"
-#include "Node.h"
+#include "../Board.h"
+#include "../Node.h"
+
+/*
+Compile: g++ -Wall -Werror -ggdb3 -std=c++14 -O -o testBoard Test/testBoard.cpp Node.cpp Tile.cpp Board.cpp
+Run: ./testBoard
+*/
 
 //TODO: Fix memory leaks
 

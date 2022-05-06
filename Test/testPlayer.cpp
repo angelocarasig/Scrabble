@@ -4,7 +4,7 @@
 #include <string>
 
 /*
-Compile: g++ -Wall -Werror -ggdb3 -std=c++14 -O -o testPlayer Test/testPlayer.cpp Node.cpp LinkedList.cpp Tile.cpp TileBag.cpp Board.cpp Player.cpp
+Compile: g++ -Wall -Werror -ggdb3 -std=c++14 -O -o testPlayer Test/testPlayer.cpp Node.cpp LinkedList.cpp Tile.cpp TileBag.cpp Player.cpp
 Run: ./testPlayer
 */
 

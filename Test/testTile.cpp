@@ -7,10 +7,9 @@
 /*
 Assuming that terminal is in main folder (not Test):
 
-To compile, run the following command:
-g++ -Wall -Werror -std=c++14 -O -o testTile Test/testTile.cpp Tile.cpp
+Compile: g++ -Wall -Werror -std=c++14 -O -o testTile Test/testTile.cpp Tile.cpp
 
-To run: ./testTile
+Run: ./testTile
 */
 
 int main() {

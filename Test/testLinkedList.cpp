@@ -11,10 +11,10 @@
 /*
 Assuming that terminal is in main folder (not Test):
 
-To compile, run the following command:
+Compile:
 g++ -Wall -Werror -std=c++14 -O -o testLinkedList Test/testLinkedList.cpp LinkedList.cpp Node.cpp Tile.cpp
 
-To run: ./testLinkedList
+Run: ./testLinkedList
 */
 
 //Add functions
@@ -66,7 +66,7 @@ void testAddFront() {
     std::cout << std::endl;
 
     std::cout << "---------------------------------------------------" << std::endl;
-    std::cout << "Clearing NodeList..." << std::endl;
+    std::cout << "Clearing LinkedList..." << std::endl;
     linkedList1->clear();
     std::cout << "---------------------------------------------------" << std::endl;
     
@@ -98,7 +98,7 @@ void testAddBack() {
     std::cout << std::endl;
 
     std::cout << "---------------------------------------------------" << std::endl;
-    std::cout << "Clearing NodeList..." << std::endl;
+    std::cout << "Clearing LinkedList..." << std::endl;
     linkedList1->clear();
     std::cout << "---------------------------------------------------" << std::endl;
     
@@ -135,7 +135,7 @@ void testAddAt() {
     std::cout << std::endl;
 
     std::cout << "---------------------------------------------------" << std::endl;
-    std::cout << "Clearing NodeList..." << std::endl;
+    std::cout << "Clearing LinkedList..." << std::endl;
     linkedList1->clear();
     std::cout << "---------------------------------------------------" << std::endl;
     
@@ -178,7 +178,7 @@ void testDeleteFront() {
     std::cout << std::endl;
 
     std::cout << "---------------------------------------------------" << std::endl;
-    std::cout << "Clearing NodeList..." << std::endl;
+    std::cout << "Clearing LinkedList..." << std::endl;
     linkedList1->clear();
     std::cout << "---------------------------------------------------" << std::endl;
     
@@ -221,7 +221,7 @@ void testDeleteBack() {
     std::cout << std::endl;
 
     std::cout << "---------------------------------------------------" << std::endl;
-    std::cout << "Clearing NodeList..." << std::endl;
+    std::cout << "Clearing LinkedList..." << std::endl;
     linkedList1->clear();
     std::cout << "---------------------------------------------------" << std::endl;
     
@@ -264,7 +264,7 @@ void testDeleteAt() {
     std::cout << std::endl;
 
     std::cout << "---------------------------------------------------" << std::endl;
-    std::cout << "Clearing NodeList..." << std::endl;
+    std::cout << "Clearing LinkedList..." << std::endl;
     linkedList1->clear();
     std::cout << "---------------------------------------------------" << std::endl;
     
@@ -304,7 +304,7 @@ void getScrabbleTiles() {
     std::cout << "Length: " << linkedList1->size() << std::endl;
 
     std::cout << "---------------------------------------------------" << std::endl;
-    std::cout << "Clearing NodeList..." << std::endl;
+    std::cout << "Clearing LinkedList..." << std::endl;
     linkedList1->clear();
     std::cout << "---------------------------------------------------" << std::endl;
     
