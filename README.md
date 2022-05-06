@@ -1,6 +1,7 @@
 # apt-assign2
 
 Basic Structure
+
 Player:
 - name
 - Hand is linkedlist of tiles
@@ -34,6 +35,7 @@ Changelog:
 
 
 TODO List:
+
 ~~- scrabbleList needs to delete the nodeList passed into it~~
 ~~- Cleanup code~~
 - File hierarchy
@@ -42,9 +44,12 @@ TODO List:
 - Error handling LinkedList
 
 File specific todos:
+
 LinkedList:
 - Copy constructor
 - Print statements at addAt
+
+
 Player:
 - replace tile replacement index is default -1
 
