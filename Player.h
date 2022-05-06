@@ -13,6 +13,11 @@ public:
     Player(std::string name);
     ~Player();
 
+    //Get methods
+    std::string getName();
+    int getScore();
+    LinkedList* getHand();
+
     void fillHand(TileBag* tb);
     void replaceTile(TileBag* tb, char letter);
     

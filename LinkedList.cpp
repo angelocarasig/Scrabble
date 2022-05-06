@@ -127,15 +127,13 @@ void LinkedList::addBack(Node* node) {
 void LinkedList::addAt(Node* node, int i) {
     //Guard 1: Adding at front 
     if (i == 0) {
-        //TODO: Comment out print statement when not needed anymore
-        std::cout << "Index passed in is the first element. Calling 'addFront'" << std::endl;
+        // std::cout << "Index passed in is the first element. Calling 'addFront'" << std::endl;
         addFront(node);
     }
 
     //Guard 2: Adding at back
     else if (i == this->length) {
-        //TODO: Comment out print statement when not needed anymore
-        std::cout << "Index passed in is the last element. Calling 'addBack'" << std::endl;
+        // std::cout << "Index passed in is the last element. Calling 'addBack'" << std::endl;
         addBack(node);
     }
 
@@ -219,13 +217,13 @@ void LinkedList::deleteAt(int index) {
     
     //Case 1: First element
     if (index == 0) {
-        std::cout << "Index passed in is the first element. Calling 'deleteFront'" << std::endl;
+        // std::cout << "Index passed in is the first element. Calling 'deleteFront'" << std::endl;
         deleteFront();
     } 
     
     //Case 2: Last element
     else if (index == this->length) {
-        std::cout << "Index passed in is the last element. Calling 'deleteBack'" << std::endl;
+        // std::cout << "Index passed in is the last element. Calling 'deleteBack'" << std::endl;
         deleteBack();
     }
 

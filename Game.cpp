@@ -1,8 +1,5 @@
 #include "Game.h"
 
-#include <iostream>
-#include <string>
-
 Game::Game(std::string player1, std::string player2) {
     this->player1 = new Player(player1);
     this->player2 = new Player(player2);
@@ -18,3 +15,70 @@ Game::~Game() {
     delete board;
 }
 
+void Game::playGame() {
+    bool endGame = false;
+
+    while (!endGame) {
+        std::cout << player1->getName() << ", it's your turn" << std::endl;
+        std::cout << "Score for " << player1->getName() << ": " << player1->getScore() << std::endl;
+        std::cout << "Score for " << player2->getName() << ": " << player2->getScore() << std::endl;
+
+        board->printBoard();
+        std::string input;
+        getline(std::cin, input);
+        readInput(input);
+
+        if (input == "finish") {
+            endGame = true;
+        }
+    }
+}
+
+void Game::readInput(std::string input) {
+    std::vector<std::string> words{};
+    std::string buffer;
+    std::stringstream ss(input);
+
+    while (ss >> buffer)
+        words.push_back(buffer);
+
+
+    std::transform(words[0].begin(), words[0].end(), words[0].begin(), ::tolower);
+    
+    if (words[0] == "place") {
+        std::cout << "Running place command." << std::endl;
+        std::cout << "Validating arguments..." << std::endl;
+        if (words.size() != 4) {
+            std::cout << "Invalid number of arguments." << std::endl;
+        }
+        else {
+            std::cout << "Pass! Command: " << std::endl;
+            std::cout << input << std::endl;
+        }
+    } 
+    else if (words[0] == "replace") {
+        std::cout << "Running replace command." << std::endl;
+        std::cout << "Validating arguments..." << std::endl;
+        if (words.size() != 2) {
+            std::cout << "Invalid number of arguments." << std::endl;
+        }
+        else {
+            std::cout << "Pass! Command: " << std::endl;
+            std::cout << input << std::endl;
+        }
+    }
+    else if (words[0] == "pass") {
+        std::cout << "Running pass command." << std::endl;
+        std::cout << "Validating arguments..." << std::endl;
+        if (words.size() != 1) {
+            std::cout << "Invalid number of arguments." << std::endl;
+        }
+        else {
+            std::cout << "Pass! Command: " << std::endl;
+            std::cout << input << std::endl;
+        }
+    }
+    else {
+        std::cout << "Invalid argument." << std::endl;
+    }
+}

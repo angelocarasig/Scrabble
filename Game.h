@@ -1,6 +1,11 @@
 #ifndef ASSIGN2_GAME
 #define ASSIGN2_GAME
 #include <string>
+#include <iostream>
+#include <vector>
+#include <sstream>
+#include <algorithm>
+
 #include "TileBag.h"
 #include "Player.h"
 #include "Board.h"
@@ -12,8 +17,9 @@ public:
    Game(std::string player1, std::string player2);
    ~Game();
 
+   void playGame();
+   void readInput(std::string input);
 
-    
 private:
     Player* player1;
     Player* player2;

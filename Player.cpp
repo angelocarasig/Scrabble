@@ -7,6 +7,18 @@ Player::Player(std::string name) {
     this->hand = new LinkedList();
 }
 
+std::string Player::getName() {
+    return this->name;
+}
+
+int Player::getScore() {
+    return this->score;
+}
+
+LinkedList* Player::getHand() {
+    return this->hand;
+}
+
 Player::~Player() {
     delete hand;
 }

@@ -32,7 +32,7 @@ Changelog:
 - scrabble menu, credits and newGame (partial) created
 - Added board, player and game files
 - Added unit testing various .cpp files in Test folder
-
+- Now working on scrabble.cpp -> New game read command and validate input length finished
 
 TODO List:
 

@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Game.h"
 
 #define EXIT_SUCCESS    0
 
@@ -17,7 +18,7 @@ int main() {
 
    while (EndGame == false) {
       
-      std::cin >> UserInput;
+      getline(std::cin, UserInput);
 
       if (UserInput == "1") {
          std::cout << "TODO: Check if the usernames are proper." <<std::endl;
@@ -37,6 +38,7 @@ int main() {
          EndGame = true;
       }
       else {
+         std::cout << "Entered Else" << std::endl;
          std::cout << "Invalid Input" << std::endl;
       }
    }
@@ -59,18 +61,19 @@ void newGame() {
 
    std::string player1;
    std::cout << "Enter a name for player 1 (uppercase characters only)" << std::endl;
-   std::cin >> player1;
+   getline(std::cin, player1);
 
    std::cout << std::endl;
 
    std::string player2;
    std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
-   std::cin >> player2;
+   getline(std::cin, player2);
 
    std::cout << std::endl;
 
    std::cout << "Let's Play!" << std::endl;
-//    Game* game = new Game(player1, player2);
+   Game* game = new Game(player1, player2);
+   game->playGame();
 }
 
 void printCredits(void) {
