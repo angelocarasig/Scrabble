@@ -10,6 +10,7 @@ Assuming that terminal is in main folder (not Test):
 Compile: g++ -Wall -Werror -std=c++14 -O -o testNode Test/testNode.cpp Node.cpp Tile.cpp
 
 Run: ./testNode
+Valgrind run (must compile run command first): valgrind --leak-check=full ./testNode
 */
 
 int main() {

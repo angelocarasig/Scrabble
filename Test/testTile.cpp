@@ -2,14 +2,13 @@
 
 #include <iostream>
 
-#define EXIT_SUCCESS 0
-
 /*
 Assuming that terminal is in main folder (not Test):
 
 Compile: g++ -Wall -Werror -std=c++14 -O -o testTile Test/testTile.cpp Tile.cpp
 
 Run: ./testTile
+Valgrind run (must run compile command first): valgrind --leak-check=full ./testTile
 */
 
 int main() {

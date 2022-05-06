@@ -15,6 +15,8 @@ Compile:
 g++ -Wall -Werror -std=c++14 -O -o testLinkedList Test/testLinkedList.cpp LinkedList.cpp Node.cpp Tile.cpp
 
 Run: ./testLinkedList
+Valgrind run (must run compile command first): valgrind --leak-check=full ./testLinkedList
+
 */
 
 //Add functions
@@ -31,12 +33,12 @@ void testDeleteAt();
 void getScrabbleTiles();
 
 int main() {
-    // testAddFront();
-    // testAddBack();
-    // testAddAt();
-    // testDeleteFront();
-    // testDeleteBack();
-    // testDeleteAt();
+    testAddFront();
+    testAddBack();
+    testAddAt();
+    testDeleteFront();
+    testDeleteBack();
+    testDeleteAt();
     getScrabbleTiles();
     return EXIT_SUCCESS;
 }

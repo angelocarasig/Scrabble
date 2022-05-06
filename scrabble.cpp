@@ -7,6 +7,12 @@ void printMenu(void);
 void printCredits(void);
 void newGame();
 
+/*
+
+Compile: g++ -Wall -Werror -std=c++14 -O -o scrabble scrabble.cpp Tile.cpp Node.cpp LinkedList.cpp TileBag.cpp Player.cpp Board.cpp Game.cpp
+Run: ./scrabble
+*/
+
 int main() {
    std::cout << "Welcome to Scrabble!" << std::endl;
    std::cout << "-------------------" << std::endl;
@@ -74,6 +80,7 @@ void newGame() {
    std::cout << "Let's Play!" << std::endl;
    Game* game = new Game(player1, player2);
    game->playGame();
+   delete game;
 }
 
 void printCredits(void) {

@@ -34,6 +34,15 @@ Changelog:
     - Added unit testing various .cpp files in Test folder
     - Now working on scrabble.cpp -> New game read command and validate input length finished
 
+Memory leakage:
+~~Tile~~
+~~Node~~
+~~LinkedList~~
+~~TileBag~~
+~~Board~~
+~~Player~~
+~~scrabble~~
+
 TODO List:
     ~~- scrabbleList needs to delete the nodeList passed into it~~
     ~~- Cleanup code~~
