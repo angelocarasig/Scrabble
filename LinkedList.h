@@ -1,4 +1,3 @@
-
 #ifndef ASSIGN2_LINKEDLIST_H
 #define ASSIGN2_LINKEDLIST_H
 
@@ -8,34 +7,35 @@
 class LinkedList {
 public:
 
+   //Constructor, Copy Constructor and Deconstructor
+
    LinkedList();
    LinkedList(LinkedList& other);
    ~LinkedList();
 
+   //Misc functions
+
    int size();
-   void clear();
    Node* get(int i);
+   int search(Node* node);
+   void clear();
+
+   //Add functions
 
    void addFront(Node* node);
    void addBack(Node* node);
+   void addAt(Node* node, int i);
+
+   //Delete functions
 
    void deleteFront();
    void deleteBack();
-   
-   //Pops head element
-   Node* pop();
-
-   //Adds at the given index where 0 is the start (head) node, and index -1 is the end node.
-   void addAt(Node* node, int i);
-
-   //Deletes at the given index where 0 is the start (head) node, and index -1 is the end node.
    void deleteAt(int i);
 
+   //Misc functions 2
+   
    void printList();
-   void printHand();
-
-   //Should return a new, 'scrabbled' list with all tiles in a random order
-   LinkedList* scrabbleList();
+   void scrabbleList();
 
 private:
    Node* head;

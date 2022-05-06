@@ -1,7 +1,9 @@
 #include "Player.h"
+#include "TileBag.h"
 
-Player::Player(std::string playerName) {
-    this->playerName = playerName;
+Player::Player(std::string name) {
+    this->name = name;
+    this->score = 0;
     this->hand = new LinkedList();
 }
 
@@ -9,20 +11,39 @@ Player::~Player() {
     delete hand;
 }
 
-std::string Player::getPlayerName() {
-    return this->playerName;
+void Player::printPlayer() {
+    std::cout << "Player: " << this->name << " Score: " << this->score << " Hand: " << std::endl;
+    this->hand->printList();
 }
 
-void Player::printHand() {
-    hand->printHand();
-}
-
-void Player::getTiles() {
-    //Number of tiles to collect
-    int handLength = 7 - (this->hand->size());
-
-    for (int i = 0; i < handLength; i++) {
-        //TODO: generate tileBag (from testNodeList) && take from front of tilebag
-        // this->hand->addBack();
+void Player::fillHand(TileBag* tb) {
+    while (this->hand->size() < SCRABBLE_HAND) {
+        Node* tile = tb->getTile();
+        this->hand->addBack(tile);
     }
+}
+
+//Replace a tile by removing from hand and grabbing a new one from the scrabble list
+void Player::replaceTile(TileBag* tb, char letter) {
+    letter = toupper(letter);
+    //Find position of tile to replace from hand
+    int replacementIndex = -1;
+    Tile tile;
+    tile.letter = letter;
+    tile.value = 0;
+    
+    Node* tempTile = new Node(tile);
+    replacementIndex = this->hand->search(tempTile);
+
+    //TODO: If replacement index = -1, throw error
+
+    std::cout << "Deleting at index: " << replacementIndex << std::endl;
+    delete tempTile;
+
+    //Delete from hand
+    this->hand->deleteAt(replacementIndex);
+
+    //Get new tile and put in original index
+    Node* newTile = tb->getTile();
+    this->hand->addAt(newTile, replacementIndex);
 }

@@ -3,21 +3,26 @@
 
 #include <string>
 #include <iostream>
+#include "LinkedList.h"
+#include "TileBag.h"
 
-#include <LinkedList.h>
+#define SCRABBLE_HAND 7
 
 class Player {
 public:
-    Player(std::string playerName);
+    Player(std::string name);
     ~Player();
 
-    std::string getPlayerName();
-    void printHand();
-    void getTiles();
+    void fillHand(TileBag* tb);
+    void replaceTile(TileBag* tb, char letter);
+    
+    //Misc functions
+    void printPlayer();
 
 private:
-    std::string playerName;
+    std::string name;
+    int         score;
     LinkedList* hand;
 };
 
-#endif // ASSIGN2_PLAYER
+#endif

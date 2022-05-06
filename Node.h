@@ -1,4 +1,3 @@
-
 #ifndef ASSIGN2_NODE_H
 #define ASSIGN2_NODE_H
 
@@ -7,12 +6,12 @@
 class Node {
 public:
 
-   Node(Tile* tile);
+   Node(Tile tile);
    Node(Node& other);
    void printNode();
    ~Node();
 
-   Tile*    tile;
+   Tile     tile;
    Node*    next;
 };
 

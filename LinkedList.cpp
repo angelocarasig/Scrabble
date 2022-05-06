@@ -1,240 +1,279 @@
 #include "LinkedList.h"
 #include <iostream>
+#include <time.h>
 
+//Constructor
+//Assume that the list goes from [0...n-1] where n is the length of the linkedList
 LinkedList::LinkedList() {
-   this->head = nullptr;
-   this->length = 0;
+    this->head = nullptr;
+    this->length = 0;
+}
+
+//Copy Constructor
+LinkedList::LinkedList(LinkedList& other) {
+    //TODO
 }
 
 LinkedList::~LinkedList() {
-   for (Node* currentNode = this->head; currentNode != nullptr; currentNode = currentNode->next) {
-      delete currentNode;
-   }
-}
-
-LinkedList::LinkedList(LinkedList& other) {
-   this->head = nullptr;
-   this->length = other.size();
-   for (int i = 0; i < other.size(); i++) {
-      addBack(other.pop());
-   }
-}
-
-Node* LinkedList::get(int index) {
-   if (index > length || index < 0) {
-      std::cout << "Error" << std::endl;
-      throw std::invalid_argument("Invalid index");
-   }
-   else {
-      Node* currentNode = this->head;
-
-      for (int i = 0; i < index; i++) {
-         currentNode = currentNode->next;
-      }
-
-      return currentNode;
-   }
+    Node* currentNode = this->head;
+    Node* nextNode = nullptr;
+    
+    while (currentNode != nullptr) {
+        nextNode = currentNode->next;
+        delete currentNode;
+        currentNode = nullptr;
+        currentNode = nextNode;
+    }
 }
 
 int LinkedList::size() {
-   return this->length;
+    return this->length;
 }
 
-void LinkedList::addFront(Node* node) {
-   Node* currentNode = this->head;
-
-   //Check for empty nodelist
-   if (currentNode == nullptr) {
-      this->head = node;
-      node->next = nullptr;
-   } else {
-      Node* temp = currentNode;
-      this->head = node;
-      node->next = temp;
-   }
-
-   this->length++;
+Node* LinkedList::get(int index) {
+    if (index > this->length || index < 0) {
+        throw std::out_of_range("Trying to call LinkedList get function for an index outside it's range [0...n].");
+    }
+    
+    Node* currentNode = this->head;
+    for (int i = 0; i < index; i++) {
+        currentNode = currentNode->next;
+    }
+    return currentNode;
 }
 
-void LinkedList::addBack(Node* node) {
-   Node* currentNode = this->head;
-   
-   //Check for empty nodelist
-   if (currentNode == nullptr) {
-      this->head = node;
-      node->next = nullptr;
-   } else {
-      Node* prevNode = nullptr;
-         
-      while (currentNode != nullptr) {
-         prevNode = currentNode;
-         currentNode = currentNode->next;
-      }
-
-      prevNode->next = node;
-      node->next = nullptr;
-   }
-   this->length++;
-}
-
-void LinkedList::addAt(Node* node, int i) {
-   if (i == 0)         {addFront(node);}
-   else if (i == -1)   {addBack(node);}
-   else if (i < 0)     {std::cout << "Index is less than 0. Fail." << std::endl;}
-   else {
-      Node* currentNode = this->head;
-      Node* prevNode = nullptr;
-
-      for (int index = 0; index < i; index++) {
-         if (currentNode == nullptr) {
-            std::cout << "Error in position.\n";
-            //TODO Raise Error
-         }
-         prevNode = currentNode;
-         currentNode = currentNode->next;
-      }
-      //Insert node
-      prevNode->next = node;
-      node->next = currentNode;
-   }
-
-   this->length++;
-}
-
-void LinkedList::deleteFront() {
-   if (this->length <= 0) {
-      //TODO: Raise error
-   }
-   else {
-      Node* newHead = this->head->next;
-      delete this->head;
-      this->head = newHead;      
-
-      this->length--;
-   }
-}
-
-void LinkedList::deleteBack() {
-   if (this->length <= 0) {
-      //TODO: Raise error
-   }
-   else {
-      Node* currentNode = this->head;
-      Node* prevNode = nullptr;
-      while (currentNode->next != nullptr) {
-         prevNode = currentNode;
-         currentNode = currentNode->next;
-      }
-      std::cout << "Found last node!" << std::endl;
-      currentNode->printNode();
-      delete currentNode;
-      currentNode = nullptr;
-      prevNode->next = currentNode;
-
-      this->length--;
-   }
-}
-
-Node* LinkedList::pop() {
-   Node* nodeToReturn = nullptr;
-   if (this->length <= 0) {
-      //TODO: Raise Error
-   }
-   else {
-      Node* newHead = this->head->next;
-      nodeToReturn = new Node(*this->head);
-      this->head = newHead;
-
-      this->length--;
-   }
-   return nodeToReturn;
-}
-
-void LinkedList::deleteAt(int index) {
-   if (index > length || index < 0) {
-      std::cout << "Error! attempting to delete at an index that is invalid." << std::endl;
-   }
-   else {
-      Node* currentNode = this->head;
-      Node* prevNode = nullptr;
-      if (index == 0) {
-         deleteFront();
-      } else {
-         for (int i = 0; i < index; i++) {
-            prevNode = currentNode;
-            currentNode = currentNode->next;
-         }
-
-         prevNode->next = currentNode->next;
-         delete currentNode;
-         currentNode = nullptr;
-
-         this->length--;
-      }
-   }
+//Returns the first instance of the given node, even when multiple are found.
+int LinkedList::search(Node* node) {
+    Node* currentNode = this->head;
+    int returnCounter = -1;
+    int counter = 0;
+    while (currentNode != nullptr) {
+        if (currentNode->tile.letter == node->tile.letter) {
+            if (returnCounter == -1) {
+                returnCounter = counter;
+            }
+        }
+        counter++;
+        currentNode = currentNode->next;
+    }
+    return returnCounter;
 }
 
 void LinkedList::clear() {
-   Node* currentNode = this->head->next;
-   
-   while(currentNode != nullptr) {   
-    this->head->next = currentNode->next;
-    currentNode->next = nullptr;
-    delete currentNode;
-    currentNode = this->head->next;
-   }
+    //Guard: List is empty
+    if (this->length <= 0) {
+        throw std::domain_error("Linked List is already empty.");
+    }
 
-   delete this->head;
-   this->head = nullptr;
+    //Guard: When there is more than 1 Node in the list
+    if (this->length > 1) {
+        Node* currentNode = this->head->next;
 
-   this->length = 0;
+        while(currentNode != nullptr) {
+            this->head->next = currentNode->next;
+            currentNode->next = nullptr;
+            delete currentNode;
+            currentNode = this->head->next;
+        }
+    }
+
+    //Delete the head
+    delete this->head;
+    this->head = nullptr;
+
+    this->length = 0;
 }
 
-void LinkedList::printHand() {
-   Node* currentNode = this->head;
+void LinkedList::addFront(Node* node) {
+    //Case 1: List is empty
+    if (this->length == 0) {
+        this->head = node;
+    }
+    //Case 2: List is not empty
+    else {
+        Node* oldHead = this->head;
+        this->head = node;
+        node->next = oldHead;
+    }
 
-   std::cout << "Your hand is " << std::endl;
-   while (currentNode != nullptr) {
-      if (currentNode->next != nullptr) {
-         std::cout << currentNode->tile->letter << "-" << currentNode->tile->value << ", ";
-      } else {
-         std::cout << currentNode->tile->letter << "-" << currentNode->tile->value << std::endl;
-      }
-   }
+    this->length++;
+}
+
+void LinkedList::addBack(Node* node) {
+    Node* currentNode = this->head;
+    
+    //Case 1: Empty list
+    if (this->length == 0) {
+        this->head = node;
+        node->next = nullptr;
+    } 
+    //Case 2: Not empty list
+    else {
+        Node* prevNode = nullptr;
+
+        //Go to end node
+        while (currentNode != nullptr) {
+            prevNode = currentNode;
+            currentNode = currentNode->next;
+        }
+
+        prevNode->next = node;
+        node->next = nullptr;
+    }
+
+    this->length++;
+}
+
+void LinkedList::addAt(Node* node, int i) {
+    //Guard 1: Adding at front 
+    if (i == 0) {
+        //TODO: Comment out print statement when not needed anymore
+        std::cout << "Index passed in is the first element. Calling 'addFront'" << std::endl;
+        addFront(node);
+    }
+
+    //Guard 2: Adding at back
+    else if (i == this->length) {
+        //TODO: Comment out print statement when not needed anymore
+        std::cout << "Index passed in is the last element. Calling 'addBack'" << std::endl;
+        addBack(node);
+    }
+
+    //Guard 3: Negative value
+    else if (i < 0 || i > this->length) {
+        throw std::invalid_argument("Index is not within range. Please ensure it is not a negative value or greater than the length of the list.");
+    }
+
+    //End of guards
+    else {
+        Node* currentNode = this->head;
+        Node* prevNode = nullptr;
+
+        //Reach index to swap at
+        for (int index = 0; index < i; index++) {
+            if (currentNode == nullptr) {
+                throw std::logic_error("Linked List is detached.");
+            }
+            prevNode = currentNode;
+            currentNode = currentNode->next;
+        }
+        //Insert node at index
+        prevNode->next = node;
+        node->next = currentNode;
+    }
+
+    this->length++;
+}
+
+void LinkedList::deleteFront() {
+    //Guard: Empty list
+    if (this->length <= 0) {
+        throw std::out_of_range("Linked List is empty. Can't delete front.");
+    }
+
+    //End of guard
+    else {
+        Node* newHead = this->head->next;
+        delete this->head;
+        this->head = newHead;      
+
+        this->length--;
+    }
+}
+
+void LinkedList::deleteBack() {
+    //Guard: Empty list
+    if (this->length <= 0) {
+        throw std::out_of_range("Linked List is empty. Can't delete front.");
+    }
+
+    //End of guard
+    else {
+        Node* currentNode = this->head;
+        Node* prevNode = nullptr;
+
+        //Go to end node
+        while (currentNode->next != nullptr) {
+            prevNode = currentNode;
+            currentNode = currentNode->next;
+        }
+
+        delete currentNode;
+        currentNode = nullptr;
+        prevNode->next = currentNode;
+
+        this->length--;
+    }
+}
+
+void LinkedList::deleteAt(int index) {
+    //Guard: Out of range
+    if (index > length || index < 0) {
+        throw std::out_of_range("Linked List is empty. Can't delete at.");
+    }
+    
+    //End of guard
+
+    Node* currentNode = this->head;
+    Node* prevNode = nullptr;
+    
+    //Case 1: First element
+    if (index == 0) {
+        std::cout << "Index passed in is the first element. Calling 'deleteFront'" << std::endl;
+        deleteFront();
+    } 
+    
+    //Case 2: Last element
+    else if (index == this->length) {
+        std::cout << "Index passed in is the last element. Calling 'deleteBack'" << std::endl;
+        deleteBack();
+    }
+
+    //Case 3: Not first or last element
+    else {
+        for (int i = 0; i < index; i++) {
+            prevNode = currentNode;
+            currentNode = currentNode->next;
+        }
+
+        prevNode->next = currentNode->next;
+        delete currentNode;
+        currentNode = nullptr;
+
+        this->length--;
+    }
 }
 
 void LinkedList::printList() {
-   Node* currentNode = this->head;
-   
-   int i = 0;
-   std::cout << "\tPrinting NodeList:\n";
-   while (currentNode != nullptr) {
-      std::cout << "Node " << i << ": ";
-      std::cout << " Letter: " << currentNode->tile->letter << "    Value: " << currentNode->tile->value << std::endl;
-      
-      currentNode = currentNode->next;
-      i++;
-   }
-
-   std::cout << "Nodelist Length: " << this->length << std::endl;
+    Node* currentNode = this->head;
+    while (currentNode != nullptr) {
+        currentNode->printNode();
+        currentNode = currentNode->next;
+    }
 }
 
-LinkedList* LinkedList::scrabbleList() {
-   /*
-   - Make new empty LinkedList
-   - While originalList length > 0:
-      - pick a random value from 0 to ogList length-1
-      - make copy of that node and add to newList
-      - delete at the given random value
-   - print list
-   */
-   LinkedList* newLinkedList = new LinkedList();
+void LinkedList::scrabbleList() {
+    
+    LinkedList* tempList = new LinkedList();
 
-   while (this->length > 0) {
-      int randomVal = rand() % (this->length);
-      Node* newNode = new Node(*get(randomVal));
-      newLinkedList->addBack(newNode);
-      deleteAt(randomVal);
-   }
-   return newLinkedList;
+    while (this->length > 0) {
+        
+        //Generate Random Number
+        srand(time(NULL));
+        int randomVal = rand() % (this->length);
+        
+        //Temporarily store in list
+        Node* newNode = new Node(*get(randomVal));
+        tempList->addBack(newNode);
+        deleteAt(randomVal);
+    }
+
+    //Move elements back
+    while (tempList->size() > 0) {
+        Node* newNode = new Node(*tempList->get(0));
+        addBack(newNode);
+        tempList->deleteFront();
+    }
+
+    delete tempList;
 }
