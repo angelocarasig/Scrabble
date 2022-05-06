@@ -1,9 +1,11 @@
 #include "TileBag.h"
 
+//Constructor.
+//Initialized by reading the scrabbleTiles.txt file and randomizing the order.
 TileBag::TileBag() {
     this->tileBag = new LinkedList();
 
-    //Adds scrabbleTiles.txt to a linked list
+    //Parses scrabbleTiles.txt to a LinkedList
     std::string line;
     std::ifstream scrabbleTiles ("ScrabbleTiles.txt");
     if (scrabbleTiles.is_open()) {
@@ -21,18 +23,21 @@ TileBag::TileBag() {
     }
 
     //Shuffle linkedlist
-    
     shuffle(this->tileBag);
 }
 
+//Deconstructor.
 TileBag::~TileBag() {
     delete tileBag;
 }
 
+//Calls LinkedList scrabbleList() function.
 void TileBag::shuffle(LinkedList* nodeList) {
     this->tileBag->scrabbleList();
 }
 
+//Print Function.
+//Prints to the assignment specifications
 void TileBag::printBag() {
     Node* currentNode = this->tileBag->get(0);
     while (currentNode != nullptr) {
@@ -46,6 +51,8 @@ void TileBag::printBag() {
     }
 }
 
+//Returns a copy of the  head node and deletes the head node.
+//Used by Player class to fill hand
 Node* TileBag::getTile() {
     Node* tile = new Node(*this->tileBag->get(0));
     this->tileBag->deleteFront();

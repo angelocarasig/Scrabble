@@ -13,12 +13,18 @@
 class Game {
 public:
 
-   // Constructor/Destructor
-   Game(std::string player1, std::string player2);
-   ~Game();
+    //Constructor/Destructor
 
-   void playGame();
-   void readInput(std::string input);
+    Game(std::string player1, std::string player2);
+    ~Game();
+
+    //Main Function
+
+    void playGame();
+
+    //Move processing functions
+
+    void readInput(std::string input);
 
 private:
     Player* player1;

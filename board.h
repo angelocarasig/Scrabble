@@ -11,16 +11,20 @@
 
 class Board {
 public:
+
+    //Constructor and Deconstructor
+
     Board();
     ~Board();
 
-    //Passes a node from a player's hand onto the board
+    //Game Functions
+
     void placeTile(Node* node, std::string position);
     void printBoard();
 
 private:
-    std::vector<std::vector<char>> board;
-    std::map<char, int> rows;
+    std::vector<std::vector<char>>  board;
+    std::map<char, int>             rows;
 };
 
 #endif

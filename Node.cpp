@@ -8,7 +8,8 @@ Node::Node(Tile tile) {
 
 Node::Node(Node& other) {
     this->tile = other.tile;
-    this->next = nullptr;       //Don't want whatever their next pointer is
+    //Will be properly defined in LinkedList, so just set to nullptr for now
+    this->next = nullptr;
 }
 
 Node::~Node() {

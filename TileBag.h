@@ -8,15 +8,19 @@
 
 class TileBag {
 public:
+
+    //Constructor and Deconstructor
+
     TileBag();
     ~TileBag();
 
-    //When this is called, will return a deep copy of the first tile in the linked list.
-    //Calls deleteFront for the tile bag (deletes first element).
+    //Misc Functions
+
     Node* getTile();
     void printBag();
 
 private:
+    // Should not be called by other classes.
     void shuffle(LinkedList* nodeList);
     LinkedList* tileBag;
 };

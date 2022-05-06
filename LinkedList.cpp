@@ -3,7 +3,6 @@
 #include <time.h>
 
 //Constructor
-//Assume that the list goes from [0...n-1] where n is the length of the linkedList
 LinkedList::LinkedList() {
     this->head = nullptr;
     this->length = 0;
@@ -14,6 +13,7 @@ LinkedList::LinkedList(LinkedList& other) {
     //TODO
 }
 
+//Deconstructor
 LinkedList::~LinkedList() {
     Node* currentNode = this->head;
     Node* nextNode = nullptr;
@@ -26,10 +26,12 @@ LinkedList::~LinkedList() {
     }
 }
 
+//Returns the length of the LinkedList
 int LinkedList::size() {
     return this->length;
 }
 
+//Returns Node at @param index
 Node* LinkedList::get(int index) {
     if (index > this->length || index < 0) {
         throw std::out_of_range("Trying to call LinkedList get function for an index outside it's range [0...n].");
@@ -42,7 +44,7 @@ Node* LinkedList::get(int index) {
     return currentNode;
 }
 
-//Returns the first instance of the given node, even when multiple are found.
+//Returns (int) the first instance of the given node, even when multiple are found.
 int LinkedList::search(Node* node) {
     Node* currentNode = this->head;
     int returnCounter = -1;
@@ -59,6 +61,7 @@ int LinkedList::search(Node* node) {
     return returnCounter;
 }
 
+//Clears LinkedList. Does not deconstruct pointer to the LinkedList.
 void LinkedList::clear() {
     //Guard: List is empty
     if (this->length <= 0) {
@@ -84,6 +87,7 @@ void LinkedList::clear() {
     this->length = 0;
 }
 
+//Adds a @param node to the front of the list
 void LinkedList::addFront(Node* node) {
     //Case 1: List is empty
     if (this->length == 0) {
@@ -99,6 +103,7 @@ void LinkedList::addFront(Node* node) {
     this->length++;
 }
 
+//Adds a @param node to the end of the list
 void LinkedList::addBack(Node* node) {
     Node* currentNode = this->head;
     
@@ -124,6 +129,8 @@ void LinkedList::addBack(Node* node) {
     this->length++;
 }
 
+//Adds a @param node to the position @param i.
+//Fails if 
 void LinkedList::addAt(Node* node, int i) {
     //Guard 1: Adding at front 
     if (i == 0) {
@@ -137,9 +144,9 @@ void LinkedList::addAt(Node* node, int i) {
         addBack(node);
     }
 
-    //Guard 3: Negative value
+    //Guard 3: Out of range
     else if (i < 0 || i > this->length) {
-        throw std::invalid_argument("Index is not within range. Please ensure it is not a negative value or greater than the length of the list.");
+        throw std::out_of_range("Index is not within range. Please ensure it is not a negative value or greater than the length of the list.");
     }
 
     //End of guards
@@ -163,6 +170,7 @@ void LinkedList::addAt(Node* node, int i) {
     this->length++;
 }
 
+//Deletes the head node and is replaced by the next one.
 void LinkedList::deleteFront() {
     //Guard: Empty list
     if (this->length <= 0) {
@@ -179,6 +187,7 @@ void LinkedList::deleteFront() {
     }
 }
 
+//Deletes tail node and sets its previous to nullptr.
 void LinkedList::deleteBack() {
     //Guard: Empty list
     if (this->length <= 0) {
@@ -204,6 +213,7 @@ void LinkedList::deleteBack() {
     }
 }
 
+//Deletes the node at @param index
 void LinkedList::deleteAt(int index) {
     //Guard: Out of range
     if (index > length || index < 0) {
@@ -242,6 +252,7 @@ void LinkedList::deleteAt(int index) {
     }
 }
 
+//For each node in LinkedList, calls printNode()
 void LinkedList::printList() {
     Node* currentNode = this->head;
     while (currentNode != nullptr) {
@@ -250,6 +261,7 @@ void LinkedList::printList() {
     }
 }
 
+//Randomizes the order of the LinkedList in place
 void LinkedList::scrabbleList() {
     
     LinkedList* tempList = new LinkedList();

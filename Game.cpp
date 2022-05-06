@@ -19,11 +19,15 @@ void Game::playGame() {
     bool endGame = false;
 
     while (!endGame) {
+        std::cout << std::endl;
         std::cout << player1->getName() << ", it's your turn" << std::endl;
         std::cout << "Score for " << player1->getName() << ": " << player1->getScore() << std::endl;
         std::cout << "Score for " << player2->getName() << ": " << player2->getScore() << std::endl;
 
         board->printBoard();
+        
+        std::cout << std::endl;
+
         std::string input;
         getline(std::cin, input);
         readInput(input);
@@ -31,10 +35,13 @@ void Game::playGame() {
         if (input == "finish") {
             endGame = true;
         }
+
+
     }
 }
 
 void Game::readInput(std::string input) {
+    //Split the words into a vector
     std::vector<std::string> words{};
     std::string buffer;
     std::stringstream ss(input);
@@ -46,8 +53,7 @@ void Game::readInput(std::string input) {
     std::transform(words[0].begin(), words[0].end(), words[0].begin(), ::tolower);
     
     if (words[0] == "place") {
-        std::cout << "Running place command." << std::endl;
-        std::cout << "Validating arguments..." << std::endl;
+        //First validate number of arguments
         if (words.size() != 4) {
             std::cout << "Invalid number of arguments." << std::endl;
         }
@@ -57,8 +63,7 @@ void Game::readInput(std::string input) {
         }
     } 
     else if (words[0] == "replace") {
-        std::cout << "Running replace command." << std::endl;
-        std::cout << "Validating arguments..." << std::endl;
+        //First validate number of arguments
         if (words.size() != 2) {
             std::cout << "Invalid number of arguments." << std::endl;
         }
@@ -68,8 +73,7 @@ void Game::readInput(std::string input) {
         }
     }
     else if (words[0] == "pass") {
-        std::cout << "Running pass command." << std::endl;
-        std::cout << "Validating arguments..." << std::endl;
+        //Validate number of arguments
         if (words.size() != 1) {
             std::cout << "Invalid number of arguments." << std::endl;
         }

@@ -5,10 +5,16 @@
 
 class Node {
 public:
-
+   //Constructor
    Node(Tile tile);
+
+   //Copy Constructor
    Node(Node& other);
+
+   //Print Command
    void printNode();
+   
+   //Deconstructor
    ~Node();
 
    Tile     tile;

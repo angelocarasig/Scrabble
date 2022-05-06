@@ -4,6 +4,7 @@
 #include "Node.h"
 #include <random>
 
+//Assume that the list goes from [0...n-1] where n is the length of the linkedList.
 class LinkedList {
 public:
 
