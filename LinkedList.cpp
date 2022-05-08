@@ -165,9 +165,8 @@ void LinkedList::addAt(Node* node, int i) {
         //Insert node at index
         prevNode->next = node;
         node->next = currentNode;
+        this->length++;
     }
-
-    this->length++;
 }
 
 //Deletes the head node and is replaced by the next one.

@@ -6,6 +6,10 @@ Game::Game(std::string player1, std::string player2) {
 
     this->tilebag = new TileBag();
     this->board = new Board();
+    this->endGame = false;
+
+    this->player1->fillHand(tilebag);
+    this->player2->fillHand(tilebag);
 }
 
 Game::~Game() {
@@ -16,31 +20,40 @@ Game::~Game() {
 }
 
 void Game::playGame() {
-    bool endGame = false;
-
     while (!endGame) {
-        std::cout << std::endl;
-        std::cout << player1->getName() << ", it's your turn" << std::endl;
-        std::cout << "Score for " << player1->getName() << ": " << player1->getScore() << std::endl;
-        std::cout << "Score for " << player2->getName() << ": " << player2->getScore() << std::endl;
-
-        board->printBoard();
-        
-        std::cout << std::endl;
-
-        std::string input;
-        getline(std::cin, input);
-        readInput(input);
-
-        if (input == "finish") {
-            endGame = true;
+        try {
+            getTurn(player1);
+            getTurn(player2);
         }
-
-
+        catch (std::exception& e) {
+            std::cout << "Ending game..." << std::endl;
+            std::cout << std::endl;
+        }
     }
 }
 
-void Game::readInput(std::string input) {
+void Game::getTurn(Player* player) {
+    std::cout << std::endl;
+    std::cout << player->getName() << ", it's your turn" << std::endl;
+    std::cout << "Score for " << this->player1->getName() << ": " << player1->getScore() << std::endl;
+    std::cout << "Score for " << this->player2->getName() << ": " << player2->getScore() << std::endl;
+
+    board->printBoard();
+    
+    std::cout << std::endl;
+
+    std::cout << "Your hand is" << std::endl;
+    player->printHand();
+
+    std::cout << std::endl;
+
+    std::string input;
+    getline(std::cin, input);
+    
+    readInput(player, input);
+}
+
+void Game::readInput(Player* player, std::string input) {
     //Split the words into a vector
     std::vector<std::string> words{};
     std::string buffer;
@@ -49,7 +62,7 @@ void Game::readInput(std::string input) {
     while (ss >> buffer)
         words.push_back(buffer);
 
-
+    //Lower word to validate without cases
     std::transform(words[0].begin(), words[0].end(), words[0].begin(), ::tolower);
     
     if (words[0] == "place") {
@@ -60,6 +73,19 @@ void Game::readInput(std::string input) {
         else {
             std::cout << "Pass! Command: " << std::endl;
             std::cout << input << std::endl;
+
+            if (words[1].length() == 1) {
+                std::cout << "Attempting to place..." << std::endl;
+                try {
+                    char tile = words[1][0];
+                    Node* nodeToPlace = player->getTile(tile);
+                    nodeToPlace->printNode();
+                } catch (std::exception& e) {
+                    std::cout << "Tile does not exist in player's hand." << std::endl;
+                }
+            } else {
+                std::cout << "Trying to place a tile but does not exist in player's hand." << std::endl;
+            }
         }
     } 
     else if (words[0] == "replace") {
@@ -70,6 +96,17 @@ void Game::readInput(std::string input) {
         else {
             std::cout << "Pass! Command: " << std::endl;
             std::cout << input << std::endl;
+            if (words[1].length() == 1) {
+                std::cout << "Attempting to replace..." << std::endl;
+                try {
+                    char tile = words[1][0];
+                    player->replaceTile(tilebag, tile);
+                } catch (std::exception& e) {
+                    std::cout << "Tile does not exist in player's hand." << std::endl;
+                }
+            } else {
+                std::cout << "Trying to replace a tile but argument passed is not valid." << std::endl;
+            }
         }
     }
     else if (words[0] == "pass") {
@@ -81,6 +118,10 @@ void Game::readInput(std::string input) {
             std::cout << "Pass! Command: " << std::endl;
             std::cout << input << std::endl;
         }
+    }
+    else if (words[0] == "quit") {
+        this->endGame = true;
+        throw std::exception();
     }
     else {
         std::cout << "Invalid argument." << std::endl;

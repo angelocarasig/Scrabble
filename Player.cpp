@@ -36,6 +36,18 @@ void Player::printPlayer() {
     this->hand->printList();
 }
 
+void Player::printHand() {
+    for (int i = 0; i < this->hand->size(); i++) {
+        std::cout << this->hand->get(i)->tile.letter << "-" << this->hand->get(i)->tile.value;
+        if (i == this->hand->size() - 1) {
+            std::cout << std::endl;
+        }
+        else {
+            std::cout << ", ";
+        }
+    }
+}
+
 //Initialize player's hand
 void Player::fillHand(TileBag* tb) {
     while (this->hand->size() < SCRABBLE_HAND) {
@@ -56,7 +68,9 @@ void Player::replaceTile(TileBag* tb, char letter) {
     Node* tempTile = new Node(tile);
     replacementIndex = this->hand->search(tempTile);
 
-    //TODO: If replacement index = -1, throw error
+    if (replacementIndex == -1) {
+        throw std::exception();
+    }
 
     std::cout << "Deleting at index: " << replacementIndex << std::endl;
     delete tempTile;
@@ -67,4 +81,27 @@ void Player::replaceTile(TileBag* tb, char letter) {
     //Get new tile and put in original index
     Node* newTile = tb->getTile();
     this->hand->addAt(newTile, replacementIndex);
+}
+
+Node* Player::getTile(char letter) {
+    letter = toupper(letter);
+    //Find position of tile to replace from hand
+    int replacementIndex = -1;
+    Tile tile;
+    tile.letter = letter;
+    tile.value = 0;
+    
+    Node* tempTile = new Node(tile);
+    Node* returnTile = nullptr;
+    replacementIndex = this->hand->search(tempTile);
+
+    if (replacementIndex == -1) {
+        throw std::exception();
+    }
+    else {
+        returnTile = this->hand->get(replacementIndex);
+    }
+
+    delete tempTile;
+    return returnTile;
 }

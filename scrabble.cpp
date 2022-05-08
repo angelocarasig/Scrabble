@@ -29,6 +29,7 @@ int main() {
       if (UserInput == "1") {
          std::cout << "TODO: Check if the usernames are proper." <<std::endl;
          newGame();
+         // std::cout << "printing menu..." << std::endl;
          printMenu();
       }
       else if (UserInput == "2") {

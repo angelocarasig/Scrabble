@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include "Node.h"
+#include "Player.h"
 #include <map>
 
 #define ASCII_OFFSET 47
@@ -19,7 +20,7 @@ public:
 
     //Game Functions
 
-    void placeTile(Node* node, std::string position);
+    void placeTile(Player* player, Node* node, std::string position);
     void printBoard();
 
 private:

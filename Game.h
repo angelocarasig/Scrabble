@@ -24,13 +24,15 @@ public:
 
     //Move processing functions
 
-    void readInput(std::string input);
+    void getTurn(Player* player);
+    void readInput(Player* player, std::string input);
 
 private:
     Player* player1;
     Player* player2;
     TileBag* tilebag;
     Board* board;
+    bool endGame;
 };
 
 #endif // ASSIGN2_GAME
