@@ -39,11 +39,21 @@ void Board::placeTile(Player* player, Node* node, std::string strPos) {
         throw std::invalid_argument("Position should only be two characters.");
     }
 
-    //End of guard
+    //Check Row
     char row = strPos[0];
-    int col = strPos[1] - ASCII_OFFSET;
+    if (rows.find(row) == rows.end() ) {
+        throw std::invalid_argument("Invalid row entered.");
+    }
 
+    //Check column
+    int col = strPos[1] - ASCII_OFFSET;
+    if (col > 5 || col < 0) {
+        throw std::invalid_argument("Invalid column entered.");
+    }
+
+    //If pass, place at board and increase player's score
     this->board[rows[row]][col] = node->tile.letter;
+    player->increaseScore(node->tile.value);
 }
 
 //Print Function.

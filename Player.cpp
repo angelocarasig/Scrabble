@@ -36,6 +36,10 @@ void Player::printPlayer() {
     this->hand->printList();
 }
 
+void Player::increaseScore(int value) {
+    this->score += value;
+}
+
 void Player::printHand() {
     for (int i = 0; i < this->hand->size(); i++) {
         std::cout << this->hand->get(i)->tile.letter << "-" << this->hand->get(i)->tile.value;
@@ -69,7 +73,7 @@ void Player::replaceTile(TileBag* tb, char letter) {
     replacementIndex = this->hand->search(tempTile);
 
     if (replacementIndex == -1) {
-        throw std::exception();
+        throw std::invalid_argument("Tile does not exist in player hand.");
     }
 
     std::cout << "Deleting at index: " << replacementIndex << std::endl;

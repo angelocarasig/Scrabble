@@ -22,6 +22,8 @@ public:
     int getScore();
     LinkedList* getHand();
 
+    void increaseScore(int value);
+
     //Game functions
 
     void fillHand(TileBag* tb);

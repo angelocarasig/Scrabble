@@ -49,8 +49,13 @@ void Game::getTurn(Player* player) {
 
     std::string input;
     getline(std::cin, input);
-    
-    readInput(player, input);
+    try {
+        readInput(player, input);
+    }
+    catch (std::invalid_argument& e) {
+        std::cout << e.what();
+        readInput(player, input);
+    }
 }
 
 void Game::readInput(Player* player, std::string input) {
@@ -79,15 +84,23 @@ void Game::readInput(Player* player, std::string input) {
                 try {
                     char tile = words[1][0];
                     Node* nodeToPlace = player->getTile(tile);
-                    nodeToPlace->printNode();
-                } catch (std::exception& e) {
-                    std::cout << "Tile does not exist in player's hand." << std::endl;
+                    if (words[3].length() != 2) {
+                        std::cout << "Invalid Area to place at." << std::endl;
+                    }
+                    else {
+                        std::cout << "TODO: PlaceTile command" << std::endl;
+                        this->board->placeTile(player, nodeToPlace, words[3]);
+                        player->replaceTile(tilebag, nodeToPlace->tile.letter);
+                    }
+                } catch (std::invalid_argument& e) {
+                    std::cout << e.what() << std::endl;
                 }
             } else {
                 std::cout << "Trying to place a tile but does not exist in player's hand." << std::endl;
             }
         }
     } 
+
     else if (words[0] == "replace") {
         //First validate number of arguments
         if (words.size() != 2) {
@@ -102,12 +115,13 @@ void Game::readInput(Player* player, std::string input) {
                     char tile = words[1][0];
                     player->replaceTile(tilebag, tile);
                 } catch (std::exception& e) {
-                    std::cout << "Tile does not exist in player's hand." << std::endl;
+                    std::cout << e.what() << std::endl;
                 }
             } else {
                 std::cout << "Trying to replace a tile but argument passed is not valid." << std::endl;
             }
         }
+
     }
     else if (words[0] == "pass") {
         //Validate number of arguments
@@ -118,6 +132,7 @@ void Game::readInput(Player* player, std::string input) {
             std::cout << "Pass! Command: " << std::endl;
             std::cout << input << std::endl;
         }
+        
     }
     else if (words[0] == "quit") {
         this->endGame = true;
