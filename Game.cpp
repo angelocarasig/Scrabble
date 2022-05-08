@@ -7,6 +7,8 @@ Game::Game(std::string player1, std::string player2) {
     this->tilebag = new TileBag();
     this->board = new Board();
     this->endGame = false;
+    this->endTurn = false;
+    this->placeCommand = false;
 
     this->player1->fillHand(tilebag);
     this->player2->fillHand(tilebag);
@@ -19,20 +21,7 @@ Game::~Game() {
     delete board;
 }
 
-void Game::playGame() {
-    while (!endGame) {
-        try {
-            getTurn(player1);
-            getTurn(player2);
-        }
-        catch (std::exception& e) {
-            std::cout << "Ending game..." << std::endl;
-            std::cout << std::endl;
-        }
-    }
-}
-
-void Game::getTurn(Player* player) {
+void Game::printScore(Player* player) {
     std::cout << std::endl;
     std::cout << player->getName() << ", it's your turn" << std::endl;
     std::cout << "Score for " << this->player1->getName() << ": " << player1->getScore() << std::endl;
@@ -44,21 +33,43 @@ void Game::getTurn(Player* player) {
 
     std::cout << "Your hand is" << std::endl;
     player->printHand();
+}
 
-    std::cout << std::endl;
-
-    std::string input;
-    getline(std::cin, input);
-    try {
-        readInput(player, input);
-    }
-    catch (std::invalid_argument& e) {
-        std::cout << e.what();
-        readInput(player, input);
+void Game::playGame() {
+    while (!endGame) {
+        try {
+            printScore(player1);
+            getTurn(player1);
+            
+            printScore(player2);
+            getTurn(player2);
+        }
+        catch (std::exception& e) {
+            std::cout << "Ending game..." << std::endl;
+            std::cout << std::endl;
+        }
     }
 }
 
-void Game::readInput(Player* player, std::string input) {
+void Game::getTurn(Player* player) {
+
+    this->endTurn = false;
+
+    while (!endTurn) {
+        try {
+            std::cout << std::endl;
+            std::string input;
+            getline(std::cin, input);
+            parseInput(player, input);
+        }
+        catch (std::invalid_argument& e) {
+            std::cout << e.what() << std::endl;
+        }
+    }
+}
+
+void Game::parseInput(Player* player, std::string input) {
+
     //Split the words into a vector
     std::vector<std::string> words{};
     std::string buffer;
@@ -70,75 +81,93 @@ void Game::readInput(Player* player, std::string input) {
     //Lower word to validate without cases
     std::transform(words[0].begin(), words[0].end(), words[0].begin(), ::tolower);
     
+    //Parse arguments
+
+    //Place Command
     if (words[0] == "place") {
-        //First validate number of arguments
-        if (words.size() != 4) {
-            std::cout << "Invalid number of arguments." << std::endl;
+        this->placeCommand = true;
+        placeTurn(player, words);
+        
+        //Continue getting commands if placecommand is continuing
+        if (placeCommand) {
+            getTurn(player);
         }
-        else {
-            std::cout << "Pass! Command: " << std::endl;
-            std::cout << input << std::endl;
-
-            if (words[1].length() == 1) {
-                std::cout << "Attempting to place..." << std::endl;
-                try {
-                    char tile = words[1][0];
-                    Node* nodeToPlace = player->getTile(tile);
-                    if (words[3].length() != 2) {
-                        std::cout << "Invalid Area to place at." << std::endl;
-                    }
-                    else {
-                        std::cout << "TODO: PlaceTile command" << std::endl;
-                        this->board->placeTile(player, nodeToPlace, words[3]);
-                        player->replaceTile(tilebag, nodeToPlace->tile.letter);
-                    }
-                } catch (std::invalid_argument& e) {
-                    std::cout << e.what() << std::endl;
-                }
-            } else {
-                std::cout << "Trying to place a tile but does not exist in player's hand." << std::endl;
-            }
-        }
-    } 
-
-    else if (words[0] == "replace") {
-        //First validate number of arguments
-        if (words.size() != 2) {
-            std::cout << "Invalid number of arguments." << std::endl;
-        }
-        else {
-            std::cout << "Pass! Command: " << std::endl;
-            std::cout << input << std::endl;
-            if (words[1].length() == 1) {
-                std::cout << "Attempting to replace..." << std::endl;
-                try {
-                    char tile = words[1][0];
-                    player->replaceTile(tilebag, tile);
-                } catch (std::exception& e) {
-                    std::cout << e.what() << std::endl;
-                }
-            } else {
-                std::cout << "Trying to replace a tile but argument passed is not valid." << std::endl;
-            }
-        }
-
     }
+    
+    else if (this->placeCommand == true) {
+        throw std::invalid_argument("Only place commands are allowed. If finished, enter \"place done\"");
+    }
+
+    //Replace command
+    else if (words[0] == "replace") {
+        replaceTurn(player, words);
+    }
+
+    //Pass command
     else if (words[0] == "pass") {
         //Validate number of arguments
         if (words.size() != 1) {
-            std::cout << "Invalid number of arguments." << std::endl;
+            throw std::invalid_argument("Invalid number of arguments");
         }
-        else {
-            std::cout << "Pass! Command: " << std::endl;
-            std::cout << input << std::endl;
-        }
-        
+        //Continues with rest of code as they are just else ifs
     }
+
+    //Quit command
     else if (words[0] == "quit") {
         this->endGame = true;
         throw std::exception();
     }
+
+    //Invalid Arguement
     else {
-        std::cout << "Invalid argument." << std::endl;
+        throw std::invalid_argument("Invalid argument in input.");
     }
+
+    //If nothing was thrown
+    this->endTurn = true;
+}
+
+
+void Game::placeTurn(Player* player, std::vector<std::string> words) {
+    //Guards
+    if (words[1] == "done") {
+        this->endTurn = true;
+        this->placeCommand = false;
+        player->fillHand(tilebag);
+    }
+    else if (words.size() != 4 && placeCommand == true) {
+        throw std::invalid_argument("Invalid number of arguments. Number of arguments is not 4.");
+    }
+
+    if (words[3].length() != 2 && placeCommand == true) {
+        throw std::invalid_argument("Invalid Area to place at.");
+    }
+
+    if (words[1].length() != 1 && placeCommand == true) {
+        throw std::invalid_argument("Invalid Argument for tile. Place command should be \"Place <tile letter> at <row position>");
+    }
+    //If passed, run command
+    if (placeCommand) {
+        char tile = words[1][0];
+        Node* nodeToPlace = player->getTile(tile);
+        this->board->placeTile(player, nodeToPlace, words[3]);
+    }
+}
+
+void Game::replaceTurn(Player* player, std::vector<std::string> words) {
+
+    if (words.size() != 2) {
+        throw std::invalid_argument("Invalid number of arguments.");
+    }
+
+    if (words[1].length() != 1) {
+        throw std::invalid_argument("Tile passed as argument is of incorrect length (should only be 1 character long).");
+    }
+
+    char tile = words[1][0];
+    player->replaceTile(this->tilebag, tile);
+}
+
+void Game::passTurn(Player* player, std::vector<std::string> words) {
+
 }

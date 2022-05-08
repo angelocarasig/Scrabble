@@ -53,6 +53,9 @@ void Board::placeTile(Player* player, Node* node, std::string strPos) {
 
     //If pass, place at board and increase player's score
     this->board[rows[row]][col] = node->tile.letter;
+
+    //Remove tile from player
+    player->removeTile(node);
     player->increaseScore(node->tile.value);
 }
 

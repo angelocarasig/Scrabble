@@ -76,7 +76,6 @@ void Player::replaceTile(TileBag* tb, char letter) {
         throw std::invalid_argument("Tile does not exist in player hand.");
     }
 
-    std::cout << "Deleting at index: " << replacementIndex << std::endl;
     delete tempTile;
 
     //Delete from hand
@@ -100,7 +99,7 @@ Node* Player::getTile(char letter) {
     replacementIndex = this->hand->search(tempTile);
 
     if (replacementIndex == -1) {
-        throw std::exception();
+        throw std::invalid_argument("Tile entered does not exist in the player's hand.");
     }
     else {
         returnTile = this->hand->get(replacementIndex);
@@ -108,4 +107,18 @@ Node* Player::getTile(char letter) {
 
     delete tempTile;
     return returnTile;
+}
+
+void Player::removeTile(Node* node) {
+    //Find position of tile to replace from hand
+    int replacementIndex = -1;
+
+    replacementIndex = this->hand->search(node);
+
+    if (replacementIndex == -1) {
+        throw std::invalid_argument("Tile does not exist in player hand.");
+    }
+
+    //Delete from hand
+    this->hand->deleteAt(replacementIndex);
 }

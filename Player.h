@@ -28,6 +28,7 @@ public:
 
     void fillHand(TileBag* tb);
     void replaceTile(TileBag* tb, char letter);
+    void removeTile(Node* node);
     void printHand();
     Node* getTile(char letter);
 

@@ -25,14 +25,20 @@ public:
     //Move processing functions
 
     void getTurn(Player* player);
-    void readInput(Player* player, std::string input);
+    void parseInput(Player* player, std::string input);
+    void placeTurn(Player* player, std::vector<std::string> words);
+    void replaceTurn(Player* player, std::vector<std::string> words);
+    void passTurn(Player* player, std::vector<std::string> words);
+    void printScore(Player* player);
 
 private:
-    Player* player1;
-    Player* player2;
-    TileBag* tilebag;
-    Board* board;
-    bool endGame;
+    Player*     player1;
+    Player*     player2;
+    TileBag*    tilebag;
+    Board*      board;
+    bool        endGame;
+    bool        endTurn;
+    bool        placeCommand;
 };
 
 #endif // ASSIGN2_GAME
