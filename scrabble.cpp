@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cctype>
 #include "Game.h"
 
 #define EXIT_SUCCESS    0
@@ -67,14 +68,42 @@ void newGame() {
    std::cout << "Starting a New Game\n" << std::endl;
 
    std::string player1;
+   bool isUpper1 = false;
+   bool foundUpper1 = true;
    std::cout << "Enter a name for player 1 (uppercase characters only)" << std::endl;
-   getline(std::cin, player1);
+   while (isUpper1 == false) {
+      getline(std::cin, player1);
+      for (int i = 0 ; i < player1.size() ; ++i) {
+         if (isupper(player1[i]) == false && foundUpper1 == true) {
+            std::cout << "please enter a name with uppercase characters only" << std::endl;  
+            foundUpper1 = false;     
+         }
+         else if (isupper(player1[i]) == true and i == player1.size() - 1 && foundUpper1 == true) {
+            isUpper1 = true;
+         }
+      }
+      foundUpper1 = true;
+   }
 
    std::cout << std::endl;
 
    std::string player2;
+   bool isUpper2 = false;
+   bool foundUpper2 = true;
    std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
-   getline(std::cin, player2);
+      while (isUpper2 == false) {
+      getline(std::cin, player2);
+      for (int i = 0 ; i < player2.size() ; ++i) {
+         if (isupper(player2[i]) == false && foundUpper2 == true) {
+            std::cout << "please enter a name with uppercase characters only" << std::endl;  
+            foundUpper2 = false;     
+         }
+         else if (isupper(player2[i]) == true and i == player2.size() - 1 && foundUpper2 == true) {
+            isUpper2 = true;
+         } 
+      }
+      foundUpper2 = true;
+   }
 
    std::cout << std::endl;
 
