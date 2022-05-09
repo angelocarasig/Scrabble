@@ -14,9 +14,14 @@ Game::Game(std::string player1, std::string player2) {
     this->player2->fillHand(tilebag);
 }
 
-Game::Game(std::string fileName) {
-    loadGame(fileName);
-}
+// Game::Game(std::string fileName) {
+//     try {
+//         loadGame(fileName);
+//     }
+//     catch (std::invalid_argument& e) {
+//         std::cout << e.what() << std::endl;
+//     }
+// }
 
 Game::~Game() {
     delete player1;
@@ -32,7 +37,7 @@ void Game::printScore(Player* player) {
     std::cout << "Score for " << this->player2->getName() << ": " << player2->getScore() << std::endl;
 
     board->printBoard();
-    
+
     std::cout << std::endl;
 
     std::cout << "Your hand is" << std::endl;
@@ -158,9 +163,10 @@ void Game::placeTurn(Player* player, std::vector<std::string> words) {
         throw std::invalid_argument("Invalid number of arguments. Number of arguments is not 4.");
     }
 
-    if (words[3].length() != 2 && placeCommand == true) {
-        throw std::invalid_argument("Invalid Area to place at.");
-    }
+    // if (placeCommand == true) {
+    //     std::cout << "TODO: Fix this throw error." << std::endl;
+    //     throw std::invalid_argument("Invalid Area to place at.");
+    // }
 
     if (words[1].length() != 1 && placeCommand == true) {
         throw std::invalid_argument("Invalid Argument for tile. Place command should be \"Place <tile letter> at <row position>");
@@ -220,20 +226,37 @@ void Game::saveGame(std::vector<std::string> words) {
 
     //Get Board state
     for (unsigned int i = 0; i < board->getBoard().size(); i++) {
-        if (i == 1) {
-            saveGame << "---------------------------" << std::endl;
+        if (i == 0) {
+            saveGame << "    0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  " << std::endl;
+            saveGame << "---------------------------------------------------------------" << std::endl;
         }
 
-        for (unsigned int j = 0; j < board->getBoard()[i].size(); j++) {
+        if (i == 0) {saveGame << "A | ";}
+        if (i == 1) {saveGame << "B | ";}
+        if (i == 2) {saveGame << "C | ";}
+        if (i == 3) {saveGame << "D | ";}
+        if (i == 4) {saveGame << "E | ";}
+        if (i == 5) {saveGame << "F | ";}
+        if (i == 6) {saveGame << "G | ";}
+        if (i == 7) {saveGame << "H | ";}
+        if (i == 8) {saveGame << "I | ";}
+        if (i == 9) {saveGame << "J | ";}
+        if (i == 10) {saveGame << "K | ";}
+        if (i == 11) {saveGame << "L | ";}
+        if (i == 12) {saveGame << "M | ";}
+        if (i == 13) {saveGame << "N | ";}
+        if (i == 14) {saveGame << "O | ";}
+
+        // saveGame << "Reached here." << std::endl;
+
+        for (unsigned int j = 0; j < board->getBoard().size(); j++) {
+            // saveGame << "Entered." << std::endl;
             saveGame << board->getBoard()[i][j];
-            if (i != 0) {
-                saveGame << " | ";
-            }
-            else {
-                saveGame << "   ";
-            }
+
+            saveGame << " | ";
         }
         saveGame << std::endl;
+        
     }
 
     //Get TileBag state
@@ -249,19 +272,38 @@ void Game::saveGame(std::vector<std::string> words) {
     }
 }
 
-void Game::loadGame(std::string fileName) {
-    
+// void Game::loadGame(std::string fileName) {
+//     std::string line;
+//     std::ifstream infile;
+//     infile.open(fileName);
 
-    //
-    this->player1 = new Player();
-    this->player2 = new Player();
+//     /*
+//     Assume that the a save file is untampered with.
+//     */
 
-    this->tilebag = new TileBag();
-    this->board = new Board();
-    this->endGame = false;
-    this->endTurn = false;
-    this->placeCommand = false;
+//     if (!infile) {
+//         throw std::invalid_argument("File does not exist.");
+//     }
 
-    this->player1->fillHand(tilebag);
-    this->player2->fillHand(tilebag);
-}
+//     std::string result;
+
+//     std::istringstream iss(input);
+
+//     for (std::string line; std::getline(iss, line); )
+//     {
+//         result += ">> " + line + "\n";
+//     }
+
+
+//     this->player1 = new Player();
+//     this->player2 = new Player();
+
+//     this->tilebag = new TileBag();
+//     this->board = new Board();
+//     this->endGame = false;
+//     this->endTurn = false;
+//     this->placeCommand = false;
+
+//     this->player1->fillHand(tilebag);
+//     this->player2->fillHand(tilebag);
+// }

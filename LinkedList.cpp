@@ -10,7 +10,16 @@ LinkedList::LinkedList() {
 
 //Copy Constructor
 LinkedList::LinkedList(LinkedList& other) {
-    //TODO
+
+    //Initialize values
+    this->head = nullptr;
+    this->length = 0;
+
+    //Copy elements
+    for (int i = 0; i < other.size(); i++) {
+        Node* currentNode = new Node(*other.get(i));
+        addBack(currentNode);
+    }
 }
 
 //Deconstructor

@@ -73,7 +73,7 @@ void newGame() {
    std::cout << "Enter a name for player 1 (uppercase characters only)" << std::endl;
    while (isUpper1 == false) {
       getline(std::cin, player1);
-      for (int i = 0 ; i < player1.size() ; ++i) {
+      for (unsigned int i = 0 ; i < player1.size() ; ++i) {
          if (isupper(player1[i]) == false && foundUpper1 == true) {
             std::cout << "please enter a name with uppercase characters only" << std::endl;  
             foundUpper1 = false;     
@@ -93,7 +93,7 @@ void newGame() {
    std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
       while (isUpper2 == false) {
       getline(std::cin, player2);
-      for (int i = 0 ; i < player2.size() ; ++i) {
+      for (unsigned int i = 0 ; i < player2.size() ; ++i) {
          if (isupper(player2[i]) == false && foundUpper2 == true) {
             std::cout << "please enter a name with uppercase characters only" << std::endl;  
             foundUpper2 = false;     

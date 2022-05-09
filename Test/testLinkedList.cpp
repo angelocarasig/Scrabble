@@ -33,13 +33,34 @@ void testDeleteAt();
 void getScrabbleTiles();
 
 int main() {
-    testAddFront();
-    testAddBack();
-    testAddAt();
-    testDeleteFront();
-    testDeleteBack();
-    testDeleteAt();
-    getScrabbleTiles();
+
+    //Copy Constructor
+    std::cout << "Starting.\n";
+    Tile newTile;
+    newTile.letter = 'A';
+    newTile.value = 6;
+
+    Node* node = new Node(newTile);
+    Node* copyNode = new Node(*node);
+    copyNode->tile.letter = 'B';
+
+    LinkedList* linkedList1 = new LinkedList();
+    linkedList1->addBack(node);
+    linkedList1->addBack(copyNode);
+    LinkedList* linkedList2 = new LinkedList(*linkedList1);
+    std::cout << "Printing List." << std::endl;
+    linkedList2->printList();
+
+    // testAddFront();
+    // testAddBack();
+    // testAddAt();
+    // testDeleteFront();
+    // testDeleteBack();
+    // testDeleteAt();
+    // getScrabbleTiles();
+    delete linkedList1;
+    delete linkedList2;
+    
     return EXIT_SUCCESS;
 }
 
