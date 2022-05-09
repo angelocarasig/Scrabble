@@ -14,14 +14,14 @@ Game::Game(std::string player1, std::string player2) {
     this->player2->fillHand(tilebag);
 }
 
-// Game::Game(std::string fileName) {
-//     try {
-//         loadGame(fileName);
-//     }
-//     catch (std::invalid_argument& e) {
-//         std::cout << e.what() << std::endl;
-//     }
-// }
+Game::Game(std::string fileName) {
+    try {
+        loadGame(fileName);
+    }
+    catch (std::invalid_argument& e) {
+        std::cout << e.what() << std::endl;
+    }
+}
 
 Game::~Game() {
     delete player1;
@@ -272,38 +272,67 @@ void Game::saveGame(std::vector<std::string> words) {
     }
 }
 
-// void Game::loadGame(std::string fileName) {
-//     std::string line;
-//     std::ifstream infile;
-//     infile.open(fileName);
+void Game::loadGame(std::string fileName) {
+    std::string line;
+    std::ifstream infile;
+    fileName += ".txt";
+    infile.open(fileName);
 
-//     /*
-//     Assume that the a save file is untampered with.
-//     */
+    //Check if file exists
+    if (!infile) {
+        throw std::invalid_argument("");
+    }
+    
+    int counter = 0;
+    while (getline (infile, line)) {
+        // std::cout << line << std::endl;
+        if (counter == 0) {
+            std::cout << "Player 1: " << line << std::endl;
+        }
+        else if (counter == 1) {
+            std::cout << "Player 1 Score: " << line << std::endl;
+        }
+        else if (counter == 2) {
+            std::cout << "Player 1 Hand: " << line << std::endl;
+        }
+        else if (counter == 3) {
+            std::cout << "Player 2: " << line << std::endl;
+        }
+        else if (counter == 4) {
+            std::cout << "Player 2 Score: " << line << std::endl;
+        }
+        else if (counter == 5) {
+            std::cout << "Player 2 Hand: " << line << std::endl;
+        }
+        else if (counter == 23) {
+            std::cout << "Tile bag: " << line << std::endl;
+        }
+        else {
+            //Part of the board
+            // std::cout << line[0] << std::endl;
+            for (int i = 4; i <= 60; i+=4) {
+                if (line[i] == ' ') {
+                    //blank space, don't add
+                    std::cout << "#";
+                }
+                else {
+                    std::cout << line[i];
+                }
+            }
+            std::cout << std::endl;
+        }
+        counter++;
+    }
 
-//     if (!infile) {
-//         throw std::invalid_argument("File does not exist.");
-//     }
+    this->player1 = new Player("player1");
+    this->player2 = new Player("player2");
 
-//     std::string result;
+    this->tilebag = new TileBag();
+    this->board = new Board();
+    this->endGame = false;
+    this->endTurn = false;
+    this->placeCommand = false;
 
-//     std::istringstream iss(input);
-
-//     for (std::string line; std::getline(iss, line); )
-//     {
-//         result += ">> " + line + "\n";
-//     }
-
-
-//     this->player1 = new Player();
-//     this->player2 = new Player();
-
-//     this->tilebag = new TileBag();
-//     this->board = new Board();
-//     this->endGame = false;
-//     this->endTurn = false;
-//     this->placeCommand = false;
-
-//     this->player1->fillHand(tilebag);
-//     this->player2->fillHand(tilebag);
-// }
+    this->player1->fillHand(tilebag);
+    this->player2->fillHand(tilebag);
+}

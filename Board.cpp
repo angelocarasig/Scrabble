@@ -86,6 +86,28 @@ void Board::placeTile(Player* player, Node* node, std::string strPos) {
     player->increaseScore(node->tile.value);
 }
 
+// Placing tile without player interaction (for load game)
+void Board::placeTile(Node* node, std::string strPos) {
+
+    //Check Row
+    char row = strPos[0];
+    if (rows.find(row) == rows.end() ) {
+        throw std::invalid_argument("Invalid row entered.");
+    }
+
+    //Check column
+    int col = std::stoi(strPos.substr(1,-1));  
+    std::cout << "Column Entered: " << col << std::endl;  
+    //NOTE: stoi merely grabs the all the number values until a letter or end of string is reached.
+    std::cout << "TODO: Validate that string position has no characters for the substring [1...-1]" << std::endl;
+    if (col > 14 || col < 0) {
+        throw std::invalid_argument("Invalid column entered.");
+    }
+
+    //If pass, place at board and increase player's score
+    this->board[rows[row]][col] = node->tile.letter;
+}
+
 //Print Function.
 //Prints according to assignment specification.
 void Board::printBoard() {

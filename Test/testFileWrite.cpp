@@ -46,7 +46,7 @@ int main() {
         else {
             //Part of the board
             // std::cout << line[0] << std::endl;
-            for (int i = 4; i <= 24; i+=4) {
+            for (int i = 4; i <= 56; i+=4) {
                 if (line[i] == ' ') {
                     //blank space, don't add
                     std::cout << "#";

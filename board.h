@@ -19,7 +19,7 @@ public:
     ~Board();
 
     //Game Functions
-
+    void placeTile(Node* node, std::string position);
     void placeTile(Player* player, Node* node, std::string position);
     void printBoard();
     std::vector<std::vector<char>> getBoard();

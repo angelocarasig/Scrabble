@@ -7,6 +7,7 @@
 void printMenu(void);
 void printCredits(void);
 void newGame();
+void loadGame();
 
 /*
 
@@ -28,13 +29,11 @@ int main() {
       getline(std::cin, UserInput);
 
       if (UserInput == "1") {
-         std::cout << "TODO: Check if the usernames are proper." <<std::endl;
          newGame();
-         // std::cout << "printing menu..." << std::endl;
          printMenu();
       }
       else if (UserInput == "2") {
-         std::cout << "TODO: Implement load game feature." << std::endl;
+         loadGame();
          printMenu();
       }
       else if (UserInput == "3") {
@@ -110,6 +109,15 @@ void newGame() {
    std::cout << "Let's Play!" << std::endl;
    Game* game = new Game(player1, player2);
    game->playGame();
+   delete game;
+}
+
+void loadGame() {
+   std::string fileName;
+   std::cout << "Loading game..." << std::endl;
+   std::cout << "Enter filename of the save file: ";
+   getline(std::cin, fileName);
+   Game* game = new Game(fileName);
    delete game;
 }
 
