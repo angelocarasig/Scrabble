@@ -62,9 +62,6 @@ void Board::placeTile(Player* player, Node* node, std::string strPos) {
     //TODO: Need player to be passed in to evaluate score
 
     //Guard
-    if (strPos.length() != 2) {
-        throw std::invalid_argument("Position should only be two characters.");
-    }
 
     //Check Row
     char row = strPos[0];
