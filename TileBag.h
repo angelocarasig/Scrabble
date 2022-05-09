@@ -18,6 +18,7 @@ public:
 
     Node* getTile();
     void printBag();
+    LinkedList* getTileBag();
 
 private:
     // Should not be called by other classes.

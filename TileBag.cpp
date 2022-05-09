@@ -58,3 +58,7 @@ Node* TileBag::getTile() {
     this->tileBag->deleteFront();
     return tile;
 }
+
+LinkedList* TileBag::getTileBag() {
+    return this->tileBag;
+}

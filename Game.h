@@ -5,6 +5,7 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
+#include <fstream>
 
 #include "TileBag.h"
 #include "Player.h"
@@ -16,6 +17,7 @@ public:
     //Constructor/Destructor
 
     Game(std::string player1, std::string player2);
+    Game(std::string fileName);
     ~Game();
 
     //Main Function
@@ -24,12 +26,16 @@ public:
 
     //Move processing functions
 
+    void printScore(Player* player);
+
     void getTurn(Player* player);
     void parseInput(Player* player, std::string input);
+    
     void placeTurn(Player* player, std::vector<std::string> words);
     void replaceTurn(Player* player, std::vector<std::string> words);
-    void passTurn(Player* player, std::vector<std::string> words);
-    void printScore(Player* player);
+    
+    void saveGame(std::vector<std::string> words);
+    void loadGame(std::string fileName);
 
 private:
     Player*     player1;

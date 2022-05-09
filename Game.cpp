@@ -14,6 +14,10 @@ Game::Game(std::string player1, std::string player2) {
     this->player2->fillHand(tilebag);
 }
 
+Game::Game(std::string fileName) {
+    loadGame(fileName);
+}
+
 Game::~Game() {
     delete player1;
     delete player2;
@@ -58,6 +62,7 @@ void Game::getTurn(Player* player) {
     while (!endTurn) {
         try {
             std::cout << std::endl;
+            std::cout << "> ";
             std::string input;
             getline(std::cin, input);
             parseInput(player, input);
@@ -112,6 +117,11 @@ void Game::parseInput(Player* player, std::string input) {
         //Continues with rest of code as they are just else ifs
     }
 
+    //Save Game Command
+    else if (words[0] == "save") {
+        //Do nothing for now
+    }
+
     //Quit command
     else if (words[0] == "quit") {
         this->endGame = true;
@@ -125,6 +135,15 @@ void Game::parseInput(Player* player, std::string input) {
 
     //If nothing was thrown
     this->endTurn = true;
+
+    if (words[0] == "save") {
+        if (words.size() != 2) {
+            throw std::invalid_argument("Invalid number of arguments");
+        }
+        saveGame(words);
+        this->endTurn = false;
+        //Save then continue gameplay
+    }
 }
 
 
@@ -168,6 +187,81 @@ void Game::replaceTurn(Player* player, std::vector<std::string> words) {
     player->replaceTile(this->tilebag, tile);
 }
 
-void Game::passTurn(Player* player, std::vector<std::string> words) {
+void Game::saveGame(std::vector<std::string> words) {
+    std::cout << "Saving game..." << std::endl;
 
+    std::string saveGameTitle = words[1] + ".txt";
+    std::ofstream saveGame(saveGameTitle);
+
+    //Save Player details
+    saveGame << player1->getName() << std::endl;
+    saveGame << player1->getScore() << std::endl;
+    for (int i = 0; i < player1->getHand()->size(); i++) {
+        saveGame << player1->getHand()->get(i)->tile.letter << "-" << player1->getHand()->get(i)->tile.value;
+        if (i == player1->getHand()->size() - 1) {
+            saveGame << std::endl;
+        }
+        else {
+            saveGame << ", ";
+        }
+    }
+
+    saveGame << player2->getName() << std::endl;
+    saveGame << player2->getScore() << std::endl;
+    for (int i = 0; i < player2->getHand()->size(); i++) {
+        saveGame << player2->getHand()->get(i)->tile.letter << "-" << player2->getHand()->get(i)->tile.value;
+        if (i == player2->getHand()->size() - 1) {
+            saveGame << std::endl;
+        }
+        else {
+            saveGame << ", ";
+        }
+    }
+
+    //Get Board state
+    for (unsigned int i = 0; i < board->getBoard().size(); i++) {
+        if (i == 1) {
+            saveGame << "---------------------------" << std::endl;
+        }
+
+        for (unsigned int j = 0; j < board->getBoard()[i].size(); j++) {
+            saveGame << board->getBoard()[i][j];
+            if (i != 0) {
+                saveGame << " | ";
+            }
+            else {
+                saveGame << "   ";
+            }
+        }
+        saveGame << std::endl;
+    }
+
+    //Get TileBag state
+    LinkedList* tb = tilebag->getTileBag();
+    for (int i = 0; i < tb->size(); i++) {
+        saveGame << tb->get(i)->tile.letter << "-" << tb->get(i)->tile.value;
+        if (i == tb->size() - 1) {
+            saveGame << std::endl;
+        }
+        else {
+            saveGame << ", ";
+        }
+    }
+}
+
+void Game::loadGame(std::string fileName) {
+    
+
+    //
+    this->player1 = new Player();
+    this->player2 = new Player();
+
+    this->tilebag = new TileBag();
+    this->board = new Board();
+    this->endGame = false;
+    this->endTurn = false;
+    this->placeCommand = false;
+
+    this->player1->fillHand(tilebag);
+    this->player2->fillHand(tilebag);
 }

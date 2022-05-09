@@ -80,3 +80,7 @@ void Board::printBoard() {
         
     }
 }
+
+std::vector<std::vector<char>> Board::getBoard() {
+    return this->board;
+}
