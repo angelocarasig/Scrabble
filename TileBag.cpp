@@ -26,6 +26,13 @@ TileBag::TileBag() {
     shuffle(this->tileBag);
 }
 
+// For loadgame 
+TileBag::TileBag(std::string line) {
+    this->tileBag = new LinkedList();
+
+    this->tileBag->StringToList(line);
+}
+
 //Deconstructor.
 TileBag::~TileBag() {
     delete tileBag;

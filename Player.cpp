@@ -3,10 +3,16 @@
 
 //Constructor.
 //Player's hand is initially empty. Should call fillHand() once game starts.
-Player::Player(std::string name) {
+Player::Player(std::string name, int score, TileBag* tb) {
     this->name = name;
-    this->score = 0;
+    this->score = score;
     this->hand = new LinkedList();
+    while (this->hand->size() < SCRABBLE_HAND) {
+        std::cout << "loop" << std::endl;
+        Node* tile = tb->getTile();
+        std::cout << "in loop" << std::endl;
+        this->hand->addBack(tile);
+    }
 }
 
 //Deconstructor

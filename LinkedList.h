@@ -38,6 +38,8 @@ public:
    void printList();
    void scrabbleList();
 
+   void StringToList(std::string line);
+
 private:
    Node* head;
    int length;

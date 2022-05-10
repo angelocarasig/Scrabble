@@ -13,7 +13,7 @@ public:
 
     //Constructor and Deconstructor
 
-    Player(std::string name);
+    Player(std::string name, int score, TileBag* tb);
     ~Player();
 
     //Get methods

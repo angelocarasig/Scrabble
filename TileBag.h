@@ -12,6 +12,7 @@ public:
     //Constructor and Deconstructor
 
     TileBag();
+    TileBag(std::string line);
     ~TileBag();
 
     //Misc Functions
