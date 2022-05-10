@@ -134,6 +134,7 @@ void loadGame() {
    getline(std::cin, fileName);
    // Creates a game object on the heap using file name as input
    Game* game = new Game(fileName);
+   game->playGame();
    // Cleanup
    delete game;
 }

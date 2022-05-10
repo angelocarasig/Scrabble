@@ -34,32 +34,29 @@ void getScrabbleTiles();
 
 int main() {
 
-    //Copy Constructor
-    std::cout << "Starting.\n";
-    Tile newTile;
-    newTile.letter = 'A';
-    newTile.value = 6;
+        //Copy Constructor
+        // std::cout << "Starting.\n";
+        // Tile newTile;
+        // newTile.letter = 'A';
+        // newTile.value = 6;
 
-    Node* node = new Node(newTile);
-    Node* copyNode = new Node(*node);
-    copyNode->tile.letter = 'B';
+        // Node* node = new Node(newTile);
+        // Node* copyNode = new Node(*node);
+        // copyNode->tile.letter = 'B';
 
-    LinkedList* linkedList1 = new LinkedList();
-    linkedList1->addBack(node);
-    linkedList1->addBack(copyNode);
-    LinkedList* linkedList2 = new LinkedList(*linkedList1);
-    std::cout << "Printing List." << std::endl;
-    linkedList2->printList();
+        // LinkedList* linkedList1 = new LinkedList();
+        // linkedList1->addBack(node);
+        // linkedList1->addBack(copyNode);
+        // LinkedList* linkedList2 = new LinkedList(*linkedList1);
+        // std::cout << "Printing List." << std::endl;
+        // linkedList2->printList();
 
-    // testAddFront();
-    // testAddBack();
-    // testAddAt();
-    // testDeleteFront();
-    // testDeleteBack();
-    // testDeleteAt();
-    // getScrabbleTiles();
-    delete linkedList1;
-    delete linkedList2;
+    std::string data = "F-4, T-1, I-1, A-1, P-3, I-1, B-3";
+    LinkedList* test = new LinkedList();
+    test->StringToList(data);
+    test->printList();
+    
+    delete test;
     
     return EXIT_SUCCESS;
 }

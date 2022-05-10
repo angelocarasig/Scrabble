@@ -298,9 +298,10 @@ void LinkedList::scrabbleList() {
 
 void LinkedList::StringToList(std::string line) {
     std::string currstr = "";
-    for (int i = 0 ; i < line.size() ; ++i) {
-        if (line[i] == ','){
-            //std::cout << currstr << std::endl;
+
+    for (unsigned int i = 0 ; i < line.length(); ++i) {
+        if (line[i] == ',' || i == line.length() - 1){
+            if (i == line.length() - 1) {currstr += line[i];}
             Tile currentTile;
             currentTile.letter = currstr[0];
             std::string valstring = "";
@@ -313,10 +314,5 @@ void LinkedList::StringToList(std::string line) {
         else if (line[i] != ' ') {
             currstr += line[i];
         }
-        if (i == line.size() - 1) {
-            //std::cout << currstr << std::endl;
-            currstr = "";
-        }
-
     }
 }

@@ -12,8 +12,8 @@ class Player {
 public:
 
     //Constructor and Deconstructor
-
-    Player(std::string name, int score, TileBag* tb);
+    Player(std::string name);
+    Player(std::string name, int score, LinkedList* hand);
     ~Player();
 
     //Get methods

@@ -1,8 +1,8 @@
 #include "Game.h"
 
 Game::Game(std::string player1, std::string player2) {
-    // this->player1 = new Player(player1);
-    // this->player2 = new Player(player2);
+    this->player1 = new Player(player1);
+    this->player2 = new Player(player2);
 
     this->tilebag = new TileBag();
     this->board = new Board();
@@ -10,11 +10,8 @@ Game::Game(std::string player1, std::string player2) {
     this->endTurn = false;
     this->placeCommand = false;
 
-    this->player1 = new Player(player1, 0, tilebag);
-    this->player2 = new Player(player2, 0, tilebag);
-
-    // this->player1->fillHand(tilebag);
-    // this->player2->fillHand(tilebag);
+    this->player1 = new Player(player1);
+    this->player2 = new Player(player1);
 }
 
 Game::Game(std::string fileName) {
@@ -282,6 +279,7 @@ void Game::loadGame(std::string fileName) {
     infile.open(fileName);
     std::string player1name = ""; int player1score = 0;
     std::string player2name =  ""; int player2score = 0;
+    this->board = new Board();
 
     //Check if file exists
     if (!infile) {
@@ -292,77 +290,57 @@ void Game::loadGame(std::string fileName) {
     while (getline (infile, line)) {
         // std::cout << line << std::endl;
         if (counter == 0) {
-            //std::cout << "Player 1: " << line << std::endl;
-            std::cout << "C0" << std::endl;
             player1name = line;
         }
         else if (counter == 1) {
-            //std::cout << "Player 1 Score: " << line << std::endl;
-            std::cout << "C1" << std::endl;
             player1score = std::stoi(line);
         }
         else if (counter == 2) {
-            //std::cout << "Player 1 Hand: " << line << std::endl;
-            std::cout << "C2" << std::endl;
-            TileBag* player1hand = new TileBag(line);
-            this->player1 = new Player(player1name, player1score, player1hand);      
+            LinkedList* player1hand = new LinkedList();
+            player1hand->StringToList(line);
+            this->player1 = new Player(player1name, player1score, player1hand);
+            std::cout << "player1 loaded." << std::endl;
         }
         else if (counter == 3) {
-            //std::cout << "Player 2: " << line << std::endl;
-            std::cout << "C3" << std::endl;
             player2name = line;
         }
         else if (counter == 4) {
-            //std::cout << "Player 2 Score: " << line << std::endl;
-            std::cout << "C4" << std::endl;
             player2score = std::stoi("" + line);
         }
         else if (counter == 5) {
-            //std::cout << "Player 2 Hand: " << line << std::endl;
-            std::cout << "C5" << std::endl;
-            TileBag* player2hand = new TileBag(line);
-            this->player2 = new Player(player2name, player2score, player2hand);      
+            LinkedList* player2hand = new LinkedList();
+            player2hand->StringToList(line);
+            this->player2 = new Player(player2name, player2score, player2hand); 
+            std::cout << "player2 loaded." << std::endl;
         }
         else if (counter == 23) {
-            //std::cout << "Tile bag: " << line << std::endl;
             this->tilebag = new TileBag(line);
+            std::cout << "tilebag loaded." << std::endl;
         }
         else {
-            //Part of the board
-            // std::cout << line[0] << std::endl;
-            this->board = new Board();
+            std::cout << "In else:" << std::endl;
+            std::cout << line << std::endl;
             for (int i = 4; i <= 60; i+=4) {
-                if (line[i] == ' ') {
-                    //blank space, don't add
-                    std::cout << "#";
-                }
-                else {
-                    std::cout << line[i];
+                if (line[i] != ' ') {
                     std::string strpos = line[0] + std::to_string((i / 4) - 1);
+                    std::cout << strpos << std::endl;
                     Tile currentTile;
                     currentTile.letter = line[i];
                     currentTile.value = 0;
                     Node* currentNode = new Node(currentTile);
-                    board->placeTile(currentNode, strpos);
+                    try {
+                        board->placeTile(currentNode, strpos);
+                    }
+                    catch (std::invalid_argument& e) {
+                        std::cout << e.what() << std::endl;
+                    }
                 }
             }
-            std::cout << std::endl;
         }
         counter++;
     }
-
-    // this->player1 = new Player("player1");
-    // this->player2 = new Player("player2");
-
-    //this->tilebag = new TileBag();
-    //this->board = new Board();
+    board->printBoard();
     this->endGame = false;
     this->endTurn = false;
     this->placeCommand = false;
-
-    //this->player1 = new Player(player1name, 0, tilebag);
-    //this->player2 = new Player(player2name, 0, tilebag);
-
-    // this->player1->fillHand(tilebag);
-    // this->player2->fillHand(tilebag);
 }
