@@ -67,41 +67,37 @@ void newGame() {
    std::cout << "Starting a New Game\n" << std::endl;
 
    std::string player1;
-   bool isUpper1 = false;
-   bool foundUpper1 = true;
+   bool foundUpper1 = false;
    std::cout << "Enter a name for player 1 (uppercase characters only)" << std::endl;
-   while (isUpper1 == false) {
+   while (foundUpper1 == false) {
+      foundUpper1 = true;
       getline(std::cin, player1);
       for (unsigned int i = 0 ; i < player1.size() ; ++i) {
-         if (isupper(player1[i]) == false && foundUpper1 == true) {
-            std::cout << "please enter a name with uppercase characters only" << std::endl;  
+         if (isupper(player1[i]) == false) {
             foundUpper1 = false;     
          }
-         else if (isupper(player1[i]) == true and i == player1.size() - 1 && foundUpper1 == true) {
-            isUpper1 = true;
-         }
       }
-      foundUpper1 = true;
+      if (foundUpper1 == false){
+         std::cout << "please enter a name with uppercase characters only" << std::endl;  
+      }
    }
 
    std::cout << std::endl;
 
    std::string player2;
-   bool isUpper2 = false;
-   bool foundUpper2 = true;
+   bool foundUpper2 = false;
    std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
-      while (isUpper2 == false) {
+   while (foundUpper2 == false) {
+      foundUpper2 = true;
       getline(std::cin, player2);
       for (unsigned int i = 0 ; i < player2.size() ; ++i) {
-         if (isupper(player2[i]) == false && foundUpper2 == true) {
-            std::cout << "please enter a name with uppercase characters only" << std::endl;  
+         if (isupper(player2[i]) == false) {
             foundUpper2 = false;     
          }
-         else if (isupper(player2[i]) == true and i == player2.size() - 1 && foundUpper2 == true) {
-            isUpper2 = true;
-         } 
       }
-      foundUpper2 = true;
+      if (foundUpper2 == false){
+         std::cout << "please enter a name with uppercase characters only" << std::endl;  
+      }
    }
 
    std::cout << std::endl;
