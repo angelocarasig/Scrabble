@@ -27,32 +27,36 @@ int main() {
    while (EndGame == false) {
       
       getline(std::cin, UserInput);
-
+      // New Game
       if (UserInput == "1") {
          newGame();
          printMenu();
       }
+      // Load Game
       else if (UserInput == "2") {
          loadGame();
          printMenu();
       }
+      // Credits (Show student information)
       else if (UserInput == "3") {
          printCredits();
          printMenu();
       }
+      // Quit
       else if (UserInput == "4") {
          std::cout << "\nGoodbye" << std::endl;
          EndGame = true;
       }
+      // Invalid Input
       else {
-         std::cout << "Entered Else" << std::endl;
-         std::cout << "Invalid Input" << std::endl;
+         std::cout << "Invalid Input, Please Enter A Number Between 1 And 4" << std::endl;
       }
    }
    return EXIT_SUCCESS;
 }
 
-void printMenu(void) {
+// Prints the main menu
+void printMenu(void) {  
    std::cout << std::endl;
    std::cout << "Menu" << std::endl;
    std::cout << "---" << std::endl;
@@ -63,21 +67,27 @@ void printMenu(void) {
    std::cout << std::endl;
 }
 
+// Starts a new game
 void newGame() {
    std::cout << "Starting a New Game\n" << std::endl;
 
    std::string player1;
-   bool foundUpper1 = false;
+   bool isAllUpper = false;
    std::cout << "Enter a name for player 1 (uppercase characters only)" << std::endl;
-   while (foundUpper1 == false) {
-      foundUpper1 = true;
+   // Loops until the inputed line is all uppercase
+   while (isAllUpper == false) {
+      isAllUpper = true;
+      // Retreives the input
       getline(std::cin, player1);
+      // Loops through the input charicter by charicter and checks if they are uppercase
       for (unsigned int i = 0 ; i < player1.size() ; ++i) {
+         // If the given char is not uppercase
          if (isupper(player1[i]) == false) {
-            foundUpper1 = false;     
+            isAllUpper = false;     
          }
       }
-      if (foundUpper1 == false){
+      // Prints error if input contains lower case 
+      if (isAllUpper == false){
          std::cout << "please enter a name with uppercase characters only" << std::endl;  
       }
    }
@@ -85,17 +95,22 @@ void newGame() {
    std::cout << std::endl;
 
    std::string player2;
-   bool foundUpper2 = false;
+   isAllUpper = false;
    std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
-   while (foundUpper2 == false) {
-      foundUpper2 = true;
+   // Loops until the inputed line is all uppercase
+   while (isAllUpper == false) {
+      isAllUpper = true;
+      // Retreives the input
       getline(std::cin, player2);
+      // Loops through the input charicter by charicter and checks if they are uppercase
       for (unsigned int i = 0 ; i < player2.size() ; ++i) {
+         // If the given char is not uppercase
          if (isupper(player2[i]) == false) {
-            foundUpper2 = false;     
+            isAllUpper = false;     
          }
       }
-      if (foundUpper2 == false){
+      // Prints error if input contains lower case 
+      if (isAllUpper == false){
          std::cout << "please enter a name with uppercase characters only" << std::endl;  
       }
    }
@@ -103,20 +118,27 @@ void newGame() {
    std::cout << std::endl;
 
    std::cout << "Let's Play!" << std::endl;
+   // Creates a new game object on the heap
    Game* game = new Game(player1, player2);
    game->playGame();
+   // Cleanup
    delete game;
 }
 
+// Loads the game using a users file
 void loadGame() {
    std::string fileName;
    std::cout << "Loading game..." << std::endl;
    std::cout << "Enter filename of the save file: ";
+   // Gets the file name from input (relative path)
    getline(std::cin, fileName);
+   // Creates a game object on the heap using file name as input
    Game* game = new Game(fileName);
+   // Cleanup
    delete game;
 }
 
+// Simply prints the credits
 void printCredits(void) {
    std::string names[4] = {"Anton Angelo Carasig", "Henry Huynh", "Patrick Rivera", "Oliver Guzowski"};
    std::string studentID[4] = {"s3906344", "s3905838", "s3721043", "s3897734"};
