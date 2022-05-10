@@ -1,9 +1,11 @@
 #include "Game.h"
 
+// This is the constructor that is called when a new game is started
 Game::Game(std::string player1, std::string player2) {
+    // Creating new objects representing the players
     this->player1 = new Player(player1);
     this->player2 = new Player(player2);
-
+    // Creating new objects representing the tileBag and board
     this->tilebag = new TileBag();
     this->board = new Board();
     this->endGame = false;
@@ -23,6 +25,7 @@ Game::Game(std::string fileName) {
     }
 }
 
+// Destructor
 Game::~Game() {
     delete player1;
     delete player2;
