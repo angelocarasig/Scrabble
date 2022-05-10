@@ -42,6 +42,7 @@ int LinkedList::size() {
 
 //Returns Node at @param index
 Node* LinkedList::get(int index) {
+    //Guard clause
     if (index > this->length || index < 0) {
         throw std::out_of_range("Trying to call LinkedList get function for an index outside it's range [0...n].");
     }
@@ -296,6 +297,8 @@ void LinkedList::scrabbleList() {
     delete tempList;
 }
 
+//Adds a comma seperated list to linkedList using addBack() function
+//@param line - Should be in the format "Letter1-Value1, Letter2-Value2, Letter3-Value...LetterN-ValueN"
 void LinkedList::StringToList(std::string line) {
     std::string currstr = "";
 

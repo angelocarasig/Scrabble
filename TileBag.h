@@ -18,6 +18,7 @@ public:
     //Misc Functions
 
     Node* getTile();
+    bool isEmpty();
     void printBag();
     LinkedList* getTileBag();
 

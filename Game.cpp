@@ -10,8 +10,8 @@ Game::Game(std::string player1, std::string player2) {
     this->endTurn = false;
     this->placeCommand = false;
 
-    this->player1 = new Player(player1);
-    this->player2 = new Player(player1);
+    this->player1->fillHand(tilebag);
+    this->player2->fillHand(tilebag);
 }
 
 Game::Game(std::string fileName) {

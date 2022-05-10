@@ -26,7 +26,8 @@ TileBag::TileBag() {
     shuffle(this->tileBag);
 }
 
-// For loadgame 
+//Overload Constructor.
+//Uses LinkedList StringToList(string) function.
 TileBag::TileBag(std::string line) {
     this->tileBag = new LinkedList();
 
@@ -38,13 +39,28 @@ TileBag::~TileBag() {
     delete tileBag;
 }
 
-//Calls LinkedList scrabbleList() function.
-void TileBag::shuffle(LinkedList* nodeList) {
-    this->tileBag->scrabbleList();
+//Returns a copy of the  head node and deletes the head node.
+//Used by Player class to fill hand.
+Node* TileBag::getTile() {
+    Node* tile = new Node(*this->tileBag->get(0));
+    this->tileBag->deleteFront();
+    return tile;
+}
+
+bool TileBag::isEmpty() {
+    bool isEmpty = false;
+    if (this->tileBag < 0) {
+        throw std::out_of_range("Tilebag has less than 0 tiles.");
+    }
+
+    if (this->tileBag == 0) {
+        isEmpty = true;
+    }
+    return isEmpty;
 }
 
 //Print Function.
-//Prints to the assignment specifications
+//Prints to the assignment specifications (comma seperated)
 void TileBag::printBag() {
     Node* currentNode = this->tileBag->get(0);
     while (currentNode != nullptr) {
@@ -58,14 +74,13 @@ void TileBag::printBag() {
     }
 }
 
-//Returns a copy of the  head node and deletes the head node.
-//Used by Player class to fill hand
-Node* TileBag::getTile() {
-    Node* tile = new Node(*this->tileBag->get(0));
-    this->tileBag->deleteFront();
-    return tile;
-}
-
+//Returns the tilebag.
 LinkedList* TileBag::getTileBag() {
     return this->tileBag;
 }
+
+//Calls LinkedList scrabbleList() function.
+void TileBag::shuffle(LinkedList* nodeList) {
+    this->tileBag->scrabbleList();
+}
+
