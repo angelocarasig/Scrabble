@@ -1,27 +1,10 @@
 # apt-assign2
 
-Basic Structure
+See `Class.md` for a rundown on how each file works
 
-Player:
-- name
-- Hand is linkedlist of tiles
-- Score
+***
 
-TileBag:
-- nodeList of shuffled tiles
-
-Board:
-- tile display
-- grid coords
-- vector to store board
-
-Game:
-- Board
-- Players 1 & 2
-- Tile bag
-- loadgame function
-
-Changelog:
+## Changelog:
     - Created Tile, Node, LinkedList files and testNodeList file which tests implementation
     - Tile and Node class functions implemented
     - LinkedList functions implemented (unchecked for memory leaks)
@@ -34,35 +17,43 @@ Changelog:
     - Added unit testing various .cpp files in Test folder
     - Now working on scrabble.cpp -> New game read command and validate input length finished
 
-Memory leakage:
-~~Tile~~
-~~Node~~
-~~LinkedList~~
-~~TileBag~~
-~~Board~~
-~~Player~~
-~~scrabble~~
+***
 
-TODO List:
-    ~~- scrabbleList needs to delete the nodeList passed into it~~
-    ~~- Cleanup code~~
-    - File hierarchy
-    - Error handling
-    - Check for memory leaks
+## Memory leakage:
+- ~~Tile~~
+- ~~Node~~
+- ~~LinkedList~~
+- ~~TileBag~~
+- ~~Board~~
+- ~~Player~~
+- ~~scrabble~~
 
+***
 
-File specific todos:
+## TODO List:
+- ~~scrabbleList needs to delete the nodeList passed into it~~
+- Cleanup code <-- Will never be crossed out lmao
+- ~~File hierarchy~~ Probs not necessary
+- ~~Error handling~~ Most are handled 
+- ~~Check for memory leaks~~
 
-LinkedList:
-    - Copy constructor
-    - Print statements at addAt
-    - Error handling managed in try-catches in other functions
+***
 
+## File specific todos:
 
-Player:
-    - replace tile replacement index is default -1
+### LinkedList:
+- ~~Copy constructor~~
+- ~~Print statements at addAt~~
+- ~~Error handling managed in try-catches in other functions~~
 
-Game:
-    - validate game moves
+### Player:
+- ~~replace tile replacement index is default -1~~
+
+### Game:
+- ~~validate game moves~~
+- ~~save game to .txt~~
+- read game.txt to actual Game obj
+- BINGO Requirement (placing all 7 tiles prints bingo)
+- Check at end of player turn if they won
 
 - Finish assignment

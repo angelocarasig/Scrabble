@@ -27,32 +27,36 @@ int main() {
    while (EndGame == false) {
       
       getline(std::cin, UserInput);
-
+      // New Game
       if (UserInput == "1") {
          newGame();
          printMenu();
       }
+      // Load Game
       else if (UserInput == "2") {
          loadGame();
          printMenu();
       }
+      // Credits (Show student information)
       else if (UserInput == "3") {
          printCredits();
          printMenu();
       }
+      // Quit
       else if (UserInput == "4") {
          std::cout << "\nGoodbye" << std::endl;
          EndGame = true;
       }
+      // Invalid Input
       else {
-         std::cout << "Entered Else" << std::endl;
-         std::cout << "Invalid Input" << std::endl;
+         std::cout << "Invalid Input, Please Enter A Number Between 1 And 4" << std::endl;
       }
    }
    return EXIT_SUCCESS;
 }
 
-void printMenu(void) {
+// Prints the main menu
+void printMenu(void) {  
    std::cout << std::endl;
    std::cout << "Menu" << std::endl;
    std::cout << "---" << std::endl;
@@ -63,64 +67,78 @@ void printMenu(void) {
    std::cout << std::endl;
 }
 
+// Starts a new game
 void newGame() {
    std::cout << "Starting a New Game\n" << std::endl;
 
    std::string player1;
-   bool isUpper1 = false;
-   bool foundUpper1 = true;
+   bool isAllUpper = false;
    std::cout << "Enter a name for player 1 (uppercase characters only)" << std::endl;
-   while (isUpper1 == false) {
+   // Loops until the inputed line is all uppercase
+   while (isAllUpper == false) {
+      isAllUpper = true;
+      // Retreives the input
       getline(std::cin, player1);
+      // Loops through the input charicter by charicter and checks if they are uppercase
       for (unsigned int i = 0 ; i < player1.size() ; ++i) {
-         if (isupper(player1[i]) == false && foundUpper1 == true) {
-            std::cout << "please enter a name with uppercase characters only" << std::endl;  
-            foundUpper1 = false;     
-         }
-         else if (isupper(player1[i]) == true and i == player1.size() - 1 && foundUpper1 == true) {
-            isUpper1 = true;
+         // If the given char is not uppercase
+         if (isupper(player1[i]) == false) {
+            isAllUpper = false;     
          }
       }
-      foundUpper1 = true;
+      // Prints error if input contains lower case 
+      if (isAllUpper == false){
+         std::cout << "please enter a name with uppercase characters only" << std::endl;  
+      }
    }
 
    std::cout << std::endl;
 
    std::string player2;
-   bool isUpper2 = false;
-   bool foundUpper2 = true;
+   isAllUpper = false;
    std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
-      while (isUpper2 == false) {
+   // Loops until the inputed line is all uppercase
+   while (isAllUpper == false) {
+      isAllUpper = true;
+      // Retreives the input
       getline(std::cin, player2);
+      // Loops through the input charicter by charicter and checks if they are uppercase
       for (unsigned int i = 0 ; i < player2.size() ; ++i) {
-         if (isupper(player2[i]) == false && foundUpper2 == true) {
-            std::cout << "please enter a name with uppercase characters only" << std::endl;  
-            foundUpper2 = false;     
+         // If the given char is not uppercase
+         if (isupper(player2[i]) == false) {
+            isAllUpper = false;     
          }
-         else if (isupper(player2[i]) == true and i == player2.size() - 1 && foundUpper2 == true) {
-            isUpper2 = true;
-         } 
       }
-      foundUpper2 = true;
+      // Prints error if input contains lower case 
+      if (isAllUpper == false){
+         std::cout << "please enter a name with uppercase characters only" << std::endl;  
+      }
    }
 
    std::cout << std::endl;
 
    std::cout << "Let's Play!" << std::endl;
+   // Creates a new game object on the heap
    Game* game = new Game(player1, player2);
    game->playGame();
+   // Cleanup
    delete game;
 }
 
+// Loads the game using a users file
 void loadGame() {
    std::string fileName;
    std::cout << "Loading game..." << std::endl;
    std::cout << "Enter filename of the save file: ";
+   // Gets the file name from input (relative path)
    getline(std::cin, fileName);
+   // Creates a game object on the heap using file name as input
    Game* game = new Game(fileName);
+   // Cleanup
    delete game;
 }
 
+// Simply prints the credits
 void printCredits(void) {
    std::string names[4] = {"Anton Angelo Carasig", "Henry Huynh", "Patrick Rivera", "Oliver Guzowski"};
    std::string studentID[4] = {"s3906344", "s3905838", "s3721043", "s3897734"};
