@@ -36,11 +36,14 @@ public:
     //Misc functions
     
     void printPlayer();
+    int getPassCount();
+    void incrementPassCount();
 
 private:
     std::string name;
     int         score;
     LinkedList* hand;
+    int         passCount;
 };
 
 #endif

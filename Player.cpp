@@ -7,6 +7,7 @@ Player::Player(std::string name) {
     this->name = name;
     this->score = 0;
     this->hand = new LinkedList();
+    this->passCount = 0;
 }
 
 //Overload constructor
@@ -133,4 +134,12 @@ void Player::removeTile(Node* node) {
 
     //Delete from hand
     this->hand->deleteAt(replacementIndex);
+}
+
+int Player::getPassCount() {
+    return this->passCount;
+}
+
+void Player::incrementPassCount() {
+    this->passCount += 1;
 }

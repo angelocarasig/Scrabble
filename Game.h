@@ -33,6 +33,8 @@ public:
     
     void placeTurn(Player* player, std::vector<std::string> words);
     void replaceTurn(Player* player, std::vector<std::string> words);
+
+    void checkGameStatus();
     
     void saveGame(std::vector<std::string> words);
     void loadGame(std::string fileName);

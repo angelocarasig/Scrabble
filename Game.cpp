@@ -54,7 +54,19 @@ void Game::playGame() {
             getTurn(player2);
         }
         catch (std::exception& e) {
-            std::cout << "Ending game..." << std::endl;
+            //std::cout << "Ending game..." << std::endl;
+            std::cout << "Game Over" << std::endl;
+            std::cout << "Score for " << this->player1->getName() << ": " << this->player1->getScore() << std::endl;
+            std::cout << "Score for " << this->player2->getName() << ": " << this->player2->getScore() << std::endl;
+
+            if (this->player1->getScore() > this->player2->getScore()) {
+                std::cout << "Player " << this->player1->getName() << " won!" << std::endl;
+            }
+            else if (this->player1->getScore() < this->player2->getScore()) {
+                std::cout << "Player " << this->player2->getName() << " won!" << std::endl;
+            }
+
+
             std::cout << std::endl;
         }
     }
@@ -119,6 +131,15 @@ void Game::parseInput(Player* player, std::string input) {
         if (words.size() != 1) {
             throw std::invalid_argument("Invalid number of arguments");
         }
+
+        if (this->tilebag->isEmpty() == true) {
+            player->incrementPassCount();
+        }
+
+        if (player->getPassCount() == 2) {
+            this->endGame = true;
+            throw std::exception();
+        }
         //Continues with rest of code as they are just else ifs
     }
 
@@ -158,6 +179,7 @@ void Game::placeTurn(Player* player, std::vector<std::string> words) {
         this->endTurn = true;
         this->placeCommand = false;
         player->fillHand(tilebag);
+        checkGameStatus();
     }
     else if (words.size() != 4 && placeCommand == true) {
         throw std::invalid_argument("Invalid number of arguments. Number of arguments is not 4.");
@@ -191,6 +213,13 @@ void Game::replaceTurn(Player* player, std::vector<std::string> words) {
 
     char tile = words[1][0];
     player->replaceTile(this->tilebag, tile);
+}
+
+void Game::checkGameStatus() {
+    if (this->player1->getHand()->size() == 0 || this->player2->getHand()->size() == 0) {
+        this->endGame = true;
+        throw std::exception();
+    }
 }
 
 void Game::saveGame(std::vector<std::string> words) {
