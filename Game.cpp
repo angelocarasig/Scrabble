@@ -66,7 +66,7 @@ void Game::playGame() {
                 std::cout << "Player " << this->player2->getName() << " won!" << std::endl;
             }
 
-
+            this->endGame = true;
             std::cout << std::endl;
         }
     }
