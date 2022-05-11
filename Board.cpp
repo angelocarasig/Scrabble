@@ -76,29 +76,40 @@ void Board::placeTile(Node* node, std::string strPos) {
 //Print Function.
 //Prints according to assignment specification.
 void Board::printBoard() {
-    for (unsigned int i = 0; i < this->board.size(); i++) {
-        if (i == 0) {
 
-            std::cout << "    0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  " << std::endl;
-            std::cout << "---------------------------------------------------------------" << std::endl;
+    std::string topString = "    ";
+    std::string bottomString = "----";
+    // Displays the top of the table based on the size of the board
+    for(unsigned int i = 0; i < this->board[i].size(); i++){
+        std::string iString = std::to_string(i);
+        // This checks the number of digits and adjusts the formatting accordingly
+        if(i < 10){
+            topString = topString + iString;
+            topString = topString + "   ";
         }
+        else if(i < 100){
+            topString = topString + iString;
+            topString = topString + "  ";
+        }
+        else if(i < 1000){
+            topString = topString + iString;
+            topString = topString + " ";
+        }
+        bottomString = bottomString + "----";
+    }
+    // Trims off the end
+    topString.pop_back();
+    bottomString.pop_back();
+    // Outputs the top of table
+    std::cout << topString << std::endl;
+    std::cout << bottomString << std::endl;
 
-        if (i == 0) {std::cout << "A | ";}
-        if (i == 1) {std::cout << "B | ";}
-        if (i == 2) {std::cout << "C | ";}
-        if (i == 3) {std::cout << "D | ";}
-        if (i == 4) {std::cout << "E | ";}
-        if (i == 5) {std::cout << "F | ";}
-        if (i == 6) {std::cout << "G | ";}
-        if (i == 7) {std::cout << "H | ";}
-        if (i == 8) {std::cout << "I | ";}
-        if (i == 9) {std::cout << "J | ";}
-        if (i == 10) {std::cout << "K | ";}
-        if (i == 11) {std::cout << "L | ";}
-        if (i == 12) {std::cout << "M | ";}
-        if (i == 13) {std::cout << "N | ";}
-        if (i == 14) {std::cout << "O | ";}
-
+    char baseLetter = 'A';
+    for (unsigned int i = 0; i < this->board.size(); i++) {
+        char curLetter = baseLetter + i;
+        // Prints the char of the corresponding row
+        std::cout << curLetter << " | ";
+        // Prints the rest of the row based on the size of the board
         for (unsigned int j = 0; j < this->board[i].size(); j++) {
             std::cout << this->board[i][j];
             std::cout << " | ";
