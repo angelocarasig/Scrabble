@@ -38,6 +38,7 @@ public:
     void printPlayer();
     int getPassCount();
     void incrementPassCount();
+    void resetPassCount();
 
 private:
     std::string name;

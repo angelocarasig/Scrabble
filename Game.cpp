@@ -77,7 +77,12 @@ void Game::playGame() {
             getTurn(player2);
         }
         catch (std::exception& e) {
-            //std::cout << "Ending game..." << std::endl;
+            std::cout << "Ending game..." << std::endl;
+
+            this->endGame = true;
+            std::cout << std::endl;
+        }
+        catch (int e) {
             std::cout << "\nGame Over" << std::endl;
             std::cout << "Score for " << this->player1->getName() << ": " << this->player1->getScore() << std::endl;
             std::cout << "Score for " << this->player2->getName() << ": " << this->player2->getScore() << std::endl;
@@ -88,9 +93,9 @@ void Game::playGame() {
             else if (this->player1->getScore() < this->player2->getScore()) {
                 std::cout << "Player " << this->player2->getName() << " won!" << std::endl;
             }
-
             this->endGame = true;
-            std::cout << std::endl;
+            std::cout << std::endl;  
+            //TODO: Quit the game after game ends
         }
     }
 }
@@ -164,7 +169,9 @@ void Game::parseInput(Player* player, std::string input) {
 
         if (player->getPassCount() == 2) {
             this->endGame = true;
-            throw std::exception();
+            //throw std::exception();
+            //Throw exception where the game properly ends
+            throw (1);
         }
         //Continues with rest of code as they are just else ifs
     }
@@ -205,6 +212,7 @@ void Game::placeTurn(Player* player, std::vector<std::string> words) {
         this->endTurn = true;
         this->placeCommand = false;
         player->fillHand(tilebag);
+        player->resetPassCount();
         checkGameStatus();
     }
     else if (words.size() != 4 && placeCommand == true) {
@@ -245,7 +253,9 @@ void Game::replaceTurn(Player* player, std::vector<std::string> words) {
 void Game::checkGameStatus() {
     if (this->player1->getHand()->size() == 0 || this->player2->getHand()->size() == 0) {
         this->endGame = true;
-        throw std::exception();
+        //throw std::exception();
+        //Throw exception where the game properly ends
+        throw (1);
     }
 }
 

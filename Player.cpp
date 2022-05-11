@@ -140,10 +140,16 @@ void Player::removeTile(Node* node) {
     this->hand->deleteAt(replacementIndex);
 }
 
+// Return the number of times the player has passed
 int Player::getPassCount() {
     return this->passCount;
 }
 
+// Increment the pass count
 void Player::incrementPassCount() {
     this->passCount += 1;
+}
+// Reset the pass count
+void Player::resetPassCount() {
+    this->passCount = 0;
 }
