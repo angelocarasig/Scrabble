@@ -13,22 +13,11 @@ Board::Board() {
 
     //Initialize Row values
 
-    //TODO: Autogenerate key-value pairs based on number of rows in #define
-    rows['A'] = 0;
-    rows['B'] = 1;
-    rows['C'] = 2;
-    rows['D'] = 3;
-    rows['E'] = 4;
-    rows['F'] = 5;
-    rows['G'] = 6;
-    rows['H'] = 7;
-    rows['I'] = 8;
-    rows['J'] = 9;
-    rows['K'] = 10;
-    rows['L'] = 11;
-    rows['M'] = 12;
-    rows['N'] = 13;
-    rows['O'] = 14;
+    //Generates key-value pairs based on number of rows in #define, ROWS should be a value between 0 and 26 or this code will use weird charicters 
+    char curLetter = 'A';
+    for(int i = 0; i < ROWS; i++){
+        rows[curLetter+i] = i;
+    }
 }
 
 //Deconstructor
