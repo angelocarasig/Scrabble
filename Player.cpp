@@ -63,9 +63,15 @@ void Player::printHand() {
 //Initialize player's hand
 void Player::fillHand(TileBag* tb) {
     if (tb->isEmpty() == false) {
-        while (this->hand->size() < SCRABBLE_HAND) {
-            Node* tile = tb->getTile();
-            this->hand->addBack(tile);
+        // while (this->hand->size() < SCRABBLE_HAND) {
+        //     Node* tile = tb->getTile();
+        //     this->hand->addBack(tile);
+        // }
+        for (int i = this->hand->size() ; i < SCRABBLE_HAND ; ++i) {
+            if (tb->isEmpty() == false) {
+                Node* tile = tb->getTile();
+                this->hand->addBack(tile);
+            }
         }
     }
 }
