@@ -77,9 +77,8 @@ void Game::playGame() {
             getTurn(player2);
         }
         catch (std::exception& e) {
-<<<<<<< HEAD
             //std::cout << "Ending game..." << std::endl;
-            std::cout << "Game Over" << std::endl;
+            std::cout << "\nGame Over" << std::endl;
             std::cout << "Score for " << this->player1->getName() << ": " << this->player1->getScore() << std::endl;
             std::cout << "Score for " << this->player2->getName() << ": " << this->player2->getScore() << std::endl;
 
@@ -90,9 +89,6 @@ void Game::playGame() {
                 std::cout << "Player " << this->player2->getName() << " won!" << std::endl;
             }
 
-=======
-            std::cout << "Ending game..." << std::endl;
->>>>>>> 23cbf630c0a100646fbc61e4e25a6a8e4ca3526b
             this->endGame = true;
             std::cout << std::endl;
         }
@@ -246,7 +242,6 @@ void Game::replaceTurn(Player* player, std::vector<std::string> words) {
     player->replaceTile(this->tilebag, tile);
 }
 
-<<<<<<< HEAD
 void Game::checkGameStatus() {
     if (this->player1->getHand()->size() == 0 || this->player2->getHand()->size() == 0) {
         this->endGame = true;
@@ -254,9 +249,7 @@ void Game::checkGameStatus() {
     }
 }
 
-=======
 //If a save command was parsed, this function is called
->>>>>>> 23cbf630c0a100646fbc61e4e25a6a8e4ca3526b
 void Game::saveGame(std::vector<std::string> words) {
     std::cout << "Saving game..." << std::endl;
 
