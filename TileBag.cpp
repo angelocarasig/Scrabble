@@ -31,7 +31,7 @@ TileBag::TileBag() {
 TileBag::TileBag(std::string line) {
     this->tileBag = new LinkedList();
 
-    this->tileBag->StringToList(line);
+    this->tileBag->stringToList(line);
 }
 
 //Deconstructor.
@@ -53,7 +53,7 @@ bool TileBag::isEmpty() {
         throw std::out_of_range("Tilebag has less than 0 tiles.");
     }
 
-    if (this->tileBag == 0) {
+    if (this->tileBag->size() == 0) {
         isEmpty = true;
     }
     return isEmpty;

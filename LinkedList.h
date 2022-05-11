@@ -37,8 +37,7 @@ public:
    
    void printList();
    void scrabbleList();
-
-   void StringToList(std::string line);
+   void stringToList(std::string line);
 
 private:
    Node* head;

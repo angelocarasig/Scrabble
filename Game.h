@@ -11,6 +11,11 @@
 #include "Player.h"
 #include "Board.h"
 
+//These #defines are used mainly in loading a game
+#define BOARD_FIRST_POS     4
+#define BOARD_STEP_SIZE     4
+#define BOARD_LAST_POS      60
+
 class Game {
 public:
 
@@ -24,22 +29,23 @@ public:
 
     void playGame();
 
-    //Move processing functions
-
+private:
+    //These functions should only be internally called
     void printScore(Player* player);
 
+    //Turn processors
     void getTurn(Player* player);
     void parseInput(Player* player, std::string input);
-    
     void placeTurn(Player* player, std::vector<std::string> words);
     void replaceTurn(Player* player, std::vector<std::string> words);
 
     void checkGameStatus();
     
+    //Save/Load functions
     void saveGame(std::vector<std::string> words);
     void loadGame(std::string fileName);
 
-private:
+
     Player*     player1;
     Player*     player2;
     TileBag*    tilebag;
@@ -47,6 +53,7 @@ private:
     bool        endGame;
     bool        endTurn;
     bool        placeCommand;
+    bool        gameLoaded;
 };
 
 #endif // ASSIGN2_GAME
