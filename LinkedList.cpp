@@ -299,23 +299,32 @@ void LinkedList::scrabbleList() {
 
 //Adds a comma seperated list to linkedList using addBack() function
 //@param line - Should be in the format "Letter1-Value1, Letter2-Value2, Letter3-Value...LetterN-ValueN"
-void LinkedList::StringToList(std::string line) {
-    std::string currstr = "";
+void LinkedList::stringToList(std::string line) {
+    std::string currentString = "";
 
     for (unsigned int i = 0 ; i < line.length(); ++i) {
-        if (line[i] == ',' || i == line.length() - 1){
-            if (i == line.length() - 1) {currstr += line[i];}
+        if (line[i] == ',' || i == line.length() - 1) {
+            //If last line, also add to currentString
+            if (i == line.length() - 1) {currentString += line[i];}
+            
+            //To accomodate for 2-digit values, use substring 
+            //(i.e: "Z-10" if accessing only 1st index, will assume Z has value 1)
+            std::string valueString = currentString.substr(2, -1);
+            std::cout <<"currentString: " << currentString << std::endl;
             Tile currentTile;
-            currentTile.letter = currstr[0];
-            std::string valstring = "";
-            valstring += currstr[2];
-            currentTile.value = std::stoi(valstring);
+            currentTile.letter = currentString[0];
+            currentTile.value = std::stoi(valueString);
+            
             Node* currentNode = new Node(currentTile);
             this->addBack(currentNode);
-            currstr = "";
+            currentString = "";
         }
         else if (line[i] != ' ') {
-            currstr += line[i];
+            currentString += line[i];
         }
+
+        // else {
+        //     throw std::invalid_argument("Error passed in line for stringToList()");
+        // }
     }
 }

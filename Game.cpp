@@ -1,5 +1,8 @@
 #include "Game.h"
 
+//Game Constructor.
+//@param player1 Name of player1
+//@param player2 Name of player2
 Game::Game(std::string player1, std::string player2) {
     this->player1 = new Player(player1);
     this->player2 = new Player(player2);
@@ -14,15 +17,26 @@ Game::Game(std::string player1, std::string player2) {
     this->player2->fillHand(tilebag);
 }
 
+//Load Game Constructor.
+//Overloads default constructor
 Game::Game(std::string fileName) {
-    try {
-        loadGame(fileName);
-    }
-    catch (std::invalid_argument& e) {
-        std::cout << e.what() << std::endl;
-    }
+    std::string nameOfFile = fileName;
+    this->gameLoaded = false;
+    while (!gameLoaded) {
+        try {
+                loadGame(nameOfFile);
+            }
+            catch (std::invalid_argument& e) {
+                std::cout << e.what() << std::endl;
+                std::cout << "failed to find game name." << std::endl;
+                
+                std::cout << "Enter filename of the save file: ";
+                getline(std::cin, nameOfFile);
+            }
+        }
 }
 
+//Destructor
 Game::~Game() {
     delete player1;
     delete player2;
@@ -30,6 +44,12 @@ Game::~Game() {
     delete board;
 }
 
+//Prints current turn details for player.
+//Prints according to assignment specifications:
+//- Which player turn
+//- Both player's scores
+//- Current board state
+//- Current player's hand
 void Game::printScore(Player* player) {
     std::cout << std::endl;
     std::cout << player->getName() << ", it's your turn" << std::endl;
@@ -44,6 +64,9 @@ void Game::printScore(Player* player) {
     player->printHand();
 }
 
+//Main game operation.
+//Turn based loop (always starts with player 1).
+//Ends when a player quits or the game ends.
 void Game::playGame() {
     while (!endGame) {
         try {
@@ -55,11 +78,14 @@ void Game::playGame() {
         }
         catch (std::exception& e) {
             std::cout << "Ending game..." << std::endl;
+            this->endGame = true;
             std::cout << std::endl;
         }
     }
 }
 
+//Gets player input.
+//In loop to consider "place commands" and for input validation.
 void Game::getTurn(Player* player) {
 
     this->endTurn = false;
@@ -78,6 +104,7 @@ void Game::getTurn(Player* player) {
     }
 }
 
+//Converts player input arguments into vector, validate the arguments and process the command given.
 void Game::parseInput(Player* player, std::string input) {
 
     //Split the words into a vector
@@ -151,7 +178,7 @@ void Game::parseInput(Player* player, std::string input) {
     }
 }
 
-
+//If a place turn command was parsed, this function is called
 void Game::placeTurn(Player* player, std::vector<std::string> words) {
     //Guards
     if (words[1] == "done") {
@@ -179,6 +206,7 @@ void Game::placeTurn(Player* player, std::vector<std::string> words) {
     }
 }
 
+//If a replace turn command was parsed, this function is called
 void Game::replaceTurn(Player* player, std::vector<std::string> words) {
 
     if (words.size() != 2) {
@@ -193,6 +221,7 @@ void Game::replaceTurn(Player* player, std::vector<std::string> words) {
     player->replaceTile(this->tilebag, tile);
 }
 
+//If a save command was parsed, this function is called
 void Game::saveGame(std::vector<std::string> words) {
     std::cout << "Saving game..." << std::endl;
 
@@ -272,75 +301,107 @@ void Game::saveGame(std::vector<std::string> words) {
     }
 }
 
+//If user selected loadgame in menu, this function is used to load game elements into play
 void Game::loadGame(std::string fileName) {
+
+    /*
+
+    NOTE:
+
+    IT IS ASSUMED THAT THE CONTENTS OF WHATEVER SAVE FILE TO BE LOADED INTO THE GAME IS UNTAMPERED WITH.
+    AS OF RIGHT NOW THERE IS CURRENTLY NO ACTIONS IN PLACE TAKEN THAT AIM TO CHECK THAT A SAVEGAME IS VALID.
+
+    */
+
     std::string line;
     std::ifstream infile;
     fileName += ".txt";
     infile.open(fileName);
-    std::string player1name = ""; int player1score = 0;
-    std::string player2name =  ""; int player2score = 0;
-    this->board = new Board();
 
     //Check if file exists
+    //If thrown here, no objects created yet
     if (!infile) {
         throw std::invalid_argument("");
     }
+
+    //Initialize player details
+    std::string player1Name = ""; 
+    int player1Score = 0;
+    std::string player2Name =  ""; 
+    int player2Score = 0;
+    
+    //Initialize what needs to be initalized
+    this->board = new Board();
+    this->endGame = false;
+    this->endTurn = false;
+    this->placeCommand = false;
     
     int counter = 0;
+    /*
+    NOTE: COUNTER INDICATES WHICH LINE REPRESENTS WHAT KIND OF INFORMATION
+    */
     while (getline (infile, line)) {
-        // std::cout << line << std::endl;
         if (counter == 0) {
-            player1name = line;
+            player1Name = line;
         }
         else if (counter == 1) {
-            player1score = std::stoi(line);
+            player1Score = std::stoi(line);
         }
         else if (counter == 2) {
             LinkedList* player1hand = new LinkedList();
-            player1hand->StringToList(line);
-            this->player1 = new Player(player1name, player1score, player1hand);
-            std::cout << "player1 loaded." << std::endl;
+            player1hand->stringToList(line);
+
+            //Overload constructor
+            this->player1 = new Player(player1Name, player1Score, player1hand);
+            delete player1hand;
         }
         else if (counter == 3) {
-            player2name = line;
+            player2Name = line;
         }
         else if (counter == 4) {
-            player2score = std::stoi("" + line);
+            player2Score = std::stoi("" + line);
         }
         else if (counter == 5) {
             LinkedList* player2hand = new LinkedList();
-            player2hand->StringToList(line);
-            this->player2 = new Player(player2name, player2score, player2hand); 
-            std::cout << "player2 loaded." << std::endl;
+            player2hand->stringToList(line);
+            
+            //Overload constructor
+            this->player2 = new Player(player2Name, player2Score, player2hand); 
+            delete player2hand;
         }
         else if (counter == 23) {
+            
+            //Overload constructor
             this->tilebag = new TileBag(line);
-            std::cout << "tilebag loaded." << std::endl;
         }
+        //Implies rest is part of the Board
         else {
-            std::cout << "In else:" << std::endl;
-            std::cout << line << std::endl;
-            for (int i = 4; i <= 60; i+=4) {
+            //Loop through each step of the board from it's first to last position
+            //By default this is initial position 4, final position 60 and step size 4.
+            for (int i = BOARD_FIRST_POS; i <= BOARD_LAST_POS; i += BOARD_STEP_SIZE) {
                 if (line[i] != ' ') {
-                    std::string strpos = line[0] + std::to_string((i / 4) - 1);
-                    std::cout << strpos << std::endl;
+                    std::string strPos = line[0] + std::to_string((i / 4) - 1);
+                    std::cout << strPos << std::endl;
+                    
                     Tile currentTile;
                     currentTile.letter = line[i];
                     currentTile.value = 0;
                     Node* currentNode = new Node(currentTile);
+                    
                     try {
-                        board->placeTile(currentNode, strpos);
+                        board->placeTile(currentNode, strPos);
+                        delete currentNode;
                     }
+                    //Invalid tile
                     catch (std::invalid_argument& e) {
-                        std::cout << e.what() << std::endl;
+                        delete currentNode;
                     }
                 }
             }
         }
         counter++;
     }
-    board->printBoard();
-    this->endGame = false;
-    this->endTurn = false;
-    this->placeCommand = false;
+    player1->printPlayer();
+    player2->printPlayer();
+    gameLoaded = true;
 }

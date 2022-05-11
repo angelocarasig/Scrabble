@@ -13,12 +13,7 @@ Player::Player(std::string name) {
 Player::Player(std::string name, int score, LinkedList* hand) {
     this->name = name;
     this->score = score;
-    this->hand = new LinkedList();
-    
-    for (int i = 0; i < SCRABBLE_HAND; i++) {
-        Node* currentNode = new Node(*hand->get(i));
-        this->hand->addBack(currentNode);
-    }
+    this->hand = new LinkedList(*hand);
 }
 
 //Deconstructor
@@ -111,6 +106,7 @@ Node* Player::getTile(char letter) {
     replacementIndex = this->hand->search(tempTile);
 
     if (replacementIndex == -1) {
+        delete tempTile;
         throw std::invalid_argument("Tile entered does not exist in the player's hand.");
     }
     else {

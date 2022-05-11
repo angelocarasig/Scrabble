@@ -3,25 +3,17 @@
 //Constructor
 Board::Board() {
     //Initialize Board
-    this->board = {
-        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-    };
+    for (int i = 0; i < ROWS; i++) {
+        std::vector<char> tempVector;
+        for (int j = 0; j < COLS; j++) {
+            tempVector.push_back(' ');
+        }
+        this->board.push_back(tempVector);
+    }
 
     //Initialize Row values
+
+    //TODO: Autogenerate key-value pairs based on number of rows in #define
     rows['A'] = 0;
     rows['B'] = 1;
     rows['C'] = 2;
@@ -61,7 +53,6 @@ void Board::placeTile(Player* player, Node* node, std::string strPos) {
 
     //Check column
     int col = std::stoi(strPos.substr(1,-1));  
-    std::cout << "Column Entered: " << col << std::endl;  
     //NOTE: stoi merely grabs the all the number values until a letter or end of string is reached.
     std::cout << "TODO: Validate that string position has no characters for the substring [1...-1]" << std::endl;
     if (col > 14 || col < 0) {
@@ -72,29 +63,24 @@ void Board::placeTile(Player* player, Node* node, std::string strPos) {
     this->board[rows[row]][col] = node->tile.letter;
 
     //Remove tile from player
-    player->removeTile(node);
     player->increaseScore(node->tile.value);
+    player->removeTile(node);
 }
 
 // Placing tile without player interaction (for load game)
 void Board::placeTile(Node* node, std::string strPos) {
 
-    //Check Row
     char row = strPos[0];
     if (rows.find(row) == rows.end() ) {
         throw std::invalid_argument("Invalid row entered.");
     }
-
-    //Check column
-    int col = std::stoi(strPos.substr(1,-1));  
-    std::cout << "Column Entered: " << col << std::endl;  
-    //NOTE: stoi merely grabs the all the number values until a letter or end of string is reached.
     std::cout << "TODO: Validate that string position has no characters for the substring [1...-1]" << std::endl;
+    int col = std::stoi(strPos.substr(1,-1)); 
+
     if (col > 14 || col < 0) {
         throw std::invalid_argument("Invalid column entered.");
     }
 
-    //If pass, place at board and increase player's score
     this->board[rows[row]][col] = node->tile.letter;
 }
 
@@ -103,6 +89,7 @@ void Board::placeTile(Node* node, std::string strPos) {
 void Board::printBoard() {
     for (unsigned int i = 0; i < this->board.size(); i++) {
         if (i == 0) {
+
             std::cout << "    0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  " << std::endl;
             std::cout << "---------------------------------------------------------------" << std::endl;
         }
@@ -123,16 +110,11 @@ void Board::printBoard() {
         if (i == 13) {std::cout << "N | ";}
         if (i == 14) {std::cout << "O | ";}
 
-        // std::cout << "Reached here." << std::endl;
-
         for (unsigned int j = 0; j < this->board[i].size(); j++) {
-            // std::cout << "Entered." << std::endl;
             std::cout << this->board[i][j];
-
             std::cout << " | ";
         }
         std::cout << std::endl;
-        
     }
 }
 
