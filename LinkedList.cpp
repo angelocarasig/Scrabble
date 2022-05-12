@@ -308,7 +308,6 @@ void LinkedList::stringToList(std::string line) {
             //To accomodate for 2-digit values, use substring 
             //(i.e: "Z-10" if accessing only 1st index, will assume Z has value 1)
             std::string valueString = currentString.substr(2, -1);
-            std::cout <<"currentString: " << currentString << std::endl;
             Tile currentTile;
             currentTile.letter = currentString[0];
             currentTile.value = std::stoi(valueString);

@@ -16,8 +16,17 @@ See `Class.md` for a rundown on how each file works
     - Added board, player and game files
     - Added unit testing various .cpp files in Test folder
     - Now working on scrabble.cpp -> New game read command and validate input length finished
+    - Game save function added
+    - Game load function also added
+    - expanded board size to 15
+    - reformatted board print functions to loops
+    - added game bingo function
+    - added game checkgameconditions to check if a player has won
 
 ***
+
+## Checklist:
+    - 
 
 ## Memory leakage:
 - ~~Tile~~
@@ -52,8 +61,8 @@ See `Class.md` for a rundown on how each file works
 ### Game:
 - ~~validate game moves~~
 - ~~save game to .txt~~
-- read game.txt to actual Game obj
-- BINGO Requirement (placing all 7 tiles prints bingo)
-- Check at end of player turn if they won
+- ~~read game.txt to actual Game obj~~
+- ~~BINGO Requirement (placing all 7 tiles prints bingo)~~
+- ~~Check at end of player turn if they won~~
 
-- Finish assignment
+- Finish assignment ?? FINISHED??

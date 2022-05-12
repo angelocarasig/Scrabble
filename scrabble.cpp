@@ -25,7 +25,7 @@ int main() {
    printMenu();
 
    while (EndGame == false) {
-      
+      std::cout << "> ";
       getline(std::cin, UserInput);
       // New Game
       if (UserInput == "1") {
@@ -57,7 +57,6 @@ int main() {
 
 // Prints the main menu
 void printMenu(void) {  
-   std::cout << std::endl;
    std::cout << "Menu" << std::endl;
    std::cout << "---" << std::endl;
    std::cout << "1. New Game" << std::endl;
@@ -128,8 +127,8 @@ void newGame() {
 // Loads the game using a users file
 void loadGame() {
    std::string fileName;
-   std::cout << "Loading game..." << std::endl;
-   std::cout << "Enter filename of the save file: ";
+   std::cout << "Enter the filename from which load a game: " << std::endl;
+   std::cout << "> ";
    // Gets the file name from input (relative path)
    getline(std::cin, fileName);
    // Creates a game object on the heap using file name as input

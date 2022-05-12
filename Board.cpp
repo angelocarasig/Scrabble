@@ -29,9 +29,7 @@ Board::~Board() {
 //@param node Node to place. 
 //@param strPos will split the row and column within the function.
 void Board::placeTile(Player* player, Node* node, std::string strPos) {
-
-    //TODO: Need player to be passed in to evaluate score
-
+    
     //Guard
 
     //Check Row

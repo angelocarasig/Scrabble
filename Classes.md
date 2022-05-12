@@ -44,7 +44,7 @@ This is realistically also the only code example I will bother showing here, the
 ## Player.cpp
 - Player class takes in @param `name` which sets the player's name (restricted to all-caps due to the game)
 - Constructor uses @param `name` to generate player's name, as well as set's the initial score to 0 and an empty `hand`
-- When a game starts, Player objects are created and call `fillHand()`, which fills up player's hand from @param `TileBag`, taking the front-most tile from the TileBag until they possess a `hand` of length 7 (TODO: Prob need an explicit define for this)
+- When a game starts, Player objects are created and call `fillHand()`, which fills up player's hand from @param `TileBag`, taking the front-most tile from the TileBag until they possess a `hand` of length 7
 - As such, whenever a player places/replaces a tile the respective function is called which interacts with `TileBag` and `Board`
 
 ## Board.cpp

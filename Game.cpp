@@ -122,7 +122,8 @@ void Game::getTurn(Player* player) {
             parseInput(player, input);
         }
         catch (std::invalid_argument& e) {
-            std::cout << e.what() << std::endl;
+            // std::cout << e.what() << std::endl;
+            std::cout << "Invalid Input" << std::endl;
         }
     }
 }
@@ -430,7 +431,7 @@ void Game::loadGame(std::string fileName) {
             for (int i = BOARD_FIRST_POS; i <= BOARD_LAST_POS; i += BOARD_STEP_SIZE) {
                 if (line[i] != ' ') {
                     std::string strPos = line[0] + std::to_string((i / 4) - 1);
-                    std::cout << strPos << std::endl;
+                    // std::cout << strPos << std::endl;
                     
                     Tile currentTile;
                     currentTile.letter = line[i];
@@ -450,7 +451,7 @@ void Game::loadGame(std::string fileName) {
         }
         counter++;
     }
-    player1->printPlayer();
-    player2->printPlayer();
+    this->board->printBoard();
     gameLoaded = true;
+    std::cout << "Scrabble game successfully loaded" << std::endl;
 }
