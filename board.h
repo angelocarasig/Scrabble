@@ -4,9 +4,11 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <algorithm>
+#include <map>
+
 #include "Node.h"
 #include "Player.h"
-#include <map>
 
 #define ROWS 15
 #define COLS 15
