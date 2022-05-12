@@ -41,14 +41,22 @@ void Board::placeTile(Player* player, Node* node, std::string strPos) {
     }
 
     //Check column
-    int col = std::stoi(strPos.substr(1,-1));  
-    //NOTE: stoi merely grabs the all the number values until a letter or end of string is reached.
-    std::cout << "TODO: Validate that string position has no characters for the substring [1...-1]" << std::endl;
+
+    std::string colString = strPos.substr(1, -1);
+    if (std::any_of(std::begin(colString), std::end(colString), ::isalpha)) {
+            throw std::invalid_argument("Invalid column entered");         //Letter inside
+        }
+
+    int col = std::stoi(colString);
+
     if (col > 14 || col < 0) {
-        throw std::invalid_argument("Invalid column entered.");
-    }
+            throw std::invalid_argument("Invalid column entered.");
+        }
 
     //If pass, place at board and increase player's score
+    if (this->board[rows[row]][col] != ' ') {
+        throw std::invalid_argument("You can't place a tile that is already filled in!");
+    }
     this->board[rows[row]][col] = node->tile.letter;
 
     //Remove tile from player
@@ -63,13 +71,21 @@ void Board::placeTile(Node* node, std::string strPos) {
     if (rows.find(row) == rows.end() ) {
         throw std::invalid_argument("Invalid row entered.");
     }
-    std::cout << "TODO: Validate that string position has no characters for the substring [1...-1]" << std::endl;
-    int col = std::stoi(strPos.substr(1,-1)); 
+
+    std::string colString = strPos.substr(1, -1);
+    if (std::any_of(std::begin(colString), std::end(colString), ::isalpha)) {
+            throw std::invalid_argument("Invalid column entered");         //Letter inside
+        }
+
+    int col = std::stoi(colString);
 
     if (col > 14 || col < 0) {
-        throw std::invalid_argument("Invalid column entered.");
-    }
+            throw std::invalid_argument("Invalid column entered.");
+        }
 
+    if (this->board[rows[row]][col] != ' ') {
+        throw std::invalid_argument("You can't place a tile that is already filled in!");
+    }
     this->board[rows[row]][col] = node->tile.letter;
 }
 
