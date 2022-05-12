@@ -14,6 +14,7 @@ Player::Player(std::string name, int score, LinkedList* hand) {
     this->name = name;
     this->score = score;
     this->hand = new LinkedList(*hand);
+    this->passCount = 0;
 }
 
 //Deconstructor
