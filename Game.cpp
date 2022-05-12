@@ -17,7 +17,7 @@ Game::Game(std::string player1, std::string player2) {
     this->player1->fillHand(tilebag);
     this->player2->fillHand(tilebag);
     //Comment out when not needed
-    tilebag->clearBag();
+    // tilebag->clearBag();
 }
 
 //Load Game Constructor
@@ -91,9 +91,11 @@ void Game::playGame() {
         try {
             printScore(player1);
             getTurn(player1);
-            
+            checkGameStatus();
+
             printScore(player2);
             getTurn(player2);
+            checkGameStatus();
         }
         catch (std::exception& e) {
             // std::cout << "Ending game..." << std::endl;
@@ -175,7 +177,7 @@ void Game::parseInput(Player* player, std::string input) {
         }
 
         //Lose conditions
-        if (this->tilebag->isEmpty() == true) {
+        if (this->tilebag->isEmpty()) {
             player->incrementPassCount();
             std::cout << "Warning!" << std::endl;
             std::cout << "Passes available left before losing: " << (2 - player->getPassCount()) << std::endl;
@@ -386,11 +388,11 @@ void Game::loadGame(std::string fileName) {
     
     //Initialize what needs to be initalized
     this->board = new Board();
-    board->printBoard();
+
     this->endGame = false;
     this->endTurn = false;
     this->placeCommand = false;
-    
+    bool initializedTB = false;
     int counter = 0;
     /*
     NOTE: COUNTER INDICATES WHICH LINE REPRESENTS WHAT KIND OF INFORMATION
@@ -428,6 +430,7 @@ void Game::loadGame(std::string fileName) {
             
             //Overload constructor
             this->tilebag = new TileBag(line);
+            initializedTB = true;
         }
         //Implies rest is part of the Board
         else {
@@ -456,7 +459,11 @@ void Game::loadGame(std::string fileName) {
         }
         counter++;
     }
-    this->board->printBoard();
+    //If tilebag is empty
+    if (!initializedTB) {
+        // std::cout << "creating tilebag"
+        this->tilebag = new TileBag("");
+    }
     gameLoaded = true;
     std::cout << "Scrabble game successfully loaded" << std::endl;
 }
