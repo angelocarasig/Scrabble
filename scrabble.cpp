@@ -30,12 +30,12 @@ int main() {
       // New Game
       if (UserInput == "1") {
          newGame();
-         printMenu();
+         EndGame = true;
       }
       // Load Game
       else if (UserInput == "2") {
          loadGame();
-         printMenu();
+         EndGame = true;
       }
       // Credits (Show student information)
       else if (UserInput == "3") {
@@ -44,7 +44,6 @@ int main() {
       }
       // Quit
       else if (UserInput == "4") {
-         std::cout << "\nGoodbye" << std::endl;
          EndGame = true;
       }
       // Invalid Input
@@ -52,6 +51,8 @@ int main() {
          std::cout << "Invalid Input, Please Enter A Number Between 1 And 4" << std::endl;
       }
    }
+
+   std::cout << "Goodbye" << std::endl;
    return EXIT_SUCCESS;
 }
 

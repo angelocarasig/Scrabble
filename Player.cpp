@@ -62,7 +62,6 @@ void Player::printHand() {
 //Initialize player's hand
 void Player::fillHand(TileBag* tb) {
     for (int i = this->hand->size() ; i < SCRABBLE_HAND ; ++i) {
-        
         if (!tb->isEmpty()) {
             Node* tile = tb->getTile();
             this->hand->addBack(tile);

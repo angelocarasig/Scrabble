@@ -56,13 +56,11 @@ Node* TileBag::getTile() {
 
 bool TileBag::isEmpty() {
     bool isEmpty = false;
-    if (this->tileBag->size() < 0) {
-        throw std::out_of_range("Tilebag has less than 0 tiles.");
-    }
 
     if (this->tileBag->size() == 0) {
         isEmpty = true;
     }
+
     return isEmpty;
 }
 
