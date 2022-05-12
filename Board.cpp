@@ -3,6 +3,7 @@
 //Constructor
 Board::Board() {
     //Initialize Board
+
     for (int i = 0; i < ROWS; i++) {
         std::vector<char> tempVector;
         for (int j = 0; j < COLS; j++) {
@@ -29,7 +30,7 @@ Board::~Board() {
 //@param node Node to place. 
 //@param strPos will split the row and column within the function.
 void Board::placeTile(Player* player, Node* node, std::string strPos) {
-    
+
     //Guard
 
     //Check Row
@@ -94,7 +95,7 @@ void Board::printBoard() {
     std::string topString = "    ";
     std::string bottomString = "----";
     // Displays the top of the table based on the size of the board
-    for(unsigned int i = 0; i < this->board[i].size(); i++){
+    for(unsigned int i = 0; i < COLS; i++){
         std::string iString = std::to_string(i);
         // This checks the number of digits and adjusts the formatting accordingly
         if(i < 10){
@@ -119,7 +120,7 @@ void Board::printBoard() {
     std::cout << bottomString << std::endl;
 
     char baseLetter = 'A';
-    for (unsigned int i = 0; i < this->board.size(); i++) {
+    for (unsigned int i = 0; i < ROWS; i++) {
         char curLetter = baseLetter + i;
         // Prints the char of the corresponding row
         std::cout << curLetter << " | ";

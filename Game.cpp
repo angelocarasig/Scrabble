@@ -20,7 +20,7 @@ Game::Game(std::string player1, std::string player2) {
     tilebag->clearBag();
 }
 
-//Load Game Constructor.
+//Load Game Constructor
 //Overloads default constructor
 Game::Game(std::string fileName) {
     std::string nameOfFile = fileName;
@@ -194,6 +194,10 @@ void Game::parseInput(Player* player, std::string input) {
         throw std::exception();
     }
 
+    else if (words[0] == "save") {
+        //Do nothing rn, just skips else statement
+    }
+
     //Invalid Arguement
     else {
         throw std::invalid_argument("Invalid argument in input.");
@@ -360,7 +364,7 @@ void Game::loadGame(std::string fileName) {
 
     IT IS ASSUMED THAT THE CONTENTS OF WHATEVER SAVE FILE TO BE LOADED INTO THE GAME IS UNTAMPERED WITH.
     AS OF RIGHT NOW THERE IS CURRENTLY NO ACTIONS IN PLACE TAKEN THAT AIM TO CHECK THAT A SAVEGAME IS VALID.
-
+    IT IS ALSO ASSUMED THAT WHEN THE GAME IS LOADED, IT IS CURRENTLY PLAYER 1's TURN
     */
 
     std::string line;
@@ -382,6 +386,7 @@ void Game::loadGame(std::string fileName) {
     
     //Initialize what needs to be initalized
     this->board = new Board();
+    board->printBoard();
     this->endGame = false;
     this->endTurn = false;
     this->placeCommand = false;
