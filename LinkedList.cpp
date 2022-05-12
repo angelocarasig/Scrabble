@@ -1,6 +1,4 @@
 #include "LinkedList.h"
-#include <iostream>
-#include <time.h>
 
 //Constructor
 LinkedList::LinkedList() {

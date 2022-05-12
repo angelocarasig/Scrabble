@@ -22,6 +22,9 @@ public:
     void printBag();
     LinkedList* getTileBag();
 
+    void clearBag();
+    void addAt(Node* node, int index);
+
 private:
     // Should not be called by other classes.
     void shuffle(LinkedList* nodeList);

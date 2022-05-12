@@ -3,6 +3,8 @@
 
 #include <string>
 #include <iostream>
+#include <time.h> //Used in placing tile randomly in tilebag
+
 #include "LinkedList.h"
 #include "TileBag.h"
 
