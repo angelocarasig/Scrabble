@@ -196,6 +196,11 @@ void Game::parseInput(Player* player, std::string input) {
         throw std::exception();
     }
 
+    else if (words[0] == "save") {
+        //Do nothing rn, just skips else statement
+    }
+
+    //Invalid Arguement
     else {
         throw std::invalid_argument("Invalid argument in input.");
     }
