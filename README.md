@@ -71,8 +71,8 @@ See `Class.md` for a rundown on how each file works
 - ~~File hierarchy~~ Probs not necessary
 - ~~Error handling~~ Most are handled 
 - ~~Check for memory leaks~~
-- Save current player's turn at the end of the file
-- Reading file loads from the given player's turn
+- ~~Save current player's turn at the end of the file~~
+- ~~Reading file loads from the given player's turn~~
 
 ***
 
