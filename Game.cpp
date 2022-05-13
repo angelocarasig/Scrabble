@@ -85,17 +85,23 @@ void Game::printGameResults() {
 }
 
 //Main game operation.
-//Turn based loop (always starts with player 1).
+//Turn based loop.
 //Ends when a player quits or the game ends.
-void Game::playGame() {
+void Game::playGame(int startingPlayer) {
     while (!endGame) {
         try {
-            printScore(player1);
-            getTurn(player1);
-            checkGameStatus();
-
-            printScore(player2);
-            getTurn(player2);
+            if (startingPlayer == 2){
+                printScore(player2);
+                getTurn(player2);
+                printScore(player1);
+                getTurn(player1);
+            }
+            else{
+                printScore(player1);
+                getTurn(player1);
+                printScore(player2);
+                getTurn(player2);
+            }
             checkGameStatus();
         }
         catch (std::exception& e) {
@@ -400,7 +406,7 @@ void Game::loadGame(std::string fileName) {
             this->player2 = new Player(player2Name, player2Score, player2hand); 
             delete player2hand;
         }
-        else if (counter == 23) {
+        else if (counter == 8+COLS) {
             
             //Overload constructor
             this->tilebag = new TileBag(line);
@@ -410,7 +416,7 @@ void Game::loadGame(std::string fileName) {
         else {
             //Loop through each step of the board from it's first to last position
             //By default this is initial position 4, final position 60 and step size 4.
-            for (int i = BOARD_FIRST_POS; i <= BOARD_LAST_POS; i += BOARD_STEP_SIZE) {
+            for (int i = BOARD_FIRST_POS; i <= (BOARD_STEP_SIZE*COLS); i += BOARD_STEP_SIZE) {
                 if (line[i] != ' ') {
                     std::string strPos = line[0] + std::to_string((i / 4) - 1);
                     // std::cout << strPos << std::endl;
