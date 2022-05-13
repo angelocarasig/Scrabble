@@ -160,7 +160,7 @@ void Game::parseInput(Player* player, std::string input) {
         throw std::exception();
     }
 
-    //Invalid Arguement
+    //Invalid Argument
     else {
         throw std::invalid_argument("Invalid argument in input.");
     }
