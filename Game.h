@@ -55,6 +55,7 @@ private:
     bool        endTurn;
     bool        placeCommand;
     bool        gameLoaded;
+    bool        gameFinished;
     int         bingoCounter;
 };
 

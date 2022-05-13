@@ -12,6 +12,7 @@ Game::Game(std::string player1, std::string player2) {
     this->endGame = false;
     this->endTurn = false;
     this->placeCommand = false;
+    this->gameFinished = false;
     this->bingoCounter = 0;
 
     this->player1->fillHand(tilebag);
@@ -98,8 +99,9 @@ void Game::playGame() {
             checkGameStatus();
         }
         catch (std::exception& e) {
-            // std::cout << "Ending game..." << std::endl;
-            printGameResults();
+            if (gameFinished) {printGameResults();}
+            else {std::cout << "Ending game..." << std::endl;}
+            
             this->endGame = true;
             std::cout << std::endl;
         }
@@ -186,6 +188,7 @@ void Game::parseInput(Player* player, std::string input) {
         if (player->getPassCount() == 2) {
             std::cout << "!!!" << std::endl;
             this->endGame = true;
+            this->gameFinished = true;
             throw std::exception();
         }
     }
@@ -228,7 +231,7 @@ void Game::placeTurn(Player* player, std::vector<std::string> words) {
         this->placeCommand = false;
         player->fillHand(tilebag);
         player->resetPassCount();
-        checkGameStatus();
+        //checkGameStatus();
         this->bingoCounter = 0;
     }
     else if (words.size() != 4 && placeCommand == true) {
@@ -274,6 +277,7 @@ void Game::replaceTurn(Player* player, std::vector<std::string> words) {
 void Game::checkGameStatus() {
     if (this->player1->getHand()->size() == 0 || this->player2->getHand()->size() == 0) {
         this->endGame = true;
+        this->gameFinished = true;
         throw std::exception();
     }
 }
