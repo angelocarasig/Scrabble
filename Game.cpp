@@ -400,7 +400,7 @@ void Game::loadGame(std::string fileName) {
             this->player2 = new Player(player2Name, player2Score, player2hand); 
             delete player2hand;
         }
-        else if (counter == 23) {
+        else if (counter == 8+COLS) {
             
             //Overload constructor
             this->tilebag = new TileBag(line);
