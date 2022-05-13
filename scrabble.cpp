@@ -120,7 +120,7 @@ void newGame() {
    std::cout << "Let's Play!" << std::endl;
    // Creates a new game object on the heap
    Game* game = new Game(player1, player2);
-   game->playGame();
+   game->playGame(1);
    // Cleanup
    delete game;
 }
@@ -134,7 +134,7 @@ void loadGame() {
    getline(std::cin, fileName);
    // Creates a game object on the heap using file name as input
    Game* game = new Game(fileName);
-   game->playGame();
+   game->playGame(1);
    // Cleanup
    delete game;
 }

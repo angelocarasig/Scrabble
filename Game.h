@@ -26,7 +26,7 @@ public:
 
     //Main Function
 
-    void playGame();
+    void playGame(int startingPlayer);
 
 private:
     //These functions should only be internally called
