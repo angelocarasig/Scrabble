@@ -26,7 +26,7 @@ public:
 
     //Main Function
 
-    void playGame(int startingPlayer);
+    void playGame();
 
 private:
     //These functions should only be internally called
@@ -50,6 +50,7 @@ private:
     Player*     player2;
     TileBag*    tilebag;
     Board*      board;
+    int         curTurn;
     bool        endGame;
     bool        endTurn;
     bool        placeCommand;

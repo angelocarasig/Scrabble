@@ -14,6 +14,7 @@ Game::Game(std::string player1, std::string player2) {
     this->placeCommand = false;
     this->gameFinished = false;
     this->bingoCounter = 0;
+    this->curTurn = 1;
 
     this->player1->fillHand(tilebag);
     this->player2->fillHand(tilebag);
@@ -87,21 +88,19 @@ void Game::printGameResults() {
 //Main game operation.
 //Turn based loop.
 //Ends when a player quits or the game ends.
-void Game::playGame(int startingPlayer) {
+void Game::playGame() {
+    if (this->curTurn == 2){
+        printScore(player2);
+        getTurn(player2);
+    }
     while (!endGame) {
         try {
-            if (startingPlayer == 2){
-                printScore(player2);
-                getTurn(player2);
-                printScore(player1);
-                getTurn(player1);
-            }
-            else{
-                printScore(player1);
-                getTurn(player1);
-                printScore(player2);
-                getTurn(player2);
-            }
+            this->curTurn = 1;
+            printScore(player1);
+            getTurn(player1);
+            this->curTurn = 2;
+            printScore(player2);
+            getTurn(player2);
             checkGameStatus();
         }
         catch (std::exception& e) {
@@ -335,6 +334,13 @@ void Game::saveGame(std::vector<std::string> words) {
             saveGame << ", ";
         }
     }
+    if(this->curTurn == 1){
+        saveGame << player1->getName() << std::endl;
+    }
+    else if(this->curTurn == 2){
+        saveGame << player2->getName() << std::endl;
+    }
+    
 }
 
 //If user selected loadgame in menu, this function is used to load game elements into play
@@ -411,6 +417,14 @@ void Game::loadGame(std::string fileName) {
             //Overload constructor
             this->tilebag = new TileBag(line);
             initializedTB = true;
+        }
+        else if (counter == 9+COLS) {
+            if (line.compare(player2->getName()) == 0){
+                this->curTurn = 2;
+            }
+            else{
+                this->curTurn = 1;
+            }
         }
         //Implies rest is part of the Board
         else {
