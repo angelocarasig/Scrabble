@@ -85,7 +85,7 @@ void Game::printGameResults() {
 }
 
 //Main game operation.
-//Turn based loop (always starts with player 1).
+//Turn based loop.
 //Ends when a player quits or the game ends.
 void Game::playGame(int startingPlayer) {
     while (!endGame) {
@@ -93,10 +93,14 @@ void Game::playGame(int startingPlayer) {
             if (startingPlayer == 2){
                 printScore(player2);
                 getTurn(player2);
+                printScore(player1);
+                getTurn(player1);
             }
             else{
                 printScore(player1);
                 getTurn(player1);
+                printScore(player2);
+                getTurn(player2);
             }
             checkGameStatus();
         }
