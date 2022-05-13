@@ -14,7 +14,6 @@
 //These #defines are used mainly in loading a game
 #define BOARD_FIRST_POS     4
 #define BOARD_STEP_SIZE     4
-#define BOARD_LAST_POS      60
 
 class Game {
 public:

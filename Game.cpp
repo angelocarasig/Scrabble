@@ -410,7 +410,7 @@ void Game::loadGame(std::string fileName) {
         else {
             //Loop through each step of the board from it's first to last position
             //By default this is initial position 4, final position 60 and step size 4.
-            for (int i = BOARD_FIRST_POS; i <= BOARD_LAST_POS; i += BOARD_STEP_SIZE) {
+            for (int i = BOARD_FIRST_POS; i <= (BOARD_STEP_SIZE*COLS); i += BOARD_STEP_SIZE) {
                 if (line[i] != ' ') {
                     std::string strPos = line[0] + std::to_string((i / 4) - 1);
                     // std::cout << strPos << std::endl;
