@@ -22,6 +22,8 @@ See `Class.md` for a rundown on how each file works
     - reformatted board print functions to loops
     - added game bingo function
     - added game checkgameconditions to check if a player has won
+    - Code now saves current player's turn at the end of the file
+    - Reading file now loads from the given player's turn
 
 ***
 
