@@ -3,6 +3,7 @@
 //Constructor
 Board::Board() {
     //Initialize Board
+
     for (int i = 0; i < ROWS; i++) {
         std::vector<char> tempVector;
         for (int j = 0; j < COLS; j++) {
@@ -30,8 +31,6 @@ Board::~Board() {
 //@param strPos will split the row and column within the function.
 void Board::placeTile(Player* player, Node* node, std::string strPos) {
 
-    //TODO: Need player to be passed in to evaluate score
-
     //Guard
 
     //Check Row
@@ -41,14 +40,22 @@ void Board::placeTile(Player* player, Node* node, std::string strPos) {
     }
 
     //Check column
-    int col = std::stoi(strPos.substr(1,-1));  
-    //NOTE: stoi merely grabs the all the number values until a letter or end of string is reached.
-    std::cout << "TODO: Validate that string position has no characters for the substring [1...-1]" << std::endl;
+
+    std::string colString = strPos.substr(1, -1);
+    if (std::any_of(std::begin(colString), std::end(colString), ::isalpha)) {
+            throw std::invalid_argument("Invalid column entered");         //Letter inside
+        }
+
+    int col = std::stoi(colString);
+
     if (col > 14 || col < 0) {
-        throw std::invalid_argument("Invalid column entered.");
-    }
+            throw std::invalid_argument("Invalid column entered.");
+        }
 
     //If pass, place at board and increase player's score
+    if (this->board[rows[row]][col] != ' ') {
+        throw std::invalid_argument("You can't place a tile that is already filled in!");
+    }
     this->board[rows[row]][col] = node->tile.letter;
 
     //Remove tile from player
@@ -63,13 +70,21 @@ void Board::placeTile(Node* node, std::string strPos) {
     if (rows.find(row) == rows.end() ) {
         throw std::invalid_argument("Invalid row entered.");
     }
-    std::cout << "TODO: Validate that string position has no characters for the substring [1...-1]" << std::endl;
-    int col = std::stoi(strPos.substr(1,-1)); 
+
+    std::string colString = strPos.substr(1, -1);
+    if (std::any_of(std::begin(colString), std::end(colString), ::isalpha)) {
+            throw std::invalid_argument("Invalid column entered");         //Letter inside
+        }
+
+    int col = std::stoi(colString);
 
     if (col > 14 || col < 0) {
-        throw std::invalid_argument("Invalid column entered.");
-    }
+            throw std::invalid_argument("Invalid column entered.");
+        }
 
+    if (this->board[rows[row]][col] != ' ') {
+        throw std::invalid_argument("You can't place a tile that is already filled in!");
+    }
     this->board[rows[row]][col] = node->tile.letter;
 }
 
@@ -80,7 +95,7 @@ void Board::printBoard() {
     std::string topString = "    ";
     std::string bottomString = "----";
     // Displays the top of the table based on the size of the board
-    for(unsigned int i = 0; i < this->board[i].size(); i++){
+    for(unsigned int i = 0; i < COLS; i++){
         std::string iString = std::to_string(i);
         // This checks the number of digits and adjusts the formatting accordingly
         if(i < 10){
@@ -105,7 +120,7 @@ void Board::printBoard() {
     std::cout << bottomString << std::endl;
 
     char baseLetter = 'A';
-    for (unsigned int i = 0; i < this->board.size(); i++) {
+    for (unsigned int i = 0; i < ROWS; i++) {
         char curLetter = baseLetter + i;
         // Prints the char of the corresponding row
         std::cout << curLetter << " | ";
