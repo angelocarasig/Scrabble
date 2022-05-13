@@ -25,7 +25,7 @@ public:
     
     void placeTile(Node* node, std::string position);
     void placeTile(Player* player, Node* node, std::string position);
-    void printBoard();
+    std::string getBoardString();
     std::vector<std::vector<char>> getBoard();
 
 private:

@@ -59,7 +59,7 @@ void Game::printScore(Player* player) {
     std::cout << "Score for " << this->player1->getName() << ": " << player1->getScore() << std::endl;
     std::cout << "Score for " << this->player2->getName() << ": " << player2->getScore() << std::endl;
 
-    board->printBoard();
+    std::cout << board->getBoardString();
 
     std::cout << std::endl;
 
@@ -311,39 +311,8 @@ void Game::saveGame(std::vector<std::string> words) {
     }
 
     //Get Board state
-    for (unsigned int i = 0; i < board->getBoard().size(); i++) {
-        if (i == 0) {
-            saveGame << "    0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  " << std::endl;
-            saveGame << "---------------------------------------------------------------" << std::endl;
-        }
-
-        if (i == 0) {saveGame << "A | ";}
-        if (i == 1) {saveGame << "B | ";}
-        if (i == 2) {saveGame << "C | ";}
-        if (i == 3) {saveGame << "D | ";}
-        if (i == 4) {saveGame << "E | ";}
-        if (i == 5) {saveGame << "F | ";}
-        if (i == 6) {saveGame << "G | ";}
-        if (i == 7) {saveGame << "H | ";}
-        if (i == 8) {saveGame << "I | ";}
-        if (i == 9) {saveGame << "J | ";}
-        if (i == 10) {saveGame << "K | ";}
-        if (i == 11) {saveGame << "L | ";}
-        if (i == 12) {saveGame << "M | ";}
-        if (i == 13) {saveGame << "N | ";}
-        if (i == 14) {saveGame << "O | ";}
-
-        // saveGame << "Reached here." << std::endl;
-
-        for (unsigned int j = 0; j < board->getBoard().size(); j++) {
-            // saveGame << "Entered." << std::endl;
-            saveGame << board->getBoard()[i][j];
-
-            saveGame << " | ";
-        }
-        saveGame << std::endl;
-        
-    }
+    saveGame << board->getBoardString();
+    
 
     //Get TileBag state
     LinkedList* tb = tilebag->getTileBag();

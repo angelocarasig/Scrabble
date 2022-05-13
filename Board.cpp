@@ -88,13 +88,13 @@ void Board::placeTile(Node* node, std::string strPos) {
     this->board[rows[row]][col] = node->tile.letter;
 }
 
-//Print Function.
-//Prints according to assignment specification.
-void Board::printBoard() {
 
+//Gets the state of the board
+std::string Board::getBoardString(){
+    std::string finalString = "";
     std::string topString = "    ";
     std::string bottomString = "----";
-    // Displays the top of the table based on the size of the board
+    // Generates the top of the table based on the size of the board
     for(unsigned int i = 0; i < COLS; i++){
         std::string iString = std::to_string(i);
         // This checks the number of digits and adjusts the formatting accordingly
@@ -115,22 +115,24 @@ void Board::printBoard() {
     // Trims off the end
     topString.pop_back();
     bottomString.pop_back();
-    // Outputs the top of table
-    std::cout << topString << std::endl;
-    std::cout << bottomString << std::endl;
+    // Puts together the top of table
+    finalString += topString + "\n";
+    finalString += bottomString + "\n";
 
     char baseLetter = 'A';
     for (unsigned int i = 0; i < ROWS; i++) {
         char curLetter = baseLetter + i;
-        // Prints the char of the corresponding row
-        std::cout << curLetter << " | ";
-        // Prints the rest of the row based on the size of the board
+        // Generates the char of the corresponding row
+        finalString.push_back(curLetter);
+        finalString += " | ";
+        // Generates the rest of the row based on the size of the board
         for (unsigned int j = 0; j < this->board[i].size(); j++) {
-            std::cout << this->board[i][j];
-            std::cout << " | ";
+            finalString += this->board[i][j];
+            finalString += " | ";
         }
-        std::cout << std::endl;
+        finalString += "\n";
     }
+    return finalString;
 }
 
 std::vector<std::vector<char>> Board::getBoard() {
