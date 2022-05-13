@@ -1,5 +1,4 @@
 #include "Player.h"
-#include "TileBag.h"
 
 //Constructor.
 //Player's hand is initially empty. Should call fillHand() once game starts.
@@ -7,6 +6,7 @@ Player::Player(std::string name) {
     this->name = name;
     this->score = 0;
     this->hand = new LinkedList();
+    this->passCount = 0;
 }
 
 //Overload constructor
@@ -14,6 +14,7 @@ Player::Player(std::string name, int score, LinkedList* hand) {
     this->name = name;
     this->score = score;
     this->hand = new LinkedList(*hand);
+    this->passCount = 0;
 }
 
 //Deconstructor
@@ -61,9 +62,11 @@ void Player::printHand() {
 
 //Initialize player's hand
 void Player::fillHand(TileBag* tb) {
-    while (this->hand->size() < SCRABBLE_HAND) {
-        Node* tile = tb->getTile();
-        this->hand->addBack(tile);
+    for (int i = this->hand->size() ; i < SCRABBLE_HAND ; ++i) {
+        if (!tb->isEmpty()) {
+            Node* tile = tb->getTile();
+            this->hand->addBack(tile);
+        }
     }
 }
 
@@ -85,12 +88,18 @@ void Player::replaceTile(TileBag* tb, char letter) {
 
     delete tempTile;
 
-    //Delete from hand
-    this->hand->deleteAt(replacementIndex);
-
-    //Get new tile and put in original index
+    //Will throw an error here if the tilbag is empty.
     Node* newTile = tb->getTile();
+    Node* oldTile = new Node(*getTile(letter));
+
+    this->hand->deleteAt(replacementIndex);
     this->hand->addAt(newTile, replacementIndex);
+
+    //Place tile in tilebag.
+    //Assuming that it should be placed in a random location:
+    srand(time(NULL));
+    int randomVal = rand() % (tb->getTileBag()->size());
+    tb->addAt(oldTile, randomVal);
 }
 
 Node* Player::getTile(char letter) {
@@ -129,4 +138,18 @@ void Player::removeTile(Node* node) {
 
     //Delete from hand
     this->hand->deleteAt(replacementIndex);
+}
+
+// Return the number of times the player has passed
+int Player::getPassCount() {
+    return this->passCount;
+}
+
+// Increment the pass count
+void Player::incrementPassCount() {
+    this->passCount += 1;
+}
+// Reset the pass count
+void Player::resetPassCount() {
+    this->passCount = 0;
 }

@@ -12,12 +12,15 @@ Game::Game(std::string player1, std::string player2) {
     this->endGame = false;
     this->endTurn = false;
     this->placeCommand = false;
+    this->bingoCounter = 0;
 
     this->player1->fillHand(tilebag);
     this->player2->fillHand(tilebag);
+    //Comment out when not needed
+    // tilebag->clearBag();
 }
 
-//Load Game Constructor.
+//Load Game Constructor
 //Overloads default constructor
 Game::Game(std::string fileName) {
     std::string nameOfFile = fileName;
@@ -64,6 +67,22 @@ void Game::printScore(Player* player) {
     player->printHand();
 }
 
+void Game::printGameResults() {
+    std::cout << "\nGame Over" << std::endl;
+    std::cout << "Score for " << this->player1->getName() << ": " << this->player1->getScore() << std::endl;
+    std::cout << "Score for " << this->player2->getName() << ": " << this->player2->getScore() << std::endl;
+
+    if (this->player1->getScore() > this->player2->getScore()) {
+        std::cout << "Player " << this->player1->getName() << " won!" << std::endl;
+    }
+    else if (this->player1->getScore() < this->player2->getScore()) {
+        std::cout << "Player " << this->player2->getName() << " won!" << std::endl;
+    }
+    else {
+        std::cout << "Draw!" << std::endl;
+    }
+}
+
 //Main game operation.
 //Turn based loop (always starts with player 1).
 //Ends when a player quits or the game ends.
@@ -72,15 +91,21 @@ void Game::playGame() {
         try {
             printScore(player1);
             getTurn(player1);
-            
+            checkGameStatus();
+
             printScore(player2);
             getTurn(player2);
+            checkGameStatus();
         }
         catch (std::exception& e) {
-            std::cout << "Ending game..." << std::endl;
+            // std::cout << "Ending game..." << std::endl;
+            printGameResults();
             this->endGame = true;
             std::cout << std::endl;
         }
+        // catch (int e) {
+            //Should throw same exception as quit
+        // }
     }
 }
 
@@ -99,7 +124,8 @@ void Game::getTurn(Player* player) {
             parseInput(player, input);
         }
         catch (std::invalid_argument& e) {
-            std::cout << e.what() << std::endl;
+            // std::cout << e.what() << std::endl;
+            std::cout << "Invalid Input" << std::endl;
         }
     }
 }
@@ -122,6 +148,9 @@ void Game::parseInput(Player* player, std::string input) {
 
     //Place Command
     if (words[0] == "place") {
+        if (!placeCommand) {
+            this->bingoCounter = 0;
+        }
         this->placeCommand = true;
         placeTurn(player, words);
         
@@ -146,12 +175,19 @@ void Game::parseInput(Player* player, std::string input) {
         if (words.size() != 1) {
             throw std::invalid_argument("Invalid number of arguments");
         }
-        //Continues with rest of code as they are just else ifs
-    }
 
-    //Save Game Command
-    else if (words[0] == "save") {
-        //Do nothing for now
+        //Lose conditions
+        if (this->tilebag->isEmpty()) {
+            player->incrementPassCount();
+            std::cout << "Warning!" << std::endl;
+            std::cout << "Passes available left before losing: " << (2 - player->getPassCount()) << std::endl;
+        }
+
+        if (player->getPassCount() == 2) {
+            std::cout << "!!!" << std::endl;
+            this->endGame = true;
+            throw std::exception();
+        }
     }
 
     //Quit command
@@ -161,6 +197,11 @@ void Game::parseInput(Player* player, std::string input) {
     }
 
     //Invalid Argument
+    else if (words[0] == "save") {
+        //Do nothing rn, just skips else statement
+    }
+
+    //Invalid Arguement
     else {
         throw std::invalid_argument("Invalid argument in input.");
     }
@@ -168,6 +209,7 @@ void Game::parseInput(Player* player, std::string input) {
     //If nothing was thrown
     this->endTurn = true;
 
+    //Turn does not end if user saves game
     if (words[0] == "save") {
         if (words.size() != 2) {
             throw std::invalid_argument("Invalid number of arguments");
@@ -185,15 +227,13 @@ void Game::placeTurn(Player* player, std::vector<std::string> words) {
         this->endTurn = true;
         this->placeCommand = false;
         player->fillHand(tilebag);
+        player->resetPassCount();
+        checkGameStatus();
+        this->bingoCounter = 0;
     }
     else if (words.size() != 4 && placeCommand == true) {
         throw std::invalid_argument("Invalid number of arguments. Number of arguments is not 4.");
     }
-
-    // if (placeCommand == true) {
-    //     std::cout << "TODO: Fix this throw error." << std::endl;
-    //     throw std::invalid_argument("Invalid Area to place at.");
-    // }
 
     if (words[1].length() != 1 && placeCommand == true) {
         throw std::invalid_argument("Invalid Argument for tile. Place command should be \"Place <tile letter> at <row position>");
@@ -203,6 +243,12 @@ void Game::placeTurn(Player* player, std::vector<std::string> words) {
         char tile = words[1][0];
         Node* nodeToPlace = player->getTile(tile);
         this->board->placeTile(player, nodeToPlace, words[3]);
+        this->bingoCounter += 1;
+    }
+
+    if (bingoCounter >= 7) {
+        std::cout << "BINGO!" << std::endl;
+        player->increaseScore(50);
     }
 }
 
@@ -218,7 +264,18 @@ void Game::replaceTurn(Player* player, std::vector<std::string> words) {
     }
 
     char tile = words[1][0];
-    player->replaceTile(this->tilebag, tile);
+    try {
+        player->replaceTile(this->tilebag, tile);
+    } catch (std::out_of_range& e) {
+        throw std::invalid_argument("There are no tiles left in the tilebag.");
+    }
+}
+
+void Game::checkGameStatus() {
+    if (this->player1->getHand()->size() == 0 || this->player2->getHand()->size() == 0) {
+        this->endGame = true;
+        throw std::exception();
+    }
 }
 
 //If a save command was parsed, this function is called
@@ -310,7 +367,7 @@ void Game::loadGame(std::string fileName) {
 
     IT IS ASSUMED THAT THE CONTENTS OF WHATEVER SAVE FILE TO BE LOADED INTO THE GAME IS UNTAMPERED WITH.
     AS OF RIGHT NOW THERE IS CURRENTLY NO ACTIONS IN PLACE TAKEN THAT AIM TO CHECK THAT A SAVEGAME IS VALID.
-
+    IT IS ALSO ASSUMED THAT WHEN THE GAME IS LOADED, IT IS CURRENTLY PLAYER 1's TURN
     */
 
     std::string line;
@@ -332,10 +389,11 @@ void Game::loadGame(std::string fileName) {
     
     //Initialize what needs to be initalized
     this->board = new Board();
+
     this->endGame = false;
     this->endTurn = false;
     this->placeCommand = false;
-    
+    bool initializedTB = false;
     int counter = 0;
     /*
     NOTE: COUNTER INDICATES WHICH LINE REPRESENTS WHAT KIND OF INFORMATION
@@ -373,6 +431,7 @@ void Game::loadGame(std::string fileName) {
             
             //Overload constructor
             this->tilebag = new TileBag(line);
+            initializedTB = true;
         }
         //Implies rest is part of the Board
         else {
@@ -381,7 +440,7 @@ void Game::loadGame(std::string fileName) {
             for (int i = BOARD_FIRST_POS; i <= BOARD_LAST_POS; i += BOARD_STEP_SIZE) {
                 if (line[i] != ' ') {
                     std::string strPos = line[0] + std::to_string((i / 4) - 1);
-                    std::cout << strPos << std::endl;
+                    // std::cout << strPos << std::endl;
                     
                     Tile currentTile;
                     currentTile.letter = line[i];
@@ -401,7 +460,11 @@ void Game::loadGame(std::string fileName) {
         }
         counter++;
     }
-    player1->printPlayer();
-    player2->printPlayer();
+    //If tilebag is empty
+    if (!initializedTB) {
+        // std::cout << "creating tilebag"
+        this->tilebag = new TileBag("");
+    }
     gameLoaded = true;
+    std::cout << "Scrabble game successfully loaded" << std::endl;
 }

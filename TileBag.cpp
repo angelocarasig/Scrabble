@@ -42,20 +42,25 @@ TileBag::~TileBag() {
 //Returns a copy of the  head node and deletes the head node.
 //Used by Player class to fill hand.
 Node* TileBag::getTile() {
-    Node* tile = new Node(*this->tileBag->get(0));
+    Node* currentNode = this->tileBag->get(0);
+
+    //Consider empty tilebag
+    if (currentNode == nullptr) {
+        throw std::out_of_range("Tilebag is empty!");
+    }
+
+    Node* tile = new Node(*currentNode);
     this->tileBag->deleteFront();
     return tile;
 }
 
 bool TileBag::isEmpty() {
     bool isEmpty = false;
-    if (this->tileBag->size() < 0) {
-        throw std::out_of_range("Tilebag has less than 0 tiles.");
-    }
 
     if (this->tileBag->size() == 0) {
         isEmpty = true;
     }
+
     return isEmpty;
 }
 
@@ -84,3 +89,10 @@ void TileBag::shuffle(LinkedList* nodeList) {
     this->tileBag->scrabbleList();
 }
 
+void TileBag::clearBag() {
+    this->tileBag->clear();
+}
+
+void TileBag::addAt(Node* node, int index) {
+    this->tileBag->addAt(node, index);
+}

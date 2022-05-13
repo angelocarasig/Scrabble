@@ -25,17 +25,17 @@ int main() {
    printMenu();
 
    while (EndGame == false) {
-      
+      std::cout << "> ";
       getline(std::cin, UserInput);
       // New Game
       if (UserInput == "1") {
          newGame();
-         printMenu();
+         EndGame = true;
       }
       // Load Game
       else if (UserInput == "2") {
          loadGame();
-         printMenu();
+         EndGame = true;
       }
       // Credits (Show student information)
       else if (UserInput == "3") {
@@ -44,7 +44,6 @@ int main() {
       }
       // Quit
       else if (UserInput == "4") {
-         std::cout << "\nGoodbye" << std::endl;
          EndGame = true;
       }
       // Invalid Input
@@ -52,12 +51,13 @@ int main() {
          std::cout << "Invalid Input, Please Enter A Number Between 1 And 4" << std::endl;
       }
    }
+
+   std::cout << "Goodbye" << std::endl;
    return EXIT_SUCCESS;
 }
 
 // Prints the main menu
 void printMenu(void) {  
-   std::cout << std::endl;
    std::cout << "Menu" << std::endl;
    std::cout << "---" << std::endl;
    std::cout << "1. New Game" << std::endl;
@@ -128,8 +128,8 @@ void newGame() {
 // Loads the game using a users file
 void loadGame() {
    std::string fileName;
-   std::cout << "Loading game..." << std::endl;
-   std::cout << "Enter filename of the save file: ";
+   std::cout << "Enter the filename from which load a game: " << std::endl;
+   std::cout << "> ";
    // Gets the file name from input (relative path)
    getline(std::cin, fileName);
    // Creates a game object on the heap using file name as input

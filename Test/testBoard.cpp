@@ -6,7 +6,6 @@ Compile: g++ -Wall -Werror -ggdb3 -std=c++14 -O -o testBoard Test/testBoard.cpp 
 Run: ./testBoard
 */
 
-//TODO: Fix memory leaks
 
 int main() {
     std::cout << "\n+++++++++++++++++TESTING BOARD+++++++++++++++++" << std::endl;

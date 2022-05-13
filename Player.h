@@ -3,6 +3,8 @@
 
 #include <string>
 #include <iostream>
+#include <time.h> //Used in placing tile randomly in tilebag
+
 #include "LinkedList.h"
 #include "TileBag.h"
 
@@ -36,11 +38,15 @@ public:
     //Misc functions
     
     void printPlayer();
+    int getPassCount();
+    void incrementPassCount();
+    void resetPassCount();
 
 private:
     std::string name;
     int         score;
     LinkedList* hand;
+    int         passCount;
 };
 
 #endif
