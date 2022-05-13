@@ -15,6 +15,12 @@ Compile: g++ -Wall -Werror -std=c++14 -O -o scrabble scrabble.cpp Tile.cpp Node.
 Run: ./scrabble
 */
 
+struct eofException : public std::exception {
+   const char* what() const throw() {
+      return "EOF";
+   }
+};
+
 int main() {
    std::cout << "Welcome to Scrabble!" << std::endl;
    std::cout << "-------------------" << std::endl;
@@ -24,32 +30,41 @@ int main() {
 
    printMenu();
 
-   while (EndGame == false) {
-      std::cout << "> ";
-      getline(std::cin, UserInput);
-      // New Game
-      if (UserInput == "1") {
-         newGame();
-         EndGame = true;
+   try {
+      while (EndGame == false) {
+         std::cout << "> ";
+         if (getline(std::cin, UserInput)) {
+            // New Game
+            if (UserInput == "1") {
+               newGame();
+               EndGame = true;
+            }
+            // Load Game
+            else if (UserInput == "2") {
+               loadGame();
+               EndGame = true;
+            }
+            // Credits (Show student information)
+            else if (UserInput == "3") {
+               printCredits();
+               printMenu();
+            }
+            // Quit
+            else if (UserInput == "4") {
+               EndGame = true;
+            }
+            // Invalid Input
+            else {
+               std::cout << "Invalid Input, Please Enter A Number Between 1 And 4" << std::endl;
+            }
+         }
+         else {
+            EndGame = true;
+         }
       }
-      // Load Game
-      else if (UserInput == "2") {
-         loadGame();
-         EndGame = true;
-      }
-      // Credits (Show student information)
-      else if (UserInput == "3") {
-         printCredits();
-         printMenu();
-      }
-      // Quit
-      else if (UserInput == "4") {
-         EndGame = true;
-      }
-      // Invalid Input
-      else {
-         std::cout << "Invalid Input, Please Enter A Number Between 1 And 4" << std::endl;
-      }
+   }
+   catch (eofException& e) {
+      std::cout << e.what() << std::endl;
    }
 
    std::cout << "Goodbye" << std::endl;
@@ -78,7 +93,7 @@ void newGame() {
    while (isAllUpper == false) {
       isAllUpper = true;
       // Retreives the input
-      getline(std::cin, player1);
+      if (!getline(std::cin, player1)) {throw eofException();}
       // Loops through the input charicter by charicter and checks if they are uppercase
       for (unsigned int i = 0 ; i < player1.size() ; ++i) {
          // If the given char is not uppercase
@@ -101,7 +116,7 @@ void newGame() {
    while (isAllUpper == false) {
       isAllUpper = true;
       // Retreives the input
-      getline(std::cin, player2);
+      if (!getline(std::cin, player2)) {throw eofException();}
       // Loops through the input charicter by charicter and checks if they are uppercase
       for (unsigned int i = 0 ; i < player2.size() ; ++i) {
          // If the given char is not uppercase
@@ -131,7 +146,7 @@ void loadGame() {
    std::cout << "Enter the filename from which load a game: " << std::endl;
    std::cout << "> ";
    // Gets the file name from input (relative path)
-   getline(std::cin, fileName);
+   if (!getline(std::cin, fileName)) {throw eofException();}
    // Creates a game object on the heap using file name as input
    Game* game = new Game(fileName);
    game->playGame();
