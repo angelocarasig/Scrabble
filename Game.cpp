@@ -13,6 +13,7 @@ Game::Game(std::string player1, std::string player2) {
     this->endTurn = false;
     this->placeCommand = false;
     this->gameFinished = false;
+    this->placedTile = false;
     this->bingoCounter = 0;
     this->curTurn = 1;
 
@@ -82,7 +83,7 @@ void Game::playGame() {
 //In loop to consider "place commands" and for input validation.
 void Game::getTurn(Player* player) {
 
-    this->endTurn = false;
+    this->endTurn = false; 
 
     while (!endTurn) {
         try {
@@ -93,7 +94,8 @@ void Game::getTurn(Player* player) {
             parseInput(player, input);
         }
         catch (std::invalid_argument& e) {
-            std::cout << "Invalid Input" << std::endl;
+            //std::cout << "Invalid Input" << std::endl;
+            std::cout << e.what() << std::endl;
         }
     }
 }
@@ -131,7 +133,7 @@ void Game::parseInput(Player* player, std::string input) {
     }
     
     //If placing, only place commands should be allowed from here on out
-    else if (this->placeCommand == true) {
+    else if (this->placeCommand == true && placedTile) {
         throw std::invalid_argument("Only place commands are allowed. If finished, enter \"place done\"");
     }
 
@@ -173,7 +175,7 @@ void Game::parseInput(Player* player, std::string input) {
 
     //Invalid Arguement
     else {
-        throw std::invalid_argument("Invalid argument in input.");
+        throw std::invalid_argument("Invalid Input");
     }
 
     //If nothing was thrown
@@ -194,12 +196,16 @@ void Game::parseInput(Player* player, std::string input) {
 void Game::placeTurn(Player* player, std::vector<std::string> words) {
     //Guards
     if (words[1] == "done") {
+        if (!placedTile) {
+            throw std::invalid_argument("Invalid Input, please place a tile down before calling this command, otherwise pass.");
+        }
         this->endTurn = true;
         this->placeCommand = false;
         player->fillHand(tilebag);
         player->resetPassCount();
         //checkGameStatus();
         this->bingoCounter = 0;
+        this->placedTile = false;
     }
     else if (words.size() != 4 && placeCommand == true) {
         throw std::invalid_argument("Invalid number of arguments. Number of arguments is not 4.");
@@ -215,6 +221,7 @@ void Game::placeTurn(Player* player, std::vector<std::string> words) {
         std::transform(words[3].begin(), words[3].end(),words[3].begin(), ::toupper);
         this->board->placeTile(player, nodeToPlace, words[3]);
         this->bingoCounter += 1;
+        this->placedTile = true;
     }
 
     if (bingoCounter >= 7) {

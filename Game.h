@@ -62,6 +62,7 @@ private:
     bool        placeCommand;
     bool        gameLoaded;
     bool        gameFinished;
+    bool        placedTile;
     int         bingoCounter;
 };
 
