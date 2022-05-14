@@ -28,6 +28,12 @@ public:
 
     void playGame();
 
+    struct eofException : public std::exception {
+        const char* what() const throw() {
+            return "EOF";
+        }
+    };
+
 private:
     //These functions should only be internally called
     void printScore(Player* player);

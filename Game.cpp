@@ -27,6 +27,7 @@ Game::Game(std::string player1, std::string player2) {
 Game::Game(std::string fileName) {
     std::string nameOfFile = fileName;
     this->gameLoaded = false;
+    this->gameFinished = false;
     while (!gameLoaded) {
         try {
                 loadGame(nameOfFile);
@@ -36,7 +37,7 @@ Game::Game(std::string fileName) {
                 std::cout << "failed to find game name." << std::endl;
                 
                 std::cout << "Enter filename of the save file: ";
-                getline(std::cin, nameOfFile);
+                if (!getline(std::cin, nameOfFile)) {throw eofException();}
             }
         }
 }
@@ -49,70 +50,31 @@ Game::~Game() {
     delete board;
 }
 
-//Prints current turn details for player.
-//Prints according to assignment specifications:
-//- Which player turn
-//- Both player's scores
-//- Current board state
-//- Current player's hand
-void Game::printScore(Player* player) {
-    std::cout << std::endl;
-    std::cout << player->getName() << ", it's your turn" << std::endl;
-    std::cout << "Score for " << this->player1->getName() << ": " << player1->getScore() << std::endl;
-    std::cout << "Score for " << this->player2->getName() << ": " << player2->getScore() << std::endl;
-
-    std::cout << board->getBoardString();
-
-    std::cout << std::endl;
-
-    std::cout << "Your hand is" << std::endl;
-    player->printHand();
-}
-
-void Game::printGameResults() {
-    std::cout << "\nGame Over" << std::endl;
-    std::cout << "Score for " << this->player1->getName() << ": " << this->player1->getScore() << std::endl;
-    std::cout << "Score for " << this->player2->getName() << ": " << this->player2->getScore() << std::endl;
-
-    if (this->player1->getScore() > this->player2->getScore()) {
-        std::cout << "Player " << this->player1->getName() << " won!" << std::endl;
-    }
-    else if (this->player1->getScore() < this->player2->getScore()) {
-        std::cout << "Player " << this->player2->getName() << " won!" << std::endl;
-    }
-    else {
-        std::cout << "Draw!" << std::endl;
-    }
-}
-
 //Main game operation.
 //Turn based loop.
 //Ends when a player quits or the game ends.
 void Game::playGame() {
-    if (this->curTurn == 2){
-        printScore(player2);
-        getTurn(player2);
-    }
     while (!endGame) {
         try {
-            this->curTurn = 1;
-            printScore(player1);
-            getTurn(player1);
-            this->curTurn = 2;
-            printScore(player2);
-            getTurn(player2);
+            if (this->curTurn == 1) {
+                printScore(player1);
+                getTurn(player1);
+                this->curTurn = 2;
+            }
+            checkGameStatus();
+            
+            if (this->curTurn == 2) {
+                printScore(player2);
+                getTurn(player2);
+                this->curTurn = 1;
+            }
+
             checkGameStatus();
         }
         catch (std::exception& e) {
             if (gameFinished) {printGameResults();}
-            else {std::cout << "Ending game..." << std::endl;}
-            
             this->endGame = true;
-            std::cout << std::endl;
         }
-        // catch (int e) {
-            //Should throw same exception as quit
-        // }
     }
 }
 
@@ -127,11 +89,10 @@ void Game::getTurn(Player* player) {
             std::cout << std::endl;
             std::cout << "> ";
             std::string input;
-            getline(std::cin, input);
+            if (!getline(std::cin, input)) {throw eofException();}
             parseInput(player, input);
         }
         catch (std::invalid_argument& e) {
-            // std::cout << e.what() << std::endl;
             std::cout << "Invalid Input" << std::endl;
         }
     }
@@ -149,7 +110,9 @@ void Game::parseInput(Player* player, std::string input) {
         words.push_back(buffer);
 
     //Lower word to validate without cases
-    std::transform(words[0].begin(), words[0].end(), words[0].begin(), ::tolower);
+    for (unsigned int i = 0; i < words.size(); i++) {
+        std::transform(words[i].begin(), words[i].end(), words[i].begin(), ::tolower);
+    }
     
     //Parse arguments
 
@@ -167,6 +130,7 @@ void Game::parseInput(Player* player, std::string input) {
         }
     }
     
+    //If placing, only place commands should be allowed from here on out
     else if (this->placeCommand == true) {
         throw std::invalid_argument("Only place commands are allowed. If finished, enter \"place done\"");
     }
@@ -186,12 +150,9 @@ void Game::parseInput(Player* player, std::string input) {
         //Lose conditions
         if (this->tilebag->isEmpty()) {
             player->incrementPassCount();
-            std::cout << "Warning!" << std::endl;
-            std::cout << "Passes available left before losing: " << (2 - player->getPassCount()) << std::endl;
         }
 
         if (player->getPassCount() == 2) {
-            std::cout << "!!!" << std::endl;
             this->endGame = true;
             this->gameFinished = true;
             throw std::exception();
@@ -200,6 +161,7 @@ void Game::parseInput(Player* player, std::string input) {
 
     //Quit command
     else if (words[0] == "quit") {
+        std::cout << gameFinished << std::endl;
         this->endGame = true;
         throw std::exception();
     }
@@ -248,8 +210,9 @@ void Game::placeTurn(Player* player, std::vector<std::string> words) {
     }
     //If passed, run command
     if (placeCommand) {
-        char tile = words[1][0];
+        char tile = toupper(words[1][0]);
         Node* nodeToPlace = player->getTile(tile);
+        std::transform(words[3].begin(), words[3].end(),words[3].begin(), ::toupper);
         this->board->placeTile(player, nodeToPlace, words[3]);
         this->bingoCounter += 1;
     }
@@ -279,13 +242,6 @@ void Game::replaceTurn(Player* player, std::vector<std::string> words) {
     }
 }
 
-void Game::checkGameStatus() {
-    if (this->player1->getHand()->size() == 0 || this->player2->getHand()->size() == 0) {
-        this->endGame = true;
-        this->gameFinished = true;
-        throw std::exception();
-    }
-}
 
 //If a save command was parsed, this function is called
 void Game::saveGame(std::vector<std::string> words) {
@@ -460,4 +416,48 @@ void Game::loadGame(std::string fileName) {
     }
     gameLoaded = true;
     std::cout << "Scrabble game successfully loaded" << std::endl;
+}
+
+void Game::checkGameStatus() {
+    if (this->player1->getHand()->size() == 0 || this->player2->getHand()->size() == 0) {
+        this->endGame = true;
+        this->gameFinished = true;
+        throw std::exception();
+    }
+}
+
+//Prints current turn details for player.
+//Prints according to assignment specifications:
+//- Which player turn
+//- Both player's scores
+//- Current board state
+//- Current player's hand
+void Game::printScore(Player* player) {
+    std::cout << std::endl;
+    std::cout << player->getName() << ", it's your turn" << std::endl;
+    std::cout << "Score for " << this->player1->getName() << ": " << player1->getScore() << std::endl;
+    std::cout << "Score for " << this->player2->getName() << ": " << player2->getScore() << std::endl;
+
+    std::cout << board->getBoardString();
+
+    std::cout << std::endl;
+
+    std::cout << "Your hand is" << std::endl;
+    player->printHand();
+}
+
+void Game::printGameResults() {
+    std::cout << "\nGame Over" << std::endl;
+    std::cout << "Score for " << this->player1->getName() << ": " << this->player1->getScore() << std::endl;
+    std::cout << "Score for " << this->player2->getName() << ": " << this->player2->getScore() << std::endl;
+
+    if (this->player1->getScore() > this->player2->getScore()) {
+        std::cout << "Player " << this->player1->getName() << " won!" << std::endl;
+    }
+    else if (this->player1->getScore() < this->player2->getScore()) {
+        std::cout << "Player " << this->player2->getName() << " won!" << std::endl;
+    }
+    else {
+        std::cout << "Draw!" << std::endl;
+    }
 }

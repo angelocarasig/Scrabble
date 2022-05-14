@@ -15,12 +15,6 @@ Compile: g++ -Wall -Werror -std=c++14 -O -o scrabble scrabble.cpp Tile.cpp Node.
 Run: ./scrabble
 */
 
-struct eofException : public std::exception {
-   const char* what() const throw() {
-      return "EOF";
-   }
-};
-
 int main() {
    std::cout << "Welcome to Scrabble!" << std::endl;
    std::cout << "-------------------" << std::endl;
@@ -63,10 +57,10 @@ int main() {
          }
       }
    }
-   catch (eofException& e) {
+   catch (Game::eofException& e) {
       std::cout << e.what() << std::endl;
    }
-
+   std::cout << std::endl;
    std::cout << "Goodbye" << std::endl;
    return EXIT_SUCCESS;
 }
@@ -93,7 +87,7 @@ void newGame() {
    while (isAllUpper == false) {
       isAllUpper = true;
       // Retreives the input
-      if (!getline(std::cin, player1)) {throw eofException();}
+      if (!getline(std::cin, player1)) {throw Game::eofException();}
       // Loops through the input charicter by charicter and checks if they are uppercase
       for (unsigned int i = 0 ; i < player1.size() ; ++i) {
          // If the given char is not uppercase
@@ -116,7 +110,7 @@ void newGame() {
    while (isAllUpper == false) {
       isAllUpper = true;
       // Retreives the input
-      if (!getline(std::cin, player2)) {throw eofException();}
+      if (!getline(std::cin, player2)) {throw Game::eofException();}
       // Loops through the input charicter by charicter and checks if they are uppercase
       for (unsigned int i = 0 ; i < player2.size() ; ++i) {
          // If the given char is not uppercase
@@ -146,7 +140,7 @@ void loadGame() {
    std::cout << "Enter the filename from which load a game: " << std::endl;
    std::cout << "> ";
    // Gets the file name from input (relative path)
-   if (!getline(std::cin, fileName)) {throw eofException();}
+   if (!getline(std::cin, fileName)) {throw Game::eofException();}
    // Creates a game object on the heap using file name as input
    Game* game = new Game(fileName);
    game->playGame();
