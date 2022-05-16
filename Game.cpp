@@ -95,8 +95,8 @@ void Game::getTurn(Player* player) {
             parseInput(player, input);
         }
         catch (std::invalid_argument& e) {
-            std::cout << "\nInvalid Input\n" << std::endl;
-            // std::cout << e.what() << std::endl;
+            // std::cout << "\nInvalid Input\n" << std::endl;
+            std::cout << e.what() << std::endl;
         }
     }
 }
@@ -219,7 +219,7 @@ void Game::placeTurn(Player* player, std::vector<std::string> words) {
         throw std::invalid_argument("Invalid Argument for tile. Place command should be \"Place <tile letter> at <row position>");
     }
 
-    if (words[2] != "at") {
+    if (words[2] != "at" && placeCommand == true) {
         throw std::invalid_argument("3rd argument is not \"at\".");
     }
     
