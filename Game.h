@@ -35,7 +35,12 @@ public:
     };
 
 private:
-    //These functions should only be internally called
+    /*
+    THESE FUNCTIONS SHOULD ONLY BE INTERNALLY CALLED
+    */
+
+    //Print commands
+
     void printScore(Player* player);
     void printGameResults();
 

@@ -254,9 +254,7 @@ void Game::replaceTurn(Player* player, std::vector<std::string> words) {
 
 //If a save command was parsed, this function is called
 void Game::saveGame(std::vector<std::string> words) {
-    std::cout << "Saving game..." << std::endl;
-
-    std::string saveGameTitle = words[1] + ".txt";
+    std::string saveGameTitle = "gamesaves/" + words[1] + ".txt";
     std::ofstream saveGame(saveGameTitle);
 
     //Save Player details
@@ -305,7 +303,8 @@ void Game::saveGame(std::vector<std::string> words) {
     else if(this->curTurn == 2){
         saveGame << player2->getName() << std::endl;
     }
-    
+    std::cout << "\nGame successfully saved" << std::endl;
+    std::cout << std::endl;
 }
 
 //If user selected loadgame in menu, this function is used to load game elements into play
@@ -322,6 +321,7 @@ void Game::loadGame(std::string fileName) {
 
     std::string line;
     std::ifstream infile;
+    fileName = "gamesaves/" + fileName;
     fileName += ".txt";
     infile.open(fileName);
 
