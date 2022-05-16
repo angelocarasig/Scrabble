@@ -199,6 +199,9 @@ void Game::placeTurn(Player* player, std::vector<std::string> words) {
         if (!placedTile) {
             throw std::invalid_argument("Invalid Input, please place a tile down before calling this command, otherwise pass.");
         }
+        if (words.size() != 2) {
+            throw std::invalid_argument("Argument length != 2");
+        }
         this->endTurn = true;
         this->placeCommand = false;
         player->fillHand(tilebag);
