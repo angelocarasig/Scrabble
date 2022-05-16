@@ -19,12 +19,15 @@ Game::Game(std::string player1, std::string player2) {
 
     this->player1->fillHand(tilebag);
     this->player2->fillHand(tilebag);
+    
     //Comment out when not needed
+    //Clears tilebag for endgame cases
     // tilebag->clearBag();
 }
 
 //Load Game Constructor
 //Overloads default constructor
+//@param fileName name of the file to be loaded from, looks in gamesaves folder
 Game::Game(std::string fileName) {
     std::string nameOfFile = fileName;
     this->gameLoaded = false;
@@ -53,7 +56,7 @@ Game::~Game() {
 
 //Main game operation.
 //Turn based loop.
-//Ends when a player quits or the game ends.
+//Ends when a player inputs EOF character or the game ends (player wins).
 void Game::playGame() {
     while (!endGame) {
         try {
@@ -80,7 +83,6 @@ void Game::playGame() {
 }
 
 //Gets player input.
-//In loop to consider "place commands" and for input validation.
 void Game::getTurn(Player* player) {
 
     this->endTurn = false;
@@ -216,6 +218,11 @@ void Game::placeTurn(Player* player, std::vector<std::string> words) {
     if (words[1].length() != 1 && placeCommand == true) {
         throw std::invalid_argument("Invalid Argument for tile. Place command should be \"Place <tile letter> at <row position>");
     }
+
+    if (words[2] != "at") {
+        throw std::invalid_argument("3rd argument is not \"at\".");
+    }
+    
     //If passed, run command
     if (placeCommand) {
         char tile = toupper(words[1][0]);
@@ -250,7 +257,6 @@ void Game::replaceTurn(Player* player, std::vector<std::string> words) {
         throw std::invalid_argument("There are no tiles left in the tilebag.");
     }
 }
-
 
 //If a save command was parsed, this function is called
 void Game::saveGame(std::vector<std::string> words) {
@@ -427,6 +433,7 @@ void Game::loadGame(std::string fileName) {
     std::cout << "Scrabble game successfully loaded" << std::endl;
 }
 
+//checks if current player's hand has size 0. If true, break
 void Game::checkGameStatus() {
     if (this->player1->getHand()->size() == 0 || this->player2->getHand()->size() == 0) {
         this->endGame = true;
@@ -456,6 +463,7 @@ void Game::printScore(Player* player) {
     std::cout << std::endl;
 }
 
+//Prints when bool gameFinished is true
 void Game::printGameResults() {
     std::cout << "\nGame Over" << std::endl;
     std::cout << "Score for " << this->player1->getName() << ": " << this->player1->getScore() << std::endl;

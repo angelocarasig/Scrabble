@@ -15,6 +15,17 @@ Compile: g++ -Wall -Werror -std=c++14 -O -o scrabble scrabble.cpp Tile.cpp Node.
 Run: ./scrabble
 */
 
+std::string strip(const std::string &inpt)
+{
+    auto start_it = inpt.begin();
+    auto end_it = inpt.rbegin();
+    while (std::isspace(*start_it))
+        ++start_it;
+    while (std::isspace(*end_it))
+        ++end_it;
+    return std::string(start_it, end_it.base());
+}
+
 int main() {
    std::cout << "Welcome to Scrabble!" << std::endl;
    std::cout << "-------------------" << std::endl;
@@ -28,6 +39,8 @@ int main() {
       while (EndGame == false) {
          std::cout << "> ";
          if (getline(std::cin, UserInput)) {
+            UserInput = strip(UserInput);
+            std::cout << UserInput << std::endl;
             // New Game
             if (UserInput == "1") {
                newGame();
