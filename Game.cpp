@@ -72,7 +72,7 @@ void Game::playGame() {
                 getTurn(player2);
                 this->curTurn = 1;
             }
-
+            
             checkGameStatus();
         }
         catch (std::exception& e) {
