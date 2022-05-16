@@ -95,8 +95,8 @@ void Game::getTurn(Player* player) {
             parseInput(player, input);
         }
         catch (std::invalid_argument& e) {
-            // std::cout << "\nInvalid Input\n" << std::endl;
-            std::cout << e.what() << std::endl;
+            std::cout << "\nInvalid Input\n" << std::endl;
+            //std::cout << e.what() << std::endl;
         }
     }
 }
@@ -111,6 +111,10 @@ void Game::parseInput(Player* player, std::string input) {
 
     while (ss >> buffer)
         words.push_back(buffer);
+
+    if (words.size() <= 0) {
+        throw std::invalid_argument("");
+    }
 
     //Lower word to validate without cases
     for (unsigned int i = 0; i < words.size(); i++) {
@@ -260,7 +264,8 @@ void Game::replaceTurn(Player* player, std::vector<std::string> words) {
 
 //If a save command was parsed, this function is called
 void Game::saveGame(std::vector<std::string> words) {
-    std::string saveGameTitle = "gamesaves/" + words[1] + ".txt";
+    //std::string saveGameTitle = "gamesaves/" + words[1] + ".txt";
+    std::string saveGameTitle = "TestCases/" + words[1] + ".expsave";
     std::ofstream saveGame(saveGameTitle);
 
     //Save Player details
@@ -327,8 +332,10 @@ void Game::loadGame(std::string fileName) {
 
     std::string line;
     std::ifstream infile;
-    fileName = "gamesaves/" + fileName;
-    fileName += ".txt";
+    // fileName = "gamesaves/" + fileName;
+    // fileName += ".txt";
+    fileName = "TestCases/" + fileName;
+    fileName += ".expsave";
     infile.open(fileName);
 
     //Check if file exists
