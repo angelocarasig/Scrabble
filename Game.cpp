@@ -72,7 +72,7 @@ void Game::playGame() {
                 getTurn(player2);
                 this->curTurn = 1;
             }
-            
+
             checkGameStatus();
         }
         catch (std::exception& e) {
@@ -265,7 +265,7 @@ void Game::replaceTurn(Player* player, std::vector<std::string> words) {
 //If a save command was parsed, this function is called
 void Game::saveGame(std::vector<std::string> words) {
     //std::string saveGameTitle = "gamesaves/" + words[1] + ".txt";
-    std::string saveGameTitle = "TestCases/" + words[1] + ".expsave";
+    std::string saveGameTitle = "TestCases/" + words[1] + ".save";
     std::ofstream saveGame(saveGameTitle);
 
     //Save Player details
@@ -335,7 +335,7 @@ void Game::loadGame(std::string fileName) {
     // fileName = "gamesaves/" + fileName;
     // fileName += ".txt";
     fileName = "TestCases/" + fileName;
-    fileName += ".expsave";
+    fileName += ".save";
     infile.open(fileName);
 
     //Check if file exists
