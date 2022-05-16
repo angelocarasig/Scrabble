@@ -56,14 +56,14 @@ private:
     Player*     player2;
     TileBag*    tilebag;
     Board*      board;
-    int         curTurn;
-    bool        endGame;
-    bool        endTurn;
-    bool        placeCommand;
-    bool        gameLoaded;
-    bool        gameFinished;
-    bool        placedTile;
-    int         bingoCounter;
+    int         curTurn;        //signifies which player has the current turn: 2 == player2, else player 1
+    bool        endGame;        //signifies that the game is finished
+    bool        endTurn;        //signifies that the turn is finished, move to next player turn
+    bool        placeCommand;   //signifies that a place command has been inputted, loop until "place done"
+    bool        gameLoaded;     //signifies that the game's been loaded, resume normal gameplay
+    bool        gameFinished;   //signifies that the game is finished, and a winner has been decided
+    bool        placedTile;     //signifies that a tile has been placed, used to update bingocounter
+    int         bingoCounter;   //counter that prints BINGO! when 7 tiles have been placed
 };
 
 #endif // ASSIGN2_GAME

@@ -20,7 +20,7 @@ Game::Game(std::string player1, std::string player2) {
     this->player1->fillHand(tilebag);
     this->player2->fillHand(tilebag);
     //Comment out when not needed
-    // tilebag->clearBag();
+    tilebag->clearBag();
 }
 
 //Load Game Constructor

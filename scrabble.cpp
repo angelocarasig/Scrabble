@@ -52,13 +52,14 @@ int main() {
                std::cout << "Invalid Input, Please Enter A Number Between 1 And 4" << std::endl;
             }
          }
-         else {
+         else {   //EOF character
             EndGame = true;
          }
       }
    }
    catch (Game::eofException& e) {
-      std::cout << e.what() << std::endl;
+      // std::cout << e.what() << std::endl;
+      //DO nothing
    }
    std::cout << std::endl;
    std::cout << "Goodbye" << std::endl;
@@ -87,7 +88,9 @@ void newGame() {
    while (isAllUpper == false) {
       isAllUpper = true;
       // Retreives the input
+      std::cout << "> ";
       if (!getline(std::cin, player1)) {throw Game::eofException();}
+
       // Loops through the input charicter by charicter and checks if they are uppercase
       for (unsigned int i = 0 ; i < player1.size() ; ++i) {
          // If the given char is not uppercase
@@ -98,6 +101,12 @@ void newGame() {
       // Prints error if input contains lower case 
       if (isAllUpper == false){
          std::cout << "please enter a name with uppercase characters only" << std::endl;  
+      }
+
+      // Check for length
+      if (player1.size() <= 0) {
+         std::cout << "please enter atleast 1 character." << std::endl;
+         isAllUpper = false;
       }
    }
 
@@ -110,7 +119,9 @@ void newGame() {
    while (isAllUpper == false) {
       isAllUpper = true;
       // Retreives the input
+      std::cout << "> ";
       if (!getline(std::cin, player2)) {throw Game::eofException();}
+
       // Loops through the input charicter by charicter and checks if they are uppercase
       for (unsigned int i = 0 ; i < player2.size() ; ++i) {
          // If the given char is not uppercase
@@ -122,14 +133,21 @@ void newGame() {
       if (isAllUpper == false){
          std::cout << "please enter a name with uppercase characters only" << std::endl;  
       }
+
+      // Check for length
+      if (player2.size() <= 0) {
+         std::cout << "please enter atleast 1 character." << std::endl;
+         isAllUpper = false;
+      }
    }
 
    std::cout << std::endl;
 
    std::cout << "Let's Play!" << std::endl;
-   // Creates a new game object on the heap
+   
    Game* game = new Game(player1, player2);
    game->playGame();
+   
    // Cleanup
    delete game;
 }
