@@ -20,7 +20,7 @@ Game::Game(std::string player1, std::string player2) {
     this->player1->fillHand(tilebag);
     this->player2->fillHand(tilebag);
     //Comment out when not needed
-    tilebag->clearBag();
+    // tilebag->clearBag();
 }
 
 //Load Game Constructor
@@ -83,19 +83,18 @@ void Game::playGame() {
 //In loop to consider "place commands" and for input validation.
 void Game::getTurn(Player* player) {
 
-    this->endTurn = false; 
+    this->endTurn = false;
 
     while (!endTurn) {
         try {
-            std::cout << std::endl;
             std::cout << "> ";
             std::string input;
             if (!getline(std::cin, input)) {throw eofException();}
             parseInput(player, input);
         }
         catch (std::invalid_argument& e) {
-            //std::cout << "Invalid Input" << std::endl;
-            std::cout << e.what() << std::endl;
+            std::cout << "\nInvalid Input\n" << std::endl;
+            // std::cout << e.what() << std::endl;
         }
     }
 }
@@ -454,6 +453,7 @@ void Game::printScore(Player* player) {
 
     std::cout << "Your hand is" << std::endl;
     player->printHand();
+    std::cout << std::endl;
 }
 
 void Game::printGameResults() {
