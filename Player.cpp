@@ -97,7 +97,12 @@ void Player::replaceTile(TileBag* tb, char letter) {
 
     //Place tile in tilebag.
     //Assuming that it should be placed in a random location:
+
+    //For testing purposes time seed is set to 69.
     srand(69);
+
+    //To run normally, uncomment the srand function bellow and comment the srand function above.
+    //srand(time(NULL));
     int randomVal = rand() % (tb->getTileBag()->size());
     tb->addAt(oldTile, randomVal);
 }

@@ -166,13 +166,6 @@ void Game::parseInput(Player* player, std::string input) {
         }
     }
 
-    //Quit command
-    else if (words[0] == "quit") {
-        std::cout << gameFinished << std::endl;
-        this->endGame = true;
-        throw std::exception();
-    }
-
     //Invalid Argument
     else if (words[0] == "save") {
         //Do nothing rn, just skips else statement

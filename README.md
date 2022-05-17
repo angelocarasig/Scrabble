@@ -27,72 +27,30 @@ See `Class.md` for a rundown on how each file works
 
 ***
 
-## Checklist:
-    Game:
-    - Print welcome message on launch
-    - 4 menu options followed by user prompt
-    - can create a game
-    - start of each player's turn should show current game state (player scores, board, etc.)
-    - player can place tile onto board          (place <tile> at <grid location>)
-    - player replace tile in hand               (replace <tile>)
-    - player pass                               (pass) 
-    - all moves performed are error handled:
-        - Invalid Argument errors handled properly
-        - Empty TileBag handled properly
-    - save with message displayed
-    - loading game from file resumes gameplay from player's turn
-    - at the end of a game the gameplay finishes (goodbye msg)
-    - bingo if place all 7 tiles
-    - EOF character immediately closes game (only goodbye msg)
+## How to compile and run code
+    - For testing purposes in the Player.cpp file under the replace tile function on line 102, the random time seed is set to 69,to run it normally change the parameter within the `srand()` function to `time(NULL)`.
 
-    Game objects:
-    - board displayed is 15x15
-    - board uses a vector implementation
-    - player's hand uses a linkedlist implementation
-    - tilebag stored as linkedlist
+    - To compile the code, enter the following command into the terminal: `g++ -Wall -Werror -std=c++14 -O -o scrabble scrabble.cpp Tile.cpp Node.cpp LinkedList.cpp TileBag.cpp Player.cpp Board.cpp Game.cpp`.
 
-    - Test cases
+    - To run the code, enter the following command into the terminal: `./scrabble`
 
+## How to run the Test Cases
+    - end_mid_game
+        - In this test the game terminates midgame because the code reaches the end of file.
+        - To run the code, input the following command into the terminal: `./scrabble < TestCases/end_mid_game.input > TestCases/end_mid_game.gameout`
+        - To compare the outputs, input the following command into the terminal: `diff -w TestCases/end_mid_game.output TestCases/end_mid_game.gameout`
 
+    - save_test
+        - In this test, the game save is being tested.
+        - To run the code, input the following command into the terminal: `./scrabble < TestCases/save_test.input > TestCases/save_test.gameout`
+        - To compare the outputs of the save file, input the following command into the terminal: `diff -w TestCases/save_test.expsave TestCases/save_test.save`
 
+    - win_from_empty_hand
+        - In this test, the game ends from a player placing all tiles from their hand and the tile bag is empty.
+        - To run the code, input the following command into the terminal: `./scrabble < TestCases/win_from_empty_hand.input > TestCases/win_from_empty_hand.gameout`
+        - To compare the outputs, input the following command into the terminal: `diff -w TestCases/win_from_empty_hand.output TestCases/win_from_empty_hand.gameout`
 
-## Memory leakage:
-- ~~Tile~~
-- ~~Node~~
-- ~~LinkedList~~
-- ~~TileBag~~
-- ~~Board~~
-- ~~Player~~
-- ~~scrabble~~
-
-***
-
-## TODO List:
-- ~~scrabbleList needs to delete the nodeList passed into it~~
-- Cleanup code <-- Will never be crossed out lmao
-- ~~File hierarchy~~ Probs not necessary
-- ~~Error handling~~ Most are handled 
-- ~~Check for memory leaks~~
-- ~~Save current player's turn at the end of the file~~
-- ~~Reading file loads from the given player's turn~~
-
-***
-
-## File specific todos:
-
-### LinkedList:
-- ~~Copy constructor~~
-- ~~Print statements at addAt~~
-- ~~Error handling managed in try-catches in other functions~~
-
-### Player:
-- ~~replace tile replacement index is default -1~~
-
-### Game:
-- ~~validate game moves~~
-- ~~save game to .txt~~
-- ~~read game.txt to actual Game obj~~
-- ~~BINGO Requirement (placing all 7 tiles prints bingo)~~
-- ~~Check at end of player turn if they won~~
-
-- Finish assignment ?? FINISHED??
+    - win_from_pass
+        - In this test, the game ends from a player passing twice and the tile bag is empty.
+        - To run the code, input the following command into the terminal: `./scrabble < TestCases/win_from_pass.input > TestCases/win_from_pass.gameout`
+        - To compare the outputs, input the following command into the terminal: `diff -w TestCases/win_from_pass.output TestCases/win_from_pass.gameout`
